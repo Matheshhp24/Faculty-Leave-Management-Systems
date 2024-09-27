@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>SREC</title>
+    <meta
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+      name="viewport"
+    />
+    <link
+      rel="icon"
+      href="../static/assets/img/kaiadmin/sreclogo.jpg"
+      type="image/x-icon"
+    />
+
+    <!-- Fonts and icons -->
+    <script src="../static/assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["../static/assets/css/fonts.min.css"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="../static/assets/css/kaiadmin.min.css" />
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" href="../static/assets/css/demo.css" />
+
+
+   <style>
+      /* General styles for the logo */
+      .logo a {
+          display: none; /* Hide all logos by default */
+      }
+
+      /* Display the laptop logo for screens wider than 768px */
+      @media (min-width: 769px) {
+            .logo a.laptop-logo {
+                display: block;
+                /* Temporary border for debugging */
+            }
+        }
+
+        /* Display the mobile logo for screens 768px wide or less */
+        @media (max-width: 768px) {
+            .logo a.mobile-logo {
+                display: block;
+                 /* Temporary border for debugging */
+            }
+        }
+        .support-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.support-icon i {
+    font-size: 24px;
+}
+
+.support-icon:hover {
+    background-color: #0056b3;
+}
+  </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <div class="sidebar" data-background-color="dark" id="sidebar">
+        <div class="sidebar-logo">
+          <!-- Logo Header -->
+          <div class="logo-header" data-background-color="dark">
+            <div class="logo" id="logo">
+              <!-- This image will be displayed on laptop/desktop screens -->
+           
+                <!-- This image will be displayed on laptop/desktop screens -->
+                <a href="{% url 'Home' %}" class="laptop-logo">
+                    <img src="../static/assets/img/kaiadmin/sreclogo.jpg" alt="Navbar Brand" height="50">
+                    <span style="color: white; padding-left: 30px; font-size: larger;">𝙎𝙍𝙀𝘾</span>
+                </a>
+                <!-- This image will be displayed on mobile screens -->
+                <a href="{% url 'Home' %}" class="mobile-logo">
+                    <img src="../static/assets/img/kaiadmin/sreclogo1.jpg" alt="Navbar Brand" height="35">
+                </a>
+            
+          </div>
+            
+            <div class="nav-toggle">
+              <button class="btn btn-toggle toggle-sidebar">
+                <i class="gg-menu-right"></i>
+              </button>
+              <button class="btn btn-toggle sidenav-toggler">
+                <i class="gg-menu-left"></i>
+              </button>
+            </div>
+            <button class="topbar-toggler more">
+              <i class="gg-more-vertical-alt"></i>
+            </button>
+          </div>
+          <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+          <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+              <li class="nav-item ">
+                <a href="{% url 'Home' %}" class="collapsed">
+                  <i class="fas fa-home"></i>
+                  <p>Home</p>
+                </a>
+              </li>
+              <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+                <h4 class="text-section">Components</h4>
+              </li>
+              <li class="nav-item">
+                <a  href="{% url 'AccountSettings' %}">
+                  <i class="fas fa-cogs"></i>
+                  <p>Account Settings</p>               
+                </a>       
+              </li>
+              <li class="nav-item">
+                <a  href="{% url 'Profile' %}">
+                  <i class="fas fa-user"></i>
+                  <p>My Profile</p>               
+                </a>       
+              </li>
+
+              <style>
+                /* Modal styles */
+                .modal_policy {
+                    display: none; /* Hidden by default */
+                    position: fixed; /* Stay in place */
+                    z-index: 1; /* Sit on top */
+                    left: 0;
+                    top: 0;
+                    width: 100%; /* Full width */
+                    height: 100%; /* Full height */
+                    overflow: auto; /* Enable scroll if needed */
+                    background-color: rgb(0,0,0); /* Fallback color */
+                    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                    padding-top: 60px;
+                }
+        
+                /* Modal content */
+                .modal-content {
+                    background-color: #fefefe;
+                    margin: 5% auto; /* 15% from the top and centered */
+                    padding: 20px;
+                    border: 1px solid #888;
+                    width: 80%; /* Could be more or less, depending on screen size */
+                    max-width: 700px;
+                    height: 80%; /* Make the modal cover 80% of the screen height */
+                    overflow-y: auto; /* Scrollbar if needed */
+                }
+        
+                /* Close button */
+                .close {
+                    color: #aaa;
+                    float: right;
+                    font-size: 28px;
+                    font-weight: bold;
+                }
+        
+                .close:hover,
+                .close:focus {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+        
+                /* Download button */
+                .download-btn {
+                    background-color: #4CAF50; /* Green */
+                    color: white;
+                    padding: 10px 20px;
+                    text-align: center;
+                    display: inline-block;
+                    margin-top: 10px;
+                    cursor: pointer;
+                    border: none;
+                    border-radius: 5px;
+                }
+        
+                .download-btn:hover {
+                    background-color: #45a049;
+                }
+        
+                /* Style for iframe */
+                iframe {
+                    width: 100%;
+                    height: calc(100% - 50px); /* Adjust to make space for the download button */
+                    border: none;
+                }
+            </style>
+              {% load static %}
+              <li class="nav-item">
+                <a href="#" id="policyLink">
+                    <i class="fas fa-balance-scale"></i>
+                    <p>Policy</p>               
+                </a>       
+            </li>
+        
+            <!-- The Modal -->
+            <div id="policyModal" class="modal_policy">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <iframe src="{% static 'doc/Policy_document.pdf' %}" type="application/pdf"></iframe>
+                    <a href="{% static 'doc/Policy_document.pdf' %}" download="Policy_document.pdf">
+                        <button class="download-btn">Download Policy Document</button>
+                    </a>
+                </div>
+            </div>
+        
+            <!-- Scripts for modal functionality -->
+            <script>
+                // Get the modal
+                var modal = document.getElementById("policyModal");
+        
+                // Get the link that opens the modal
+                var link = document.getElementById("policyLink");
+        
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+        
+                // When the user clicks on the link, open the modal
+                link.onclick = function(event) {
+                    event.preventDefault(); // Prevent default action of link
+                    modal.style.display = "block";
+                }
+        
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+        
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            </script>
+            <li class="nav-item active">
+              <a data-bs-toggle="collapse" href="#tables">
+                <i class="fas fa-table"></i>
+                <p>Dashboard</p>
+                <span class="caret"></span>
+              </a>
+              <div class="collapse" id="tables">
+                <ul class="nav nav-collapse">
+                  <li>
+                    <a href="{% url 'CardDashboard' %}">
+                      <span class="sub-item">Dashboard</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url 'Dashboard' %}">
+                      <span class="sub-item">History</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              
+            </li>
+             <li class="nav-item">
+              <a  href="{% url 'cancel_leave' %}">
+                <i class="fas fa-times"></i>
+                <p>Cancellation Request</p>               
+              </a>       
+            </li>
+            <li class="nav-item">
+              <a  href="{% url 'CHProof' %}">
+                <i class="fas fa-file-alt"></i>
+                <p>CH Proof</p>               
+              </a>       
+            </li>
+          
+            
+
+              
+              
+              
+              
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#maps">
+                  <i class="fas fa-download"></i>
+                  <p>Download</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="maps">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='All' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">All</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Casual Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Casual Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='LOP Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">LLP Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='CH Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Compensated</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Earn Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Earn Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Vacation Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Vaccation Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Onduty' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">OnDuty</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Special Onduty' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Special OnDuty</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Medical Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Medical Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Maternity Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Maternity Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Permission' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Permission</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a  href="{% url 'Announcement' %}">
+                  <i class="fas fa-bullhorn"></i>
+                  <p>Announcement</p>               
+                </a>      
+
+              </li>
+             
+              
+              <li class="nav-item">
+                <a href="#" class="nav-link" onclick="logout(event)">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <p>Log out</p>
+                </a>
+                <form id="logoutForm" action="{% url 'Logout' %}" method="post" style="display: none;">
+                  {% csrf_token %}
+                </form>
+                <script>
+                  function logout(event) {
+                    event.preventDefault(); // Prevent the default action of following the link
+                    document.getElementById('logoutForm').submit(); // Submit the hidden form
+                  }
+                  </script>
+              </li>
+              
+              
+              
+              
+             </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <div class="main-header">
+          <div class="main-header-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+              <a href="{%url 'Home' %}" class="logo">
+                <img
+                  src="../static/assets/img/kaiadmin/sreclogo1.jpg"
+                  alt="navbar brand"
+                  class="navbar-brand"
+                  height="35"
+                />
+              </a>
+              <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                  <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                  <i class="gg-menu-left"></i>
+                </button>
+              </div>
+              <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+              </button>
+            </div>
+            <!-- End Logo Header -->
+          </div>
+          <!-- Navbar Header -->
+          <nav
+            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+          >
+            <div class="container-fluid">
+              <nav
+                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
+              >
+              <a href="{%url 'Home' %}" class="logo">
+                <img
+                  src="../static/assets/img/kaiadmin/logo.png"
+                  alt="navbar brand"
+                  class="navbar-brand"
+                  height="55"
+                />
+              </a>
+
+              </nav>
+              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+            <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+
+              <li class="nav-item topbar-icon dropdown hidden-caret">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="notifDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="fa fa-bell"></i>
+                    {% if bell_message %}
+                      <span class="notification">1</span>
+                    {% endif %}
+
+                  </a>
+                  <ul
+                    class="dropdown-menu notif-box animated fadeIn"
+                    aria-labelledby="notifDropdown"
+                  >
+                    <li>
+                      {% if bell_message %}
+                      <div class="dropdown-title">
+                        You have 1 new notification
+                      </div>
+                      {% else %}
+                      <div class="dropdown-title">
+                        No new notification
+                      </div>
+                      {% endif %}
+                    </li>
+                    <li>
+                      <div class="notif-scroll scrollbar-outer">
+                        <div class="notif-center">
+                          <a href="#">
+                            {% if bell_message %}
+                            <div class="notif-icon notif-primary">
+                              <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="notif-content">
+                              <span class="block">{{bell_message}}</span>
+                            </div>
+                              {% else %}
+                            <div class="">
+                              <span class="block"></span>
+                            </div>
+                            {% endif %}
+                          </a>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+
+                    </li>
+                  </ul>
+                </li>
+              <li class="nav-item topbar-icon dropdown hidden-caret">
+                  <a
+                    class="nav-link"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    aria-expanded="false"
+                  >
+                    <i class="fas fa-layer-group"></i>
+                  </a>
+                  <div class="dropdown-menu quick-actions animated fadeIn">
+                    <div class="quick-actions-header">
+                      <span class="title mb-1">Quick Actions</span>
+                      <span class="subtitle op-7">Shortcuts</span>
+                    </div>
+                    <div class="quick-actions-scroll scrollbar-outer">
+                      <div class="quick-actions-items">
+                        <div class="row m-0">
+                          <a class="col-6 col-md-4 p-0" href="{%url 'Home' %}">
+                            <div class="quick-actions-item">
+                              <div class="avatar-item bg-danger rounded-circle">
+                                <i class="fas fa-home"></i>
+                              </div>
+                              <span class="text">Apply Leave</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{% url 'Profile' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-warning rounded-circle"
+                              >
+                                <i class="fas fa-user"></i>
+                              </div>
+                              <span class="text">Profile</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{%url 'CardDashboard' %}">
+                            <div class="quick-actions-item">
+                              <div class="avatar-item bg-info rounded-circle">
+                                <i class="fas fa-table"></i>
+                              </div>
+                              <span class="text">Dashboard</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{%url 'Dashboard' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-success rounded-circle"
+                              >
+                                <i class="fas fa-history"></i>
+                              </div>
+                              <span class="text">History</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{%url 'Announcement' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-primary rounded-circle"
+                              >
+                                <i class="fas fa-bullhorn"></i>
+                              </div>
+                              <span class="text">Announcement</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{%url 'AccountSettings' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-secondary rounded-circle"
+                              >
+                                <i class="fas fa-cogs"></i>
+                              </div>
+                              <span class="text">Settings</span>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              <li class="nav-item topbar-user dropdown hidden-caret">
+                  <a
+                    class="dropdown-toggle profile-pic"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    aria-expanded="false"
+                  >
+                    <div class="avatar-sm">
+                      <img
+                        src="../static/assets/img/no.png"
+                        alt="..."
+                        class="avatar-img rounded-circle"
+                      />
+                    </div>
+                    <span class="profile-username">
+                      <span class="op-7">Hi,</span>
+                      <span class="fw-bold">{{username}}</span>
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-user animated fadeIn">
+                    <div class="dropdown-user-scroll scrollbar-outer">
+                      <li>
+                        <div class="user-box">
+                          <div class="avatar-lg">
+                            <img
+                              src="../static/assets/img/no.png"
+                              alt="image profile"
+                              class="avatar-img rounded"
+                            />
+                          </div>
+                          <div class="u-text">
+                            <h4>{{username }}</h4>
+                            <p class="text-muted">{{email}}</p>
+                            <a
+                              href="{% url 'Profile' %}"
+                              class="btn btn-xs btn-secondary btn-sm"
+                              >View Profile</a
+                            >
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'Profile' %}">My Profile</a>
+                        <a class="dropdown-item" href="{%url 'CardDashboard' %}">My Balance</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{%url 'AccountSettings' %}">Account Setting</a>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item">
+                          <a href="#" class="dropdown-item" onclick="logout(event)"><i class="fas fa-sign-out-alt"></i>Log out</a>
+                      </div>
+                      <form id="logoutForm" action="{% url 'Logout' %}" method="post" style="display: none;">
+                        {% csrf_token %}
+                      </form>
+                      <script>
+                        function logout(event) {
+                          event.preventDefault(); // Prevent the default action of following the link
+                          document.getElementById('logoutForm').submit(); // Submit the hidden form
+                        }
+                        </script>
+
+                      </li>
+                    </div>
+                  </ul>
+                </li>
+            </ul>
+
+            </div>
+          </nav>
+          <!-- End Navbar -->
+        </div>
+
+
+        <div class="container">
+          <div class="page-inner">
+            <div class="page-header">
+              <h3 class="fw-bold mb-3">Dashboard</h3>
+              <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                  <a href="{% url 'Home' %}">
+                    <i class="icon-home"></i>
+                  </a>
+                </li>
+                <li class="separator">
+                  <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item active">
+                  <a href="#">History</a>
+                </li>
+              </ul>
+            </div>
+            <div class="row">
+
+
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">History</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-responsive-md" id="leave-table" style="color: rgb(0, 0, 0);">
+                        <thead>
+                          <tr>
+                            <th scope="col">Type</th>
+                            <th scope="col">Applied</th>
+                            <th scope="col">On/From</th>
+                            <th scope="col" style="text-align: center;">To&nbsp;Date&nbsp;</th>
+                            <th scope="col">Session</th>
+                            <th scope="col">Remaining</th>
+                            <th scope="col">Day(s)</th>
+                            <th scope="col">Reason</th>
+                            <th scope="col">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody id="leave-table-body"></tbody>
+                      </table>
+                      <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
+                      <script>
+                            function formatDate(isoDateStr) {
+                            if (!isoDateStr) return "-"; // Check if the date is not available
+                            var date = new Date(isoDateStr);
+                            if (isNaN(date.getTime())) return "-"; // Check if the date is invalid
+
+                            var year = date.getFullYear();
+                            var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                            var day = ("0" + date.getDate()).slice(-2);
+                            var hours = ("0" + date.getHours()).slice(-2);
+                            var minutes = ("0" + date.getMinutes()).slice(-2);
+                            var seconds = ("0" + date.getSeconds()).slice(-2);
+                            return `${day}-${month}-${year.toString().slice(-2)} ${hours}:${minutes}:${seconds}`;  // Format: dd-mm-yy hh:mm:ss
+                        }
+
+                        function formatDatefrom(isoDateStr) {
+                            if (!isoDateStr) return "-"; // Check if the date is not available
+                            var date = new Date(isoDateStr);
+                            if (isNaN(date.getTime())) return "-"; // Check if the date is invalid
+
+                            var year = date.getFullYear();
+                            var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                            var day = ("0" + date.getDate()).slice(-2);
+                            return `${day}-${month}-${year.toString().slice(-2)}`; // Format: dd-mm-yy
+                        }
+                        // Data passed from Django context
+                        var data_list = {{ data_dics|safe }};
+
+                        // Function to populate the table
+                        function populateTable(dataList) {
+                          var tableBody = $('#leave-table-body');
+
+                          for (var i = 0; i < dataList.length; i++) {
+                            var row = $('<tr>');
+                            row.append($('<td>').text(dataList[i]['leave_type']));
+                            row.append($('<td>').text(formatDate(dataList[i]['date_Applied'])));
+                            row.append($('<td>').text(formatDatefrom(dataList[i]['from_Date'])));
+                            row.append($('<td>').text(formatDatefrom(dataList[i]['to_Date'])));
+                            row.append($('<td>').text(dataList[i]['session']));
+                            row.append($('<td>').text(dataList[i]['remaining']));
+                            row.append($('<td>').text(dataList[i]['total_leave']));
+                            row.append($('<td>').text(dataList[i]['reason']));
+                            row.append($('<td>').text(dataList[i]['status']));
+                            tableBody.append(row);
+                          }
+                        }
+
+                        // Initialize DataTable
+                        $(document).ready(function() {
+                          // Call the function to populate the table with the Django data
+                          populateTable(data_list);
+
+                          // Initialize DataTable after populating data
+                          $('#leave-table').DataTable({
+                            pageLength: 5,
+                            initComplete: function () {
+                              this.api()
+                                .columns()
+                                .every(function () {
+                                  var column = this;
+                                  var select = $(
+                                    '<select class="form-select"><option value=""></option></select>'
+                                  )
+                                    .appendTo($(column.footer()).empty())
+                                    .on("change", function () {
+                                      var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                                      column
+                                        .search(val ? "^" + val + "$" : "", true, false)
+                                        .draw();
+                                    });
+
+                                  column
+                                    .data()
+                                    .unique()
+                                    .sort()
+                                    .each(function (d, j) {
+                                      select.append(
+                                        '<option value="' + d + '">' + d + "</option>"
+                                      );
+                                    });
+                                });
+                            },
+                          });
+                        });
+                      </script>
+                      <a href="mailto:srecfms@gmail.com?subject=Support%20Assistance&body=Describe%20your%20issue%20here">
+                        <div class="support-icon" id="supportIcon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                    </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      </div>
+
+    </div>
+    <!--   Core JS Files   -->
+    <script src="../static/assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="../static/assets/js/core/popper.min.js"></script>
+    <script src="../static/assets/js/core/bootstrap.min.js"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="../static/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <!-- Datatables -->
+    <script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+    <!-- Kaiadmin JS -->
+    <script src="../static/assets/js/kaiadmin.min.js"></script>
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <script src="../static/assets/js/setting-demo2.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#basic-datatables").DataTable({});
+
+        $("#multi-filter-select").DataTable({
+          pageLength: 5,
+          initComplete: function () {
+            this.api()
+              .columns()
+              .every(function () {
+                var column = this;
+                var select = $(
+                  '<select class="form-select"><option value=""></option></select>'
+                )
+                  .appendTo($(column.footer()).empty())
+                  .on("change", function () {
+                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                    column
+                      .search(val ? "^" + val + "$" : "", true, false)
+                      .draw();
+                  });
+
+                column
+                  .data()
+                  .unique()
+                  .sort()
+                  .each(function (d, j) {
+                    select.append(
+                      '<option value="' + d + '">' + d + "</option>"
+                    );
+                  });
+              });
+          },
+        });
+
+        // Add Row
+        $("#add-row").DataTable({
+          pageLength: 5,
+        });
+
+        var action =
+          '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+        $("#addRowButton").click(function () {
+          $("#add-row")
+            .dataTable()
+            .fnAddData([
+              $("#addName").val(),
+              $("#addPosition").val(),
+              $("#addOffice").val(),
+              action,
+            ]);
+          $("#addRowModal").modal("hide");
+        });
+      });
+    </script>
+
+
+
+
+    </div>
+
+    <!-- <script src="../static/assets/js/core/jquery-3.7.1.min.js"></script> -->
+    <script src="../static/assets/js/core/popper.min.js"></script>
+    <script src="../static/assets/js/core/bootstrap.min.js"></script>
+    <script src="../static/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="../static/assets/js/plugin/chart.js/chart.min.js"></script>
+    <script src="../static/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <script src="../static/assets/js/plugin/chart-circle/circles.min.js"></script>
+    <script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+    <script src="../static/assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="../static/assets/js/plugin/jsvectormap/world.js"></script>
+    <script src="../static/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script src="../static/assets/js/kaiadmin.min.js"></script>
+    <script src="../static/assets/js/setting-demo.js"></script>
+    <script src="../static/assets/js/demo.js"></script>
+    <script>
+      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#177dff",
+        fillColor: "rgba(23, 125, 255, 0.14)",
+      });
+
+      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#f3545d",
+        fillColor: "rgba(243, 84, 93, .14)",
+      });
+
+      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#ffa534",
+        fillColor: "rgba(255, 165, 52, .14)",
+      });
+    </script>
+  </body>
+</html>

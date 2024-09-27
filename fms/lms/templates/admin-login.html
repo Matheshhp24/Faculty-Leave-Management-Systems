@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SREC</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="../static/assets1/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="../static/assets1/css/style.css">
+
+    <!-- Bootstrap CSS (for Navbar) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar {
+            background-image: linear-gradient(to right,#894185,#6dabe4); /* Dark blue color */
+        }
+
+        .navbar-brand img {
+            height: 40px; /* Adjust the size as needed */
+        }
+
+        .main {
+            margin: 0; /* Remove margin */
+            padding: 40px 0; /* Adjust padding as needed */
+        }
+
+        .signup {
+            padding-top: 0; /* Reduce top padding */
+            padding-bottom: 0; /* Remove bottom padding */
+        }
+
+        .signup .container {
+            margin-top: 0; /* Remove margin at the top of container */
+            margin-bottom: 0; /* Remove margin at the bottom of container */
+        }
+
+        /* Remove margin bottom from signup content */
+        .signup-content {
+            margin-bottom: 0; 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">
+            <img style="padding-left: 30px;" src="../static/assets/img/kaiadmin/sreclogo1.jpg" alt="Logo">
+        </a>
+    </nav>
+
+    <div class="main">
+
+        <!-- Sign up form -->
+        <section class="sign-in">
+            <h3 class="form-title text-center" style="color: #384e62;"><b>Faculty Leave Management System</b></h3>
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="../static/img/4707071.jpg" alt="sing up image"></figure>
+                        <a style="font-size: medium;" href="#" class="signup-image-link" id="login-link"><b>Staff Login?</b></a>
+
+                        <script>
+                            document.getElementById('login-link').onclick = function() {
+                                window.location.href = "/";
+                            };
+                        </script>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Admin Login</h2>
+                        <form method="post" action="{% url 'AdminLogin' %}">
+                            {% csrf_token %}
+                        <div class="form-group">
+                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="username" id="your_name" placeholder="Your Username"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="your_pass" placeholder="Your Password"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                            </div>
+                            {% if error_message %}
+                            <ul class="messages" style="color: red;">
+                                
+                                    <li class="{{ message.tags }}">{{ error_message }}</li>
+                               
+                            </ul>
+                            {% endif %}
+                            <div class="form-group form-button">
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                            </div>
+                        </form>
+                       
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- jQuery and Bootstrap JS (for Navbar) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

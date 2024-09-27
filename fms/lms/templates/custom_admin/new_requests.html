@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>SREC- Faculty Leave Management System</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+
+    <link href="../../static/img/sreclogo.jpg" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../../static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../static/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../../static/css/admin/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../../static/css/admin/css/style.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+
+
+
+<style>
+
+    body {
+        zoom: 110%;
+    }
+
+    .small {
+        font-size: 10px; /* Adjust the font size as needed */
+    }
+
+    .announcement-container {
+        position: relative;
+    }
+
+    .close-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="../../static/img/sreclogo.jpg" alt="" style="width: 40px; height: 40px;">
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="mb-0">SREC</h6>
+                        <span>Admin</span>
+                    </div>
+                </div>
+                <div class="navbar-nav w-100">
+                    {% if is_hod %}
+                    <a href="{% url 'HODPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i> Admin panel</a>
+                    {% else %}
+                    <a href="{% url 'AdminPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i> Admin panel</a>
+                    {% endif %}
+                    {% if is_hod %}
+                    {% else %}
+                        <a href="{% url 'freeze_dates' %}" class="nav-item nav-link"><i class="fas fa-snowflake"></i> Freeze Dates
+                    {% endif %}
+                    
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'AddStaff' %}" class="nav-item nav-link"><i class="fas fa-user-plus"></i> Add Staff </a>
+                    {% endif %}
+                   
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'DeleteStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-minus"></i> Delete Staff </a>
+                    {% endif %}
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'EditStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-edit"></i> Edit Staff </a>
+                    {% endif %}
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'AvailLeaveView' %}" class="nav-item nav-link"><i class="fas fa-calendar-check"></i> Avail Leave</a>
+                    {% endif %}
+                    {% if is_hod %}
+                        <a href="{% url 'HODNewRequests' %}" class="nav-item nav-link active"><i class="fas fa-keyboard"></i> New Request
+                    {% elif is_principal %}
+                        <a href="{% url 'NewRequests' %}" class="nav-item nav-link active"><i class="fas fa-keyboard"></i> New Request
+                
+                    {% else %}
+                        
+                    {% endif %}
+                    {%if is_principal or is_hod %}
+                      {% if pending > 0 %}
+                          <span class="badge bg-danger rounded-pill"> {{ pending }}</span>
+                      {% else %}
+                          <span></span>
+                      {% endif %}
+                    {% else %}
+                    {% endif %}
+                    {% if is_hod %}
+                        <a href="{% url 'PermissionRequests' %}" class="nav-item nav-link"><i class="fas fa-key"></i> Permissions
+                        {% if permission_count > 0 %}
+                        <span class="badge bg-danger rounded-pill"> {{ permission_count }}</span>
+                        </a>
+                        {% else %}
+                        {% endif %}
+
+                    {% elif is_principal %}
+                    {% else %}
+                        <a href="{% url 'CHProofRequests' %}" class="nav-item nav-link"><i class="fas fa-key"></i> CH Proofs
+                        {% if chproof_count > 0 %}
+                        <span class="badge bg-danger rounded-pill"> {{ chproof_count }}</span>
+                        </a>
+                        {% else %}
+                        {% endif %}
+                    {% endif %}
+                        </a>
+                 
+                    
+                    {% if is_principal %}
+                        <a href="{% url 'AdminCancellation' %}" class="nav-item nav-link" ><i class="fas fa-times"></i> Cancel Request
+                            {% if cancel_count > 0 %}
+                            <span class="badge bg-danger rounded-pill"  > {{ cancel_count }}</span>
+                        </a>
+                            {% else %}
+                            {% endif %}
+                    {% else %}
+                    {% endif %}
+
+                    {% if is_hod or is_principal %}
+                    {% else %}
+                    <a href="{% url 'LeaveData' %}" class="nav-item nav-link"><i class="fas fa-sort"></i> Leave Data</a>
+                    {% endif %}
+                    
+                    {% if is_hod %}
+                    <a href="{% url 'HODDownloadView' %}" class="nav-item nav-link"><i class="fas fa-download"></i> Download</a>
+                    {% else %}
+                    <a href="{% url 'DownloadView' %}" class="nav-item nav-link"><i class="fas fa-download"></i> Download</a>
+                    {% endif %}
+                    {% if is_hod %}
+                    <a href="{% url 'HODLeaveAvailability' %}" class="nav-item nav-link"><i class="fas fa-building"></i>Reports</a>
+                    {% else %}
+                    <a href="{% url 'LeaveAvailability' %}" class="nav-item nav-link"><i class="fas fa-building"></i>Reports</a>
+                    {% endif %}
+                    {% if is_hod %}
+                    <a href="{% url 'HODAdminAccount' %}" class="nav-item nav-link "><i class="fas fa-cogs"></i>Account</a>
+                    {% else %}
+                    <a href="{% url 'AdminAccount' %}" class="nav-item nav-link "><i class="fas fa-cogs"></i>Account</a>
+                    {% endif %}
+        
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="content">
+
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                <!-- <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                </a> -->
+                <a href="#" class="sidebar-toggler flex-shrink-0" id="sidebarToggler">
+                    <i class="fa fa-bars"></i>
+                </a>
+                {% if is_hod %}
+                <p class="d-none d-md-flex ms-4 border-0" style="padding-top: 15px;">HOD Panel</p>
+                {% elif is_principal %}
+                <p class="d-none d-md-flex ms-4 border-0" style="padding-top: 15px;">Admin Panel</p>
+                {% else %}
+                <p class="d-none d-md-flex ms-4 border-0" style="padding-top: 15px;">HR Panel</p>
+                {% endif %}
+                <!-- <form class="d-none d-md-flex ms-4">
+                    <input class="form-control border-0" type="search" placeholder="Search">
+                </form> -->
+                <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-list me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Filter List</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item" id="approved-list">Approved List</a>
+                            <a href="#" class="dropdown-item" id="declined-list">Declined List</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-envelope me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">New Requests</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            {% if recent_data %}
+                            {% for recent in recent_data %}
+                            <a href="#" class="dropdown-item">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle" src="../../static/assets/img/no.png" alt="" style="width: 40px; height: 40px;">
+                                    <div class="ms-2">
+                                        <h6 class="fw-normal mb-0">{{recent.username}}</h6>
+                                        <small>{{recent.leave_type}}</small>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                            {% else %}
+                            <div class="text-center">
+                                <small>No new Requests</small>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if is_hod %}
+                    {% else %}
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Notification</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">
+                                {% if notification_message %}
+                                <h6 class="fw-normal mb-0">{{ notification_message }}</h6>
+                                {% else %}
+                                <h6 class="fw-normal mb-0">No new Notification</h6>
+                                {% endif %}
+                            </a>
+                            <hr class="dropdown-divider">
+
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="../../static/img/sreclogo.jpg" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">Admin ,{{ admin }}</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            {% if is_hod %}
+                            <a href="{% url 'HODAdminAccount' %}" class="dropdown-item">Account</a>
+                            {% else %}
+                            <a href="{% url 'AdminAccount' %}" class="dropdown-item">Account</a>
+                            {% endif %}
+                            <form action="{% url 'Logout' %}" method="post">
+                                {% csrf_token %}
+                            <button type="submit" class="dropdown-item">Log Out</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Navbar End -->
+
+
+            <!-- Sale & Revenue Start -->
+
+
+
+
+            <div class="row">
+                <!-- Placeholder for Approved Table -->
+        <div class="col-md-12" id="approved-table-container" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Approved</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-responsive-md" id="approved-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Department</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Reason</th>
+                                    <th scope="col">Applied</th>
+                                    <th scope="col">On/From</th>
+                                    <th scope="col">To&nbsp;Date</th>
+                                    <th scope="col">Session</th>
+                                    <th scope="col">Available</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Document</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- Bootstrap JS (for modal functionality) -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables JS -->
+<!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script> -->
+
+        <!-- Decline Modal -->
+        <div class="modal fade" id="declineModal" tabindex="-1" role="dialog" aria-labelledby="declineModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="declineModalLabel">Decline Leave Request</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="decline-form">
+                            <div class="form-group">
+                                <label for="decline-reason">Reason for Decline</label>
+                                <textarea class="form-control" id="decline-reason" rows="3" required></textarea>
+                            </div>
+                            <input type="hidden" id="decline-username">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" id="confirm-decline">Decline</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Placeholder for Declined Table -->
+        <div class="col-md-12" id="declined-table-container" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Declined</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-responsive-md" id="declined-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Department</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Reason</th>
+                                    <th scope="col">Applied</th>
+                                    <th scope="col">On/From</th>
+                                    <th scope="col">To&nbsp;Date</th>
+                                    <th scope="col">Session</th>
+                                    <th scope="col">Available</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Document</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <!-- Original Reviewing Table -->
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Reviewing</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-responsive-md" id="leave-table" style="color: rgb(0, 0, 0);">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Department</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Reason</th>
+                                            <th scope="col">Applied</th>
+                                            <th scope="col">On/From</th>
+                                            <th scope="col">To&nbsp;Date</th>
+                                            <th scope="col">Session</th>
+                                            <th scope="col">Available</th>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Document</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body" class="table_sample">
+                                        <!-- Table body content will be added dynamically using JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- jQuery -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+            <!-- DataTables JS -->
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+            <!-- Bootstrap JS (for dropdown) -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+
+            <script>
+                $(document).ready(function() {
+                    // Function to populate the main table
+                    function populateMainTable(dataList) {
+                        var tableBody = $('#table-body');
+                        for (var i = 0; i < dataList.length; i++) {
+                            if (dataList[i]['status'] === 'Approved(1)') {
+                            var row = $('<tr>');
+
+                            row.append($('<td>').text(dataList[i]['username']));
+                            row.append($('<td>').text(dataList[i]['staff_name']));
+                            row.append($('<td>').text(dataList[i]['department']));
+                            row.append($('<td>').text(dataList[i]['leave_type']));
+                            row.append($('<td>').text(dataList[i]['reason']));
+                            row.append($('<td>').text(dataList[i]['date_Applied']));
+                            row.append($('<td>').text(dataList[i]['from_Date']));
+                            row.append($('<td>').text(dataList[i]['to_Date']));
+                            row.append($('<td>').text(dataList[i]['session']));
+                            row.append($('<td>').text(dataList[i]['remaining']));
+                            row.append($('<td>').text(dataList[i]['total_leave']));
+
+                        let documentUrl = admin_list[i]['document_url'];
+                        let documentCell;
+
+                        if (documentUrl && documentUrl !== "/media/") {
+                            // URL exists and is not just a placeholder
+                            documentCell = $('<td>').html(`<a href="${documentUrl}" target="_blank">View</a>`);
+                        } else {
+                            // No URL or placeholder
+                            documentCell = $('<td>').html('<span>No document</span>');
+                        }
+
+                        // Append the document cell
+                        row.append(documentCell);
+                            // Create Action cell with approve/decline buttons
+                            var actionCell = $('<td>');
+                            var approveBtn = $('<button>', {
+                                text: 'Approve',
+                                class: 'btn btn-success btn-approve static-size',
+                                click: createButtonClickHandler(dataList[i], 'Approved')
+                            });
+                            var declineBtn = $('<button>', {
+                            text: 'Decline',
+                            class: 'btn btn-danger ml-2 btn-decline static-size',
+                            click: createDeclineClickHandler(dataList[i],row,'Declined')
+                        });
+                            actionCell.append(approveBtn);
+                            actionCell.append(declineBtn);
+                            row.append(actionCell);
+
+                            tableBody.append(row);
+                        }
+                    }
+                    }
+
+                    // Function to create a click handler with captured data
+                    function createButtonClickHandler(data, action) {
+                        return function () {
+                            performLeaveAction(data, action);
+                            var clickedRow = $(this).closest('tr');
+                            clickedRow.remove();
+                        };
+                    }
+
+                    function createDeclineClickHandler(data,row,action) {
+                        return function () {
+                            currentdata = data;
+                            currentrow = row;
+                            currenaction = action;
+
+                            // console.log(reason);
+                            $('#decline-username').val(data.username);
+                            $('#declineModal').modal('show');
+                        };
+                    }
+
+                    // Handle decline confirmation
+                    $('#confirm-decline').click(function() {
+                        var username = $('#decline-username').val();
+                        var reason = $('#decline-reason').val();
+
+                        // console.log(reason);
+
+
+                        $('#declineModal').modal('hide');
+                        $('#leave-table').DataTable().row(currentrow).remove().draw();
+                        performLeaveAction(currentdata, 'Declined',reason);
+
+                    });
+
+                    // Ensure modal close button works
+                    $('.close, .btn-secondary').click(function() {
+                        $('#declineModal').modal('hide');
+                    });
+                    // Function to perform leave action (you can customize this)
+                    function performLeaveAction(data, action,reason=null) {
+                        // console.log("Action:", action, "Row Data:", data);
+                        $.ajax({
+                            url: '/requests-handling/',
+                            method: 'POST',
+                            data: {
+                                rowData: data,
+                                action: action,
+                                decreason : reason,
+                                csrfmiddlewaretoken: '{{ csrf_token }}',
+                                partial: 'no'
+                            },
+                            success: function (response) {
+                                // console.log('Success:', response);
+                            },
+                            error: function (error) {
+                                // console.error('Error:', error);
+                            }
+                        });
+                    }
+
+                    // Call the function to populate the main table with the Django data
+                    var admin_list = {{ admin_list|safe }};
+            populateMainTable(admin_list);
+
+            // Initialize DataTable after populating the table
+            $('#leave-table').DataTable({
+                pageLength: 5,
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var select = $('<select class="form-select"><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on("change", function () {
+                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                column.search(val ? "^" + val + "$" : "", true, false).draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + "</option>");
+                        });
+                    });
+                }
+            });
+
+            // Function to create filtered tables
+            function createFilteredTable(status, containerId) {
+                var tableBody = $('#' + containerId + ' tbody');
+                tableBody.empty();
+
+                for (var i = 0; i < admin_list.length; i++) {
+                    if (admin_list[i]['status'] === status) {
+                        var row = $('<tr>');
+                        row.append($('<td>').text(admin_list[i]['username']));
+                        row.append($('<td>').text(admin_list[i]['staff_name']));
+                        row.append($('<td>').text(admin_list[i]['department']));
+                        row.append($('<td>').text(admin_list[i]['leave_type']));
+                        row.append($('<td>').text(admin_list[i]['reason']));
+                        row.append($('<td>').text(admin_list[i]['date_Applied']));
+                        row.append($('<td>').text(admin_list[i]['from_Date']));
+                        row.append($('<td>').text(admin_list[i]['to_Date']));
+                        row.append($('<td>').text(admin_list[i]['session']));
+                        row.append($('<td>').text(admin_list[i]['remaining']));
+                        row.append($('<td>').text(admin_list[i]['total_leave']));
+                        let documentUrl = admin_list[i]['document_url'];
+                        let documentCell;
+
+                        if (documentUrl && documentUrl !== "/media/") {
+                            // URL exists and is not just a placeholder
+                            documentCell = $('<td>').html(`<a href="${documentUrl}" target="_blank">View</a>`);
+                        } else {
+                            // No URL or placeholder
+                            documentCell = $('<td>').html('<span>No document</span>');
+                        }
+
+                        // Append the document cell
+                        row.append(documentCell);
+                        tableBody.append(row);
+                    }
+                }
+
+                // Initialize DataTable for the new table
+                $('#' + containerId + ' table').DataTable({
+                    pageLength: 5
+                });
+            }
+
+            // Toggle tables
+            $('#approved-list').on('click', function() {
+                $('#approved-table-container').toggle();
+                if ($('#approved-table-container').is(':visible')) {
+                    createFilteredTable('Approved', 'approved-table-container');
+                } else {
+                    $('#approved-table').DataTable().destroy();
+                }
+            });
+
+            $('#declined-list').on('click', function() {
+                $('#declined-table-container').toggle();
+                if ($('#declined-table-container').is(':visible')) {
+                    createFilteredTable('Declined', 'declined-table-container');
+                } else {
+                    $('#declined-table').DataTable().destroy();
+                }
+            });
+        });
+    </script>
+
+
+<script>
+    $(document).ready(function() {
+        // Automatically click the sidebar toggler button when entering the site
+        $('#sidebarToggler').click();
+    });
+</script>
+
+    <!-- JavaScript Libraries -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../static/lib/chart/chart.min.js"></script>
+    <script src="../../static/lib/easing/easing.min.js"></script>
+    <script src="../../static/lib/waypoints/waypoints.min.js"></script>
+    <script src="../../static/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../static/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="../../static/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="../../static/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+
+    <!-- Template Javascript -->
+    <script src="../../static/js/admin/js/main.js"></script>
+    <!-- <script src="../../static/assets/js/core/jquery-3.7.1.min.js"></script> -->
+    <script src="../../static/assets/js/core/popper.min.js"></script>
+    <script src="../../static/assets/js/core/bootstrap.min.js"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="../../static/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <!-- Datatables -->
+    <script src="../../static/assets/js/plugin/datatables/datatables.min.js"></script>
+    <!-- Kaiadmin JS -->
+    <script src="../../static/assets/js/kaiadmin.min.js"></script>
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <script src="../../static/assets/js/setting-demo2.js"></script>
+
+    <!-- <script>
+        document.body.style.transform = "scale(1.1)";
+        document.body.style.transformOrigin = "0 0"
+    </script> -->
+</body>
+
+</html>

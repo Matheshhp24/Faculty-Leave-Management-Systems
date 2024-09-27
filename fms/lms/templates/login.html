@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SREC</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="../static/assets1/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="../static/assets1/css/style.css">
+
+    <!-- Bootstrap CSS (for Navbar) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+        .navbar {
+            background-image: linear-gradient(to right, #1f0f3c, #a5bae7); /* Linear gradient */
+        }
+
+        .navbar-brand img {
+            height: 40px; /* Adjust the size as needed */
+        }
+
+        .main {
+            margin: 0; /* Remove margin */
+            padding: 40px 0; /* Adjust padding as needed */
+        }
+
+        .signup {
+            padding-top: 0; /* Reduce top padding */
+            padding-bottom: 0; /* Remove bottom padding */
+        }
+
+        .signup .container {
+            margin-top: 0; /* Remove margin at the top of container */
+            margin-bottom: 0; /* Remove margin at the bottom of container */
+        }
+
+        /* Remove margin bottom from signup content */
+        .signup-content {
+            margin-bottom: 0; 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">
+            <img style="padding-left: 30px;"  src="../static/assets/img/kaiadmin/sreclogo1.jpg" alt="Logo">
+        </a>
+    </nav>
+
+    <div class="main">
+
+        <!-- Sign up form -->
+        <section class="signup">
+            <h3 class="form-title text-center" style="color: #0b0646;"><b>Faculty Leave Management System</b></h3>
+            <div class="container">
+                <div class="signup-content">
+                    {% if message %}
+				<div class="alert alert-info">
+					{{ message }}
+				</div>
+				{% endif %}
+                    <div class="signup-form">
+                        <h2 class="form-title">Staff Login</h2>
+                        <form method="POST" class="register-form login" id="register-form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                {{ form.username }}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                {{ form.password }}
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                            </div>
+                            <div class="form-group form-button" >
+                                <input type="submit" name="signup" id="signup" style="background-color: #0b0646;" class="form-submit" value="Login"/>
+                            </div>
+                            <div class="form-group" style="color: red;">
+                            {% if form.errors %}
+                            <ul>
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {% for error in form.non_field_errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                        </form>
+                            <div class="section" >
+                                <a href="#updatePasswordModal" class="" data-toggle="modal">Forgot Password?</a>
+
+                              </div>
+                            </div>
+                            <div class="signup-image">
+                                <figure><img src="../static/img/login.jpeg" alt="sign up image"></figure>
+                                
+                                <a href="{% url 'AdminLogin' %}" style="font-size: medium;" class="signup-image-link"><b>Admin Login?</b></a>
+                            </div>
+
+                            <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="updatePasswordModalLabel">Forgot Password?</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form id="otp-form" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                          <input type="email" class="form-control" name="email" placeholder="Enter Email" id="hidden-email">
+                                        </div>
+                                        <div class="form-group">
+                                          <button type="submit" class="btn btn-success" id="get-otp-btn">Get OTP</button>
+                                        </div>
+                                      </form><br>
+                                      <div class="form-group">
+                                        <input type="number" class="form-control" placeholder="Enter OTP"  id="otp-input" required disabled>
+                                      </div>
+                                      <div class="form-group">
+                                        <button type="button" class="btn btn-primary" id="verify-otp-btn" disabled>Verify OTP</button>
+                                      </div>
+                                  
+                                      <div class="form-group">
+                                        <!-- <label for="new-password" class="col-form-label">New Password:</label> -->
+                                        <input type="password" class="form-control" placeholder="New Password" id="new-password" required disabled>
+                                      </div>
+                                      <div class="form-group">
+                                        <!-- <label for="confirm-password" class="col-form-label">Confirm New Password:</label> -->
+                                        <input type="password" class="form-control" placeholder="Confirm New Password" id="confirm-password" required disabled>
+                                      </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                      <button type="button" class="btn btn-primary" id="update-password-btn" disabled>Update Password</button>
+                                    </div>
+                               
+                                  </div>
+                                </div>
+                              </div>
+                              
+                            <!-- jQuery and Bootstrap JS -->
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+                            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+                              <script>
+                                var $ = jQuery.noConflict();
+                                $(document).ready(function() {
+                                    console.log("jQuery 3.5.1 is working!");
+                                });
+                                
+                                var jq7 = jQuery.noConflict(true);
+                                jq7(document).ready(function() {
+                                    console.log("jQuery 3.7.1 is working!");
+                                    jq7.fn.modal = jq7.fn.modal || $.fn.modal;  // Use modal from bootstrap
+                                
+                                    jq7('#otp-form').on('submit', function(event) {
+                                        event.preventDefault();
+                                
+                                        var form = jq7(this);
+                                        var getOtpBtn = jq7('#get-otp-btn');
+                                        var otpInput = jq7('#otp-input');
+                                        var verifyOtpBtn = jq7('#verify-otp-btn');
+
+                                        jq7('#hidden-email').prop('readonly', false);
+                                
+                                        var email = jq7('#hidden-email').val(); // Get the value from the hidden input
+                                        console.log('Email input field value:', jq7('#hidden-email').val());
+                                        console.log('Email:', email);
+                                
+                                        if (!email) {
+                                            alert('Email is required!');
+                                            return;
+                                        }
+                                
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open('POST', '{% url "get_otp" %}', true);
+                                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+                                
+                                        xhr.onreadystatechange = function() {
+                                            if (xhr.readyState == 4) {
+                                                if (xhr.status == 200) {
+                                                    console.log('Response:', xhr.responseText);
+                                                    getOtpBtn.prop('disabled', true);
+                                                    otpInput.prop('disabled', false);
+                                                    verifyOtpBtn.prop('disabled', false);
+                                                } else {
+                                                    console.error('Error:', xhr.responseText);
+                                                    alert('An error occurred: ' + xhr.responseText);
+                                                }
+                                            }
+                                        };
+                                
+                                        xhr.send('email=' + encodeURIComponent(email));
+                                    });
+                                
+                                    jq7('#verify-otp-btn').on('click', function() {
+                                        var otpInput = jq7('#otp-input');
+                                        var newPassInput = jq7('#new-password');
+                                        var confirmPassInput = jq7('#confirm-password');
+                                        var updatePassBtn = jq7('#update-password-btn');
+                                
+                                        var otp = otpInput.val();
+                                        var email = jq7('#hidden-email').val(); // Get the value from the hidden input
+                                        // console.log('Email input field value:', jq7('#hidden-email').val());
+                                        // console.log('Email:', email);
+                                        console.log('OTP:', otp);
+                                
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open('POST', '{% url "verify_otp" %}', true);
+                                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+                                
+                                        xhr.onreadystatechange = function() {
+                                            if (xhr.readyState == 4) {
+                                                var response = JSON.parse(xhr.responseText);
+                                                console.log('Response:', response);
+                                                if (xhr.status == 200 && response.status === 'success') {
+                                                    newPassInput.prop('disabled', false);
+                                                    confirmPassInput.prop('disabled', false);
+                                                    updatePassBtn.prop('disabled', false);
+                                                } else {
+                                                    alert(response.message);
+                                                }
+                                            }
+                                        };
+                                
+                                        xhr.send('otp=' + encodeURIComponent(otp) + '&email=' + encodeURIComponent(email));
+                                    });
+                                
+                                    jq7('#update-password-btn').on('click', function() {
+                                        var newPassInput = jq7('#new-password');
+                                        var confirmPassInput = jq7('#confirm-password');
+                                        var email = jq7('#hidden-email').val();
+                                
+                                        if (newPassInput.val() !== confirmPassInput.val()) {
+                                            alert("Passwords do not match!");
+                                            return;
+                                        }
+                                
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open('POST', '{% url "UpdatePassword" %}', true);
+                                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+                                
+                                        xhr.onreadystatechange = function() {
+                                            if (xhr.readyState == 4) {
+                                                var response = JSON.parse(xhr.responseText);
+                                                console.log('Response:', response);
+                                                if (xhr.status == 200 && response.status === 'success') {
+                                                    alert("Password updated successfully. Please login again.");
+                                                    jq7('#updatePasswordModal').modal('hide');
+                                                    window.location.href = '/';
+                                                } else {
+                                                    alert(response.message);
+                                                }
+                                            }
+                                        };
+                                
+                                        xhr.send('new_password=' + encodeURIComponent(newPassInput.val()) + '&confirm_password=' + encodeURIComponent(confirmPassInput.val()) + '&email=' + encodeURIComponent(email));
+                                    });
+                                });
+                              
+                              </script>
+
+                        
+
+
+
+                            
+                            
+                            
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+</body>
+</html>

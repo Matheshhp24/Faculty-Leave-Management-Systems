@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>SREC- Faculty Leave Management System</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+
+    <link href="../../static/img/sreclogo.jpg" rel="icon">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../../static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../static/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../../static/css/admin/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../../static/css/admin/css/style.css" rel="stylesheet">
+    <!-- Include FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+<style>
+
+    body {
+        zoom: 110%;
+    }
+
+    .small {
+        font-size: 10px; /* Adjust the font size as needed */
+    }
+
+    .announcement-container {
+        position: relative;
+    }
+
+    .close-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="../../static/img/sreclogo.jpg" alt="" style="width: 40px; height: 40px;">
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="mb-0">SREC</h6>
+                        <span>Admin</span>
+                    </div>
+                </div>
+                <div class="navbar-nav w-100">
+                    {% if is_hod %}
+                    <a href="{% url 'HODPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i> Admin panel</a>
+                    {% else %}
+                    <a href="{% url 'AdminPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i> Admin panel</a>
+                    {% endif %}
+                    {% if is_hod %}
+                    {% else %}
+                        <a href="{% url 'freeze_dates' %}" class="nav-item nav-link"><i class="fas fa-snowflake"></i> Freeze Dates
+                    {% endif %}
+                    
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'AddStaff' %}" class="nav-item nav-link"><i class="fas fa-user-plus"></i> Add Staff </a>
+                    {% endif %}
+                   
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'DeleteStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-minus"></i> Delete Staff </a>
+                    {% endif %}
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'EditStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-edit"></i> Edit Staff </a>
+                    {% endif %}
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'AvailLeaveView' %}" class="nav-item nav-link"><i class="fas fa-calendar-check"></i> Avail Leave</a>
+                    {% endif %}
+                    {% if is_hod %}
+                        <a href="{% url 'HODNewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i> New Request
+                    {% elif is_principal %}
+                        <a href="{% url 'NewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i> New Request
+                
+                    {% else %}
+                        
+                    {% endif %}
+                    {%if is_principal or is_hod %}
+                      {% if pending > 0 %}
+                          <span class="badge bg-danger rounded-pill"> {{ pending }}</span>
+                      {% else %}
+                          <span></span>
+                      {% endif %}
+                    {% else %}
+                    {% endif %}
+                    {% if is_hod %}
+                        <a href="{% url 'PermissionRequests' %}" class="nav-item nav-link"><i class="fas fa-key"></i> Permissions
+                        {% if permission_count > 0 %}
+                        <span class="badge bg-danger rounded-pill"> {{ permission_count }}</span>
+                        </a>
+                        {% else %}
+                        {% endif %}
+
+                    {% elif is_principal %}
+                    {% else %}
+                        <a href="{% url 'CHProofRequests' %}" class="nav-item nav-link"><i class="fas fa-key"></i> CH Proofs
+                        {% if chproof_count > 0 %}
+                        <span class="badge bg-danger rounded-pill"> {{ chproof_count }}</span>
+                        </a>
+                        {% else %}
+                        {% endif %}
+                    {% endif %}
+                        </a>
+                 
+                    
+                    {% if is_principal %}
+                        <a href="{% url 'AdminCancellation' %}" class="nav-item nav-link" ><i class="fas fa-times"></i> Cancel Request
+                            {% if cancel_count > 0 %}
+                            <span class="badge bg-danger rounded-pill"  > {{ cancel_count }}</span>
+                        </a>
+                            {% else %}
+                            {% endif %}
+                    {% else %}
+                    {% endif %}
+
+                    {% if is_hod or is_principal %}
+                    {% else %}
+                    <a href="{% url 'LeaveData' %}" class="nav-item nav-link"><i class="fas fa-sort"></i> Leave Data</a>
+                    {% endif %}
+                    
+                    {% if is_hod %}
+                    <a href="{% url 'HODDownloadView' %}" class="nav-item nav-link"><i class="fas fa-download"></i> Download</a>
+                    {% else %}
+                    <a href="{% url 'DownloadView' %}" class="nav-item nav-link"><i class="fas fa-download"></i> Download</a>
+                    {% endif %}
+                    {% if is_hod %}
+                    <a href="{% url 'HODLeaveAvailability' %}" class="nav-item nav-link active"><i class="fas fa-building "></i>Reports</a>
+                    {% else %}
+                    <a href="{% url 'LeaveAvailability' %}" class="nav-item nav-link active"><i class="fas fa-building"></i>Reports</a>
+                    {% endif %}
+                    {% if is_hod %}
+                    <a href="{% url 'HODAdminAccount' %}" class="nav-item nav-link "><i class="fas fa-cogs"></i>Account</a>
+                    {% else %}
+                    <a href="{% url 'AdminAccount' %}" class="nav-item nav-link "><i class="fas fa-cogs"></i>Account</a>
+                    {% endif %}
+        
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                <!-- <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                </a> -->
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                {% if is_hod %}
+                <p class="d-none d-md-flex ms-4 border-0" style="padding-top: 15px;">HOD Panel</p>
+                {% else %}
+                <p class="d-none d-md-flex ms-4 border-0" style="padding-top: 15px;">Admin Panel</p>
+                {% endif %}
+                <!-- <form class="d-none d-md-flex ms-4">
+                    <input class="form-control border-0" type="search" placeholder="Search">
+                </form> -->
+                <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-envelope me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">New Requests</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            {% if recent_data %}
+                            {% for recent in recent_data %}
+                            <a href="#" class="dropdown-item">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle" src="../../static/assets/img/no.png" alt="" style="width: 40px; height: 40px;">
+                                    <div class="ms-2">
+                                        <h6 class="fw-normal mb-0">{{recent.username}}</h6>
+                                        <small>{{recent.leave_type}}</small>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                            {% else %}
+                            <div class="text-center">
+                                <small>No new Requests</small>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if is_hod %}
+                    {% else %}
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Notification</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">
+                                {% if notification_message %}
+                                <h6 class="fw-normal mb-0">{{ notification_message }}</h6>
+                                {% else %}
+                                <h6 class="fw-normal mb-0">No new Notification</h6>
+                                {% endif %}
+                            </a>
+                            <hr class="dropdown-divider">
+
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="../../static/img/sreclogo.jpg" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">Admin ,{{ admin }}</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            {% if is_hod %}
+                            <a href="{% url 'HODAdminAccount' %}" class="dropdown-item">Account</a>
+                            {% else %}
+                            <a href="{% url 'AdminAccount' %}" class="dropdown-item">Account</a>
+                            {% endif %}
+                            <form action="{% url 'Logout' %}" method="post">
+                                {% csrf_token %}
+                            <button type="submit" class="dropdown-item">Log Out</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Navbar End -->
+            <style>
+                /* Hide header image on the web page but include it in the PDF */
+                .header-image {
+                    display: none;
+                }
+            </style>
+            <style>
+                .pdf-header {
+                    display: none;
+                }
+            </style>
+
+            <div class="container">
+                <div class="row"><br>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">History</h4>
+                                {% if is_hod %}
+                                <a href="{% url 'HODDownloadLeaveAvailability' %}" class="btn btn-success d-print-none">Download Leave Data</a>
+                                {% else %}
+                                <a href="{% url 'DownloadLeaveAvailability' %}" class="btn btn-success d-print-none">Download Leave Data</a>
+                                {% endif %}
+                                <button id="print-button" class="btn btn-primary d-print-none">Print Table</button>
+                            </div>
+                            <div class="card-body">
+                                <!-- Header image for print and PDF -->
+                                <div class="print-header">
+                                    <img class="pdf-header" src="../../static/img/header.png" style="display: none;" />
+
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-responsive-md print-table" id="leave-table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Username</th>
+                                                <th scope="col">Staff Name</th>
+                                                <th scope="col">Casual Remaining</th>
+                                                <th scope="col">Vacation Remaining</th>
+                                                <th scope="col">On Duty Remaining</th>
+                                                <th scope="col">Medical Leave Remaining</th>
+                                                <th scope="col">Earn Leave Remaining</th>
+                                                <th scope="col">Permission Remaining</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="leave-table-body"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
+        
+            <script>
+                $(document).ready(function() {
+                    // Data passed from Django context
+                    var data_list = {{ data_dics|safe }};
+                    console.log(data_list);
+            
+                    // Function to populate the table
+                    function populateTable(dataList) {
+                        var tableBody = $('#leave-table-body');
+            
+                        for (var i = 0; i < dataList.length; i++) {
+                            var row = $('<tr>');
+                            row.append($('<td>').text(dataList[i]['username']));
+                            row.append($('<td>').text(dataList[i]['staff_name']));
+                            row.append($('<td>').text(dataList[i]['casual_remaining']));
+                            row.append($('<td>').text(dataList[i]['vaccation_remaining']));
+                            row.append($('<td>').text(dataList[i]['onduty_remaining']));
+                            row.append($('<td>').text(dataList[i]['medical_leave_remaining']));
+                            row.append($('<td>').text(dataList[i]['earn_leave_remaining']));
+                            // row.append($('<td>').text(dataList[i]['ch_leave_remaining']));
+                            row.append($('<td>').text(dataList[i]['permission_remaining']));
+                            tableBody.append(row);
+                        }
+                    }
+            
+                    // Populate the table with data
+                    populateTable(data_list);
+            
+                    // Initialize DataTable
+                    $('#leave-table').DataTable({
+                        pageLength: 5,
+                        lengthChange: false,
+                        searching: false,
+                        paging: false,
+                        info: false,
+                        order: []
+                    });
+            
+                    // Print button click event
+                    $('#print-button').on('click', function() {
+                        const { jsPDF } = window.jspdf;
+                        const doc = new jsPDF();
+                        
+                        // Header function to be used for every page
+                        function addHeader(doc) {
+                            const imgData = document.querySelector('.pdf-header').src; // Adjust path to your logo
+                            doc.addImage(imgData, 'PNG', 10, 10, 190, 30); // Adjust size and position
+            
+                            // Title for each page
+                            doc.setFont('helvetica', 'bold');
+                            doc.setFontSize(15);
+                            doc.text('Leave History Report', 10, 50); // Adjust title position
+                        }
+            
+                        // Add header and table to PDF
+                        doc.autoTable({
+                            html: '#leave-table',
+                            startY: 60, // Adjust position of the table
+                            theme: 'striped',
+                            headStyles: { fillColor: [0, 0, 0], fontSize: 10 },
+                            bodyStyles: { fillColor: [255, 255, 255], fontSize: 8 },
+                            styles: { font: 'helvetica', cellPadding: 2 },
+                            columnStyles: {
+                                // 0: { cellWidth: 30 }, // Adjust column width
+                                // 1: { cellWidth: 40 }, // Adjust column width
+                                // 2: { cellWidth: 25 }, // Adjust column width
+                                // 3: { cellWidth: 25 }, // Adjust column width
+                                // 4: { cellWidth: 25 }, // Adjust column width
+                                // 5: { cellWidth: 25 }, // Adjust column width
+                                // 6: { cellWidth: 25 }, // Adjust column width
+                                // 7: { cellWidth: 25 }  // Adjust column width
+                            },
+                            margin: { top: 60 }, // Margin for top of the table to accommodate header
+                            didDrawPage: function (data) {
+                                addHeader(doc); // Add header to each page
+                            }
+                        });
+            
+                        // Save the PDF
+                        doc.save('leave_table.pdf');
+                    });
+                });
+            </script>
+
+
+
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../static/lib/chart/chart.min.js"></script>
+    <script src="../../static/lib/easing/easing.min.js"></script>
+    <script src="../../static/lib/waypoints/waypoints.min.js"></script>
+    <script src="../../static/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../static/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="../../static/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="../../static/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="../static/assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="../static/assets/js/core/popper.min.js"></script>
+    <script src="../static/assets/js/core/bootstrap.min.js"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="../static/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <!-- Datatables -->
+    <script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+    <!-- Kaiadmin JS -->
+    <script src="../static/assets/js/kaiadmin.min.js"></script>
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <script src="../static/assets/js/setting-demo2.js"></script>
+
+
+    <!-- Template Javascript -->
+    <script src="../../static/js/admin/js/main.js"></script>
+    <!-- <script>
+        document.body.style.transform = "scale(1.1)";
+        document.body.style.transformOrigin = "0 0"
+    </script> -->
+</body>
+
+</html>

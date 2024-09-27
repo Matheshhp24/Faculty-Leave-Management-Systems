@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>SREC</title>
+    <meta
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+      name="viewport"
+    />
+    <link
+      rel="icon"
+      href="../static/assets/img/kaiadmin/sreclogo.jpg"
+      type="image/x-icon"
+    />
+
+    <!-- Fonts and icons -->
+    <script src="../static/assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["../static/assets/css/fonts.min.css"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="../static/assets/css/kaiadmin.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" href="../static/assets/css/demo.css" />
+    
+    <style>
+      /* General styles for the logo */
+      .logo a {
+          display: none; /* Hide all logos by default */
+      }
+  
+      /* Display the laptop logo for screens wider than 768px */
+      @media (min-width: 769px) {
+            .logo a.laptop-logo {
+                display: block;
+                /* Temporary border for debugging */
+            }
+        }
+
+        /* Display the mobile logo for screens 768px wide or less */
+        @media (max-width: 768px) {
+            .logo a.mobile-logo {
+                display: block;
+                 /* Temporary border for debugging */
+            }
+        }
+  </style>
+
+   <style>
+      /* General styles for the logo */
+      .logo a {
+          display: none; /* Hide all logos by default */
+      }
+  
+      /* Display the laptop logo for screens wider than 768px */
+      @media (min-width: 769px) {
+            .logo a.laptop-logo {
+                display: block;
+                /* Temporary border for debugging */
+            }
+        }
+
+        /* Display the mobile logo for screens 768px wide or less */
+        @media (max-width: 768px) {
+            .logo a.mobile-logo {
+                display: block;
+                 /* Temporary border for debugging */
+            }
+        }
+  </style>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+    .section {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .section h1 {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+    .section p {
+      color: #6c757d;
+      margin-bottom: 30px;
+    }
+    .support-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.support-icon i {
+    font-size: 24px;
+}
+
+.support-icon:hover {
+    background-color: #0056b3;
+}   
+  </style>
+
+
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <div class="sidebar" data-background-color="dark" id="sidebar">
+        <div class="sidebar-logo">
+          <!-- Logo Header -->
+          <div class="logo-header" data-background-color="dark">
+            <div class="logo" id="logo">
+              <!-- This image will be displayed on laptop/desktop screens -->
+           
+                <!-- This image will be displayed on laptop/desktop screens -->
+                <a href="{% url 'Home' %}" class="laptop-logo">
+                    <img src="../static/assets/img/kaiadmin/sreclogo.jpg" alt="Navbar Brand" height="50">
+                    <span style="color: white; padding-left: 30px; font-size: larger;">𝙎𝙍𝙀𝘾</span>
+                </a>
+                <!-- This image will be displayed on mobile screens -->
+                <a href="{% url 'Home' %}" class="mobile-logo">
+                    <img src="../static/assets/img/kaiadmin/sreclogo1.jpg" alt="Navbar Brand" height="35">
+                </a>
+            
+          </div>
+            
+            <div class="nav-toggle">
+              <button class="btn btn-toggle toggle-sidebar">
+                <i class="gg-menu-right"></i>
+              </button>
+              <button class="btn btn-toggle sidenav-toggler">
+                <i class="gg-menu-left"></i>
+              </button>
+            </div>
+            <button class="topbar-toggler more">
+              <i class="gg-more-vertical-alt"></i>
+            </button>
+          </div>
+          <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+          <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+              <li class="nav-item ">
+                <a href="{% url 'Home' %}" class="collapsed">
+                  <i class="fas fa-home"></i>
+                  <p>Home</p>
+                </a>
+              </li>
+              <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+                <h4 class="text-section">Components</h4>
+              </li>
+              <li class="nav-item active">
+                <a  href="{% url 'AccountSettings' %}">
+                  <i class="fas fa-cogs"></i>
+                  <p>Account Settings</p>               
+                </a>       
+              </li>
+              <li class="nav-item">
+                <a  href="{% url 'Profile' %}">
+                  <i class="fas fa-user"></i>
+                  <p>My Profile</p>               
+                </a>       
+              </li>
+
+              <style>
+                /* Modal styles */
+                .modal_policy {
+                    display: none; /* Hidden by default */
+                    position: fixed; /* Stay in place */
+                    z-index: 1; /* Sit on top */
+                    left: 0;
+                    top: 0;
+                    width: 100%; /* Full width */
+                    height: 100%; /* Full height */
+                    overflow: auto; /* Enable scroll if needed */
+                    background-color: rgb(0,0,0); /* Fallback color */
+                    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                    padding-top: 60px;
+                }
+        
+                /* Modal content */
+                .modal-content {
+                    background-color: #fefefe;
+                    margin: 5% auto; /* 15% from the top and centered */
+                    padding: 20px;
+                    border: 1px solid #888;
+                    width: 80%; /* Could be more or less, depending on screen size */
+                    max-width: 700px;
+                    height: 80%; /* Make the modal cover 80% of the screen height */
+                    overflow-y: auto; /* Scrollbar if needed */
+                }
+        
+                /* Close button */
+                .close {
+                    color: #aaa;
+                    float: right;
+                    font-size: 28px;
+                    font-weight: bold;
+                }
+        
+                .close:hover,
+                .close:focus {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+        
+                /* Download button */
+                .download-btn {
+                    background-color: #4CAF50; /* Green */
+                    color: white;
+                    padding: 10px 20px;
+                    text-align: center;
+                    display: inline-block;
+                    margin-top: 10px;
+                    cursor: pointer;
+                    border: none;
+                    border-radius: 5px;
+                }
+        
+                .download-btn:hover {
+                    background-color: #45a049;
+                }
+        
+                /* Style for iframe */
+                iframe {
+                    width: 100%;
+                    height: calc(100% - 50px); /* Adjust to make space for the download button */
+                    border: none;
+                }
+            </style>
+              {% load static %}
+              <li class="nav-item">
+                <a href="#" id="policyLink">
+                    <i class="fas fa-balance-scale"></i>
+                    <p>Policy</p>               
+                </a>       
+            </li>
+        
+            <!-- The Modal -->
+            <div id="policyModal" class="modal_policy">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <iframe src="{% static 'doc/Policy_document.pdf' %}" type="application/pdf"></iframe>
+                    <a href="{% static 'doc/Policy_document.pdf' %}" download="Policy_document.pdf">
+                        <button class="download-btn">Download Policy Document</button>
+                    </a>
+                </div>
+            </div>
+        
+            <!-- Scripts for modal functionality -->
+            <script>
+                // Get the modal
+                var modal = document.getElementById("policyModal");
+        
+                // Get the link that opens the modal
+                var link = document.getElementById("policyLink");
+        
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+        
+                // When the user clicks on the link, open the modal
+                link.onclick = function(event) {
+                    event.preventDefault(); // Prevent default action of link
+                    modal.style.display = "block";
+                }
+        
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+        
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            </script>
+            <li class="nav-item">
+              <a data-bs-toggle="collapse" href="#tables">
+                <i class="fas fa-table"></i>
+                <p>Dashboard</p>
+                <span class="caret"></span>
+              </a>
+              <div class="collapse" id="tables">
+                <ul class="nav nav-collapse">
+                  <li>
+                    <a href="{% url 'CardDashboard' %}">
+                      <span class="sub-item">Dashboard</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url 'Dashboard' %}">
+                      <span class="sub-item">History</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              
+            </li>
+             <li class="nav-item">
+              <a  href="{% url 'cancel_leave' %}">
+                <i class="fas fa-times"></i>
+                <p>Cancellation Request</p>               
+              </a>       
+            </li>
+            <li class="nav-item">
+              <a  href="{% url 'CHProof' %}">
+                <i class="fas fa-file-alt"></i>
+                <p>CH Proof</p>               
+              </a>       
+            </li>
+          
+            
+
+              
+              
+              
+              
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#maps">
+                  <i class="fas fa-download"></i>
+                  <p>Download</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="maps">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='All' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">All</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Casual Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Casual Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='LOP Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">LLP Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='CH Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Compensated</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Earn Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Earn Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Vacation Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Vaccation Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Onduty' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">OnDuty</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Special Onduty' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Special OnDuty</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Medical Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Medical Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Maternity Leave' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Maternity Leave</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'DownloadIndividual' leave_type='Permission' %}">
+                        <i class="fas fa-download"></i>
+                        <span class="sub-item">Permission</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a  href="{% url 'Announcement' %}">
+                  <i class="fas fa-bullhorn"></i>
+                  <p>Announcement</p>               
+                </a>      
+
+              </li>
+             
+              
+              <li class="nav-item">
+                <a href="#" class="nav-link" onclick="logout(event)">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <p>Log out</p>
+                </a>
+                <form id="logoutForm" action="{% url 'Logout' %}" method="post" style="display: none;">
+                  {% csrf_token %}
+                </form>
+                <script>
+                  function logout(event) {
+                    event.preventDefault(); // Prevent the default action of following the link
+                    document.getElementById('logoutForm').submit(); // Submit the hidden form
+                  }
+                  </script>
+              </li>
+              
+              
+              
+              
+             </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <div class="main-header">
+          <div class="main-header-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+              <a href="{%url 'Home' %}" class="logo">
+                <img
+                  src="../static/assets/img/kaiadmin/sreclogo1.jpg"
+                  alt="navbar brand"
+                  class="navbar-brand"
+                  height="35"
+                />
+              </a>
+              <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                  <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                  <i class="gg-menu-left"></i>
+                </button>
+              </div>
+              <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+              </button>
+            </div>
+            <!-- End Logo Header -->
+          </div>
+          <!-- Navbar Header -->
+          <nav
+            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+          >
+            <div class="container-fluid">
+              <nav
+                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
+              >
+              <a href="{%url 'Home' %}" class="logo">
+                <img
+                  src="../static/assets/img/kaiadmin/logo.png"
+                  alt="navbar brand"
+                  class="navbar-brand"
+                  height="55"
+                />
+              </a>
+
+              </nav>
+              <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
+              <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+  
+                <li class="nav-item topbar-icon dropdown hidden-caret">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="notifDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="fa fa-bell"></i>
+                    {% if bell_message %}
+                      <span class="notification">1</span>
+                    {% endif %}
+
+                  </a>
+                  <ul
+                    class="dropdown-menu notif-box animated fadeIn"
+                    aria-labelledby="notifDropdown"
+                  >
+                    <li>
+                      {% if bell_message %}
+                      <div class="dropdown-title">
+                        You have 1 new notification
+                      </div>
+                      {% else %}
+                      <div class="dropdown-title">
+                        No new notification
+                      </div>
+                      {% endif %}
+                    </li>
+                    <li>
+                      <div class="notif-scroll scrollbar-outer">
+                        <div class="notif-center">
+                          <a href="#">
+                            {% if bell_message %}
+                            <div class="notif-icon notif-primary">
+                              <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="notif-content">
+                              <span class="block">{{bell_message}}</span>
+                            </div>
+                              {% else %}
+                            <div class="">
+                              <span class="block"></span>
+                            </div>
+                            {% endif %}
+                          </a>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item topbar-icon dropdown hidden-caret">
+                  <a
+                    class="nav-link"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    aria-expanded="false"
+                  >
+                    <i class="fas fa-layer-group"></i>
+                  </a>
+                  <div class="dropdown-menu quick-actions animated fadeIn">
+                    <div class="quick-actions-header">
+                      <span class="title mb-1">Quick Actions</span>
+                      <span class="subtitle op-7">Shortcuts</span>
+                    </div>
+                    <div class="quick-actions-scroll scrollbar-outer">
+                      <div class="quick-actions-items">
+                        <div class="row m-0">
+                          <a class="col-6 col-md-4 p-0" href="{%url 'Home' %}">
+                            <div class="quick-actions-item">
+                              <div class="avatar-item bg-danger rounded-circle">
+                                <i class="fas fa-home"></i>
+                              </div>
+                              <span class="text">Apply Leave</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{% url 'Profile' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-warning rounded-circle"
+                              >
+                                <i class="fas fa-user"></i>
+                              </div>
+                              <span class="text">Profile</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{%url 'CardDashboard' %}">
+                            <div class="quick-actions-item">
+                              <div class="avatar-item bg-info rounded-circle">
+                                <i class="fas fa-table"></i>
+                              </div>
+                              <span class="text">Dashboard</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{%url 'Dashboard' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-success rounded-circle"
+                              >
+                                <i class="fas fa-history"></i>
+                              </div>
+                              <span class="text">History</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{%url 'Announcement' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-primary rounded-circle"
+                              >
+                                <i class="fas fa-bullhorn"></i>
+                              </div>
+                              <span class="text">Announcement</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="{%url 'AccountSettings' %}">
+                            <div class="quick-actions-item">
+                              <div
+                                class="avatar-item bg-secondary rounded-circle"
+                              >
+                                <i class="fas fa-cogs"></i>
+                              </div>
+                              <span class="text">Settings</span>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="nav-item topbar-user dropdown hidden-caret">
+                  <a
+                    class="dropdown-toggle profile-pic"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    aria-expanded="false"
+                  >
+                    <div class="avatar-sm">
+                      <img
+                        src="../static/assets/img/no.png"
+                        alt="..."
+                        class="avatar-img rounded-circle"
+                      />
+                    </div>
+                    <span class="profile-username">
+                      <span class="op-7">Hi,</span>
+                      <span class="fw-bold">{{username}}</span>
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-user animated fadeIn">
+                    <div class="dropdown-user-scroll scrollbar-outer">
+                      <li>
+                        <div class="user-box">
+                          <div class="avatar-lg">
+                            <img
+                              src="../static/assets/img/no.png"
+                              alt="image profile"
+                              class="avatar-img rounded"
+                            />
+                          </div>
+                          <div class="u-text">
+                            <h4>{{username }}</h4>
+                            <p class="text-muted">{{email}}</p>
+                            <a
+                              href="{% url 'Profile' %}"
+                              class="btn btn-xs btn-secondary btn-sm"
+                              >View Profile</a
+                            >
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'Profile' %}">My Profile</a>
+                        <a class="dropdown-item" href="{%url 'CardDashboard' %}">My Balance</a>
+                        <!-- <a class="dropdown-item" href="#">Inbox</a> -->
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{%url 'AccountSettings' %}">Account Setting</a>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item">
+                          <a href="#" class="dropdown-item" onclick="logout(event)"><i class="fas fa-sign-out-alt"></i>Log out</a>
+                      </div>
+                      <form id="logoutForm" action="{% url 'Logout' %}" method="post" style="display: none;">
+                        {% csrf_token %}
+                      </form>
+                      <script>
+                        function logout(event) {
+                          event.preventDefault(); // Prevent the default action of following the link
+                          document.getElementById('logoutForm').submit(); // Submit the hidden form
+                        }
+                        </script>
+                        
+                      </li>
+                    </div>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <!-- End Navbar -->
+        </div>
+        
+
+        <div class="container">
+          <div class="page-inner">
+            
+            <div
+              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+              <div class="row justify-content   "  >
+                <h1 style=" padding-bottom: 100px; padding-top:100px; text-align: center;"><br>𝐀𝐜𝐜𝐨𝐮𝐧𝐭 𝐒𝐞𝐭𝐭𝐢𝐧𝐠𝐬<br></h1><br>
+                <!-- <p>𝘼𝙘𝙘𝙤𝙪𝙣𝙩 𝙎𝙚𝙩𝙩𝙞𝙣𝙜𝙨</p> -->
+                <div class="col-md-6">               
+                  <!-- Update Password Section -->
+                  <div class="section" >
+                    <h1 class="text" style="color:black;" >𝐔𝐩𝐝𝐚𝐭𝐞 𝐏𝐚𝐬𝐬𝐰𝐨𝐫𝐝</h1>
+                    <p>Enhance your security effortlessly with our seamless password update feature.</p>
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#updatePasswordModal">
+                      Update Password
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <!-- Update Email Section -->
+                  <div class="section">
+                    <h1 class="text" style="color: black;">𝐔𝐩𝐝𝐚𝐭𝐞 𝐄𝐦𝐚𝐢𝐥</h1>
+                    <p>Keep your information current and secure with our hassle-free email update option.</p>
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#updateEmailModal">
+                      Update Email
+                    </button>
+                  </div>
+                </div>
+              </div><br>
+              
+                <!-- Update Email Modal -->
+                <div class="modal fade" id="updateEmailModal" tabindex="-1" role="dialog" aria-labelledby="updateEmailModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="updateEmailModalLabel">Update Email</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- Email Update Form -->
+                        <form id="email-update-form" method="post" action="{%url 'UpdateEmail' %}">
+                          {% csrf_token %}
+                          <div class="form-group">
+                            <label for="new-email" class="col-form-label">New Email:</label>
+                            <input type="email" name="email" class="form-control" id="new-email" required>
+                          </div>
+                        
+                      </div>
+                      
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="update-email-btn">Update Email</button>
+                      </div>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+                
+
+                <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="updatePasswordModalLabel">Update Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="otp-form" method="post">
+                          {% csrf_token %}
+                          <div class="form-group">
+                            <label for="current-password" class="col-form-label">Email:</label>
+                            <input type="email" class="form-control" name="display_email" value="{{ email }}" id="current-password" readonly>
+                            <input type="hidden" name="email" value="{{ email }}" id="hidden-email">
+                            <button type="submit" class="btn btn-success" id="get-otp-btn">Get OTP</button>
+                          </div>
+                        </form>
+                        <div class="form-group">
+                          <label for="otp" class="col-form-label">Enter OTP:</label>
+                          <input type="number" class="form-control" id="otp-input" required disabled>
+                        </div>
+                        <div class="form-group">
+                          <button type="button" class="btn btn-primary" id="verify-otp-btn" disabled>Verify OTP</button>
+                        </div>
+                    
+                        <div class="form-group">
+                          <label for="new-password" class="col-form-label">New Password:</label>
+                          <input type="password" class="form-control" id="new-password" required disabled>
+                        </div>
+                        <div class="form-group">
+                          <label for="confirm-password" class="col-form-label">Confirm New Password:</label>
+                          <input type="password" class="form-control" id="confirm-password" required disabled>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="update-password-btn" disabled>Update Password</button>
+                      </div>
+                 
+                    </div>
+                  </div>
+                </div>
+                <a href="mailto:srecfms@gmail.com?subject=Support%20Assistance&body=Describe%20your%20issue%20here">
+                  <div class="support-icon" id="supportIcon">
+                      <i class="fas fa-headset"></i>
+                  </div>
+              </a>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                <script src="../static/assets/js/core/jquery-3.7.1.min.js"></script>
+            
+                <!-- Popper and Bootstrap -->
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                <script src="../static/assets/js/core/popper.min.js"></script>
+                <script src="../static/assets/js/core/bootstrap.min.js"></script>
+          
+                <script>
+                  var $ = jQuery.noConflict();
+                  $(document).ready(function() {
+                      console.log("jQuery 3.5.1 is working!");
+                  });
+                  
+                  var jq7 = jQuery.noConflict(true);
+                  jq7(document).ready(function() {
+                      console.log("jQuery 3.7.1 is working!");
+                      jq7.fn.modal = jq7.fn.modal || $.fn.modal;  // Use modal from bootstrap
+                  
+                      jq7('#otp-form').on('submit', function(event) {
+                          event.preventDefault();
+                  
+                          var form = jq7(this);
+                          var getOtpBtn = jq7('#get-otp-btn');
+                          var otpInput = jq7('#otp-input');
+                          var verifyOtpBtn = jq7('#verify-otp-btn');
+                  
+                          var email = jq7('#hidden-email').val(); // Get the value from the hidden input
+                          console.log('Email input field value:', jq7('#hidden-email').val());
+                          console.log('Email:', email);
+                  
+                          if (!email) {
+                              alert('Email is required!');
+                              return;
+                          }
+                  
+                          var xhr = new XMLHttpRequest();
+                          xhr.open('POST', '{% url "get_otp" %}', true);
+                          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                          xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+                  
+                          xhr.onreadystatechange = function() {
+                              if (xhr.readyState == 4) {
+                                  if (xhr.status == 200) {
+                                      console.log('Response:', xhr.responseText);
+                                      getOtpBtn.prop('disabled', true);
+                                      otpInput.prop('disabled', false);
+                                      verifyOtpBtn.prop('disabled', false);
+                                  } else {
+                                      console.error('Error:', xhr.responseText);
+                                      alert('An error occurred: ' + xhr.responseText);
+                                  }
+                              }
+                          };
+                  
+                          xhr.send('email=' + encodeURIComponent(email));
+                      });
+                  
+                      jq7('#verify-otp-btn').on('click', function() {
+                          var otpInput = jq7('#otp-input');
+                          var newPassInput = jq7('#new-password');
+                          var confirmPassInput = jq7('#confirm-password');
+                          var updatePassBtn = jq7('#update-password-btn');
+                  
+                          var email = jq7('#hidden-email').val();
+                          var otp = otpInput.val();
+                          console.log('OTP:', otp);
+                  
+                          var xhr = new XMLHttpRequest();
+                          xhr.open('POST', '{% url "verify_otp" %}', true);
+                          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                          xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+                  
+                          xhr.onreadystatechange = function() {
+                              if (xhr.readyState == 4) {
+                                  var response = JSON.parse(xhr.responseText);
+                                  console.log('Response:', response);
+                                  if (xhr.status == 200 && response.status === 'success') {
+                                      newPassInput.prop('disabled', false);
+                                      confirmPassInput.prop('disabled', false);
+                                      updatePassBtn.prop('disabled', false);
+                                  } else {
+                                      alert(response.message);
+                                  }
+                              }
+                          };
+                  
+                          xhr.send('otp=' + encodeURIComponent(otp) + '&email=' + encodeURIComponent(email));
+                      });
+                  
+                      jq7('#update-password-btn').on('click', function() {
+                          var newPassInput = jq7('#new-password');
+                          var confirmPassInput = jq7('#confirm-password');
+                          var email = jq7('#hidden-email').val();
+                  
+                          if (newPassInput.val() !== confirmPassInput.val()) {
+                              alert("Passwords do not match!");
+                              return;
+                          }
+                  
+                          var xhr = new XMLHttpRequest();
+                          xhr.open('POST', '{% url "UpdatePassword" %}', true);
+                          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                          xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+                  
+                          xhr.onreadystatechange = function() {
+                              if (xhr.readyState == 4) {
+                                  var response = JSON.parse(xhr.responseText);
+                                  console.log('Response:', response);
+                                  if (xhr.status == 200 && response.status === 'success') {
+                                      alert("Password updated successfully. Please login again.");
+                                      jq7('#updatePasswordModal').modal('hide');
+                                      window.location.href = '/login/';
+                                  } else {
+                                      alert(response.message);
+                                  }
+                              }
+                          };
+                  
+                          xhr.send('new_password=' + encodeURIComponent(newPassInput.val()) + '&confirm_password=' + encodeURIComponent(confirmPassInput.val()) + '&email=' + encodeURIComponent(email));
+                      });
+                  });
+                  </script>
+                  
+                  
+                  
+    
+
+    <!-- jQuery Scrollbar -->
+    <script src="../static/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+    <!-- Chart JS -->
+    <script src="../static/assets/js/plugin/chart.js/chart.min.js"></script>
+
+    <!-- jQuery Sparkline -->
+    <script src="../static/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Chart Circle -->
+    <script src="../static/assets/js/plugin/chart-circle/circles.min.js"></script>
+
+    <!-- Datatables -->
+    <script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+
+    <!-- Bootstrap Notify -->
+    <!-- <script src="../static/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script> -->
+
+    <!-- jQuery Vector Maps -->
+    <script src="../static/assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="../static/assets/js/plugin/jsvectormap/world.js"></script>
+
+    <!-- Sweet Alert -->
+    <script src="../static/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+
+    <!-- Kaiadmin JS -->
+    <script src="../static/assets/js/kaiadmin.min.js"></script>
+
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <script src="../static/assets/js/setting-demo.js"></script>
+    <script src="../static/assets/js/demo.js"></script>
+    <script>
+      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#177dff",
+        fillColor: "rgba(23, 125, 255, 0.14)",
+      });
+
+      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#f3545d",
+        fillColor: "rgba(243, 84, 93, .14)",
+      });
+
+      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#ffa534",
+        fillColor: "rgba(255, 165, 52, .14)",
+      });
+    </script>
+  </body>
+</html>

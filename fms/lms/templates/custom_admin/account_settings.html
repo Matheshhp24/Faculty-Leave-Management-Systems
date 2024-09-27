@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>SREC- Faculty Leave Management System</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+
+    <link href="../../static/img/sreclogo.jpg" rel="icon">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../../static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../static/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../../static/css/admin/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../../static/css/admin/css/style.css" rel="stylesheet">
+    <!-- Include FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+
+
+
+<style>
+
+    body {
+        zoom: 110%;
+    }
+
+    .small {
+        font-size: 10px; /* Adjust the font size as needed */
+    }
+
+    .announcement-container {
+        position: relative;
+    }
+
+    .close-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+
+    </style>
+</head>
+
+<body>
+  <div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    <div class="sidebar pe-4 pb-3">
+      <nav class="navbar bg-light navbar-light">
+
+          <div class="d-flex align-items-center ms-4 mb-4">
+              <div class="position-relative">
+                  <img class="rounded-circle" src="../../static/img/sreclogo.jpg" alt="" style="width: 40px; height: 40px;">
+                  <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+              </div>
+              <div class="ms-3">
+                  <h6 class="mb-0">SREC</h6>
+                  <span>Admin</span>
+              </div>
+          </div>
+          <div class="navbar-nav w-100">
+            {% if is_hod %}
+            <a href="{% url 'HODPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i> Admin panel</a>
+            {% else %}
+            <a href="{% url 'AdminPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i> Admin panel</a>
+            {% endif %}
+            {% if is_hod %}
+            {% else %}
+                <a href="{% url 'freeze_dates' %}" class="nav-item nav-link"><i class="fas fa-snowflake"></i> Freeze Dates
+            {% endif %}
+            
+            {% if is_hod %}
+            {% elif is_principal %}
+            {% else %}
+            <a href="{% url 'AddStaff' %}" class="nav-item nav-link"><i class="fas fa-user-plus"></i> Add Staff </a>
+            {% endif %}
+           
+            {% if is_hod %}
+            {% elif is_principal %}
+            {% else %}
+            <a href="{% url 'DeleteStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-minus"></i> Delete Staff </a>
+            {% endif %}
+            {% if is_hod %}
+            {% elif is_principal %}
+            {% else %}
+            <a href="{% url 'EditStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-edit"></i> Edit Staff </a>
+            {% endif %}
+            {% if is_hod %}
+            {% elif is_principal %}
+            {% else %}
+            <a href="{% url 'AvailLeaveView' %}" class="nav-item nav-link"><i class="fas fa-calendar-check"></i> Avail Leave</a>
+            {% endif %}
+            {% if is_hod %}
+                        <a href="{% url 'HODNewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i> New Request
+                    {% elif is_principal %}
+                        <a href="{% url 'NewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i> New Request
+                
+                    {% else %}
+                        
+                    {% endif %}
+                    {%if is_principal or is_hod %}
+                      {% if pending > 0 %}
+                          <span class="badge bg-danger rounded-pill"> {{ pending }}</span>
+                      {% else %}
+                          <span></span>
+                      {% endif %}
+                    {% else %}
+                    {% endif %}
+                    {% if is_hod %}
+                        <a href="{% url 'PermissionRequests' %}" class="nav-item nav-link"><i class="fas fa-key"></i> Permissions
+                        {% if permission_count > 0 %}
+                        <span class="badge bg-danger rounded-pill"> {{ permission_count }}</span>
+                        </a>
+                        {% else %}
+                        {% endif %}
+
+                    {% elif is_principal %}
+                    {% else %}
+                        <a href="{% url 'CHProofRequests' %}" class="nav-item nav-link"><i class="fas fa-key"></i> CH Proofs
+                        {% if chproof_count > 0 %}
+                        <span class="badge bg-danger rounded-pill"> {{ chproof_count }}</span>
+                        </a>
+                        {% else %}
+                        {% endif %}
+                    {% endif %}
+                        </a>
+                    
+                    
+                    {% if is_principal %}
+                        <a href="{% url 'AdminCancellation' %}" class="nav-item nav-link" ><i class="fas fa-times"></i> Cancel Request
+                            {% if cancel_count > 0 %}
+                            <span class="badge bg-danger rounded-pill"  > {{ cancel_count }}</span>
+                        </a>
+                            {% else %}
+                            {% endif %}
+                    {% else %}
+                    {% endif %}
+
+                    {% if is_hod or is_principal %}
+                    {% else %}
+                    <a href="{% url 'LeaveData' %}" class="nav-item nav-link"><i class="fas fa-sort"></i> Leave Data</a>
+                    {% endif %}
+            
+            
+            {% if is_hod %}
+            <a href="{% url 'HODDownloadView' %}" class="nav-item nav-link"><i class="fas fa-download"></i> Download</a>
+            {% else %}
+            <a href="{% url 'DownloadView' %}" class="nav-item nav-link"><i class="fas fa-download"></i> Download</a>
+            {% endif %}
+            {% if is_hod %}
+            <a href="{% url 'HODLeaveAvailability' %}" class="nav-item nav-link"><i class="fas fa-building"></i>Reports</a>
+            {% else %}
+            <a href="{% url 'LeaveAvailability' %}" class="nav-item nav-link"><i class="fas fa-building"></i>Reports</a>
+            {% endif %}
+            {% if is_hod %}
+            <a href="{% url 'HODAdminAccount' %}" class="nav-item nav-link active"><i class="fas fa-cogs"></i>Account</a>
+            {% else %}
+            <a href="{% url 'AdminAccount' %}" class="nav-item nav-link active"><i class="fas fa-cogs"></i>Account</a>
+            {% endif %}
+
+        </div>
+      </nav>
+  </div>
+        <style>
+            .card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  color: #333;
+}
+
+.card-text {
+  color: #666;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+        </style>
+        <!-- Sidebar End -->
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                <!-- <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                </a> -->
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                {% if is_hod %}
+                <p class="d-none d-md-flex ms-4 border-0" style="padding-top: 15px;">HOD Panel</p>
+                {% else %}
+                <p class="d-none d-md-flex ms-4 border-0" style="padding-top: 15px;">Admin Panel</p>
+                {% endif %}
+                <!-- <form class="d-none d-md-flex ms-4">
+                    <input class="form-control border-0" type="search" placeholder="Search">
+                </form> -->
+                <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-envelope me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">New Requests</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            {% if recent_data %}
+                            {% for recent in recent_data %}
+                            <a href="#" class="dropdown-item">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle" src="../../static/assets/img/no.png" alt="" style="width: 40px; height: 40px;">
+                                    <div class="ms-2">
+                                        <h6 class="fw-normal mb-0">{{recent.username}}</h6>
+                                        <small>{{recent.leave_type}}</small>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                            {% else %}
+                            <div class="text-center">
+                                <small>No new Requests</small>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if is_hod %}
+                    {% else %}
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Notification</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">
+                                {% if notification_message %}
+                                <h6 class="fw-normal mb-0">{{ notification_message }}</h6>
+                                {% else %}
+                                <h6 class="fw-normal mb-0">No new Notification</h6>
+                                {% endif %}
+                            </a>
+                            <hr class="dropdown-divider">
+
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="../../static/img/sreclogo.jpg" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">Admin,{{ admin }}</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                          {% if is_hod %}
+                            <a href="{% url 'HODAdminAccount' %}" class="dropdown-item">Account</a>
+                            {% else %}
+                            <a href="{% url 'AdminAccount' %}" class="dropdown-item">Account</a>
+                            {% endif %}
+                            <form action="{% url 'Logout' %}" method="post">
+                                {% csrf_token %}
+                            <button type="submit" class="dropdown-item">Log Out</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Navbar End -->
+
+
+            <!-- Sale & Revenue Start -->
+
+            <div
+            class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+            <div class="container">
+                <div class="row justify-content-center pt-5 pb-4">
+                  <div class="col-md-6 mb-4">
+                    <div class="card border-primary">
+                      <div class="card-body text-center">
+                        <h2 class="card-title">Update Password</h2>
+                        <p class="card-text">Enhance your security effortlessly with our seamless password update feature.</p>
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#updatePasswordModal">
+                          Update Password
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-4">
+                    <div class="card border-primary">
+                      <div class="card-body text-center">
+                        <h2 class="card-title">Update Email</h2>
+                        <p class="card-text">Keep your information current and secure with our hassle-free email update option.</p>
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#updateEmailModal">
+                          Update Email
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Update Email Modal -->
+              <div class="modal fade" id="updateEmailModal" tabindex="-1" role="dialog" aria-labelledby="updateEmailModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="updateEmailModalLabel">Update Email</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Email Update Form -->
+                      <form id="email-update-form" method="post" action="{%url 'UpdateEmail' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="new-email" class="col-form-label">New Email:</label>
+                          <input type="email" name="email" class="form-control" id="new-email" required>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" id="update-email-btn">Update Email</button>
+                    </div>
+                  </form>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="updatePasswordModalLabel">Update Password</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="otp-form" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="current-password" class="col-form-label">Email:</label>
+                          <input type="email" class="form-control" name="display_email" value="{{ email }}" id="current-password" readonly>
+                          <input type="hidden" name="email" value="{{ email }}" id="hidden-email">
+                          <button type="submit" class="btn btn-success" id="get-otp-btn">Get OTP</button>
+                        </div>
+                      </form>
+                      <div class="form-group">
+                        <label for="otp" class="col-form-label">Enter OTP:</label>
+                        <input type="number" class="form-control" id="otp-input" required disabled>
+                      </div>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="verify-otp-btn" disabled>Verify OTP</button>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="new-password" class="col-form-label">New Password:</label>
+                        <input type="password" class="form-control" id="new-password" required disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="confirm-password" class="col-form-label">Confirm New Password:</label>
+                        <input type="password" class="form-control" id="confirm-password" required disabled>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" id="update-password-btn" disabled>Update Password</button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+            {% if is_hod %}
+            {% elif is_principal %}
+            {% else %}
+            <form method="post" id="myForm" action="{% url 'DeleteAndReset' %}">
+              {% csrf_token %}
+
+              <button type="button" onclick="confirmAction()" class="btn btn-danger"><i class="fas fa-sync"> </i> Download Leave Data and Reset</button>
+          
+          </form>
+          <script>
+            function confirmAction() {
+                if (confirm("Data cannot be retrieved once deleted. A copy will begin downloading shortly")) {
+                    document.getElementById("myForm").submit();
+                } else {
+                    // Optionally, you can provide feedback to the user that the submission was canceled.
+                    alert("Submission canceled.");
+                }
+            }
+        </script>
+        {% endif %}
+
+                          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                          <script src="../static/assets/js/core/jquery-3.7.1.min.js"></script>
+
+                          <!-- Popper and Bootstrap -->
+                          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+                          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                          <script src="../static/assets/js/core/popper.min.js"></script>
+                          <script src="../static/assets/js/core/bootstrap.min.js"></script>
+
+                          <script>
+                            var $ = jQuery.noConflict();
+                            $(document).ready(function() {
+                                console.log("jQuery 3.5.1 is working!");
+                            });
+
+                            var jq7 = jQuery.noConflict(true);
+                            jq7(document).ready(function() {
+                                console.log("jQuery 3.7.1 is working!");
+                                jq7.fn.modal = jq7.fn.modal || $.fn.modal;  // Use modal from bootstrap
+
+                                jq7('#otp-form').on('submit', function(event) {
+                                    event.preventDefault();
+
+                                    var form = jq7(this);
+                                    var getOtpBtn = jq7('#get-otp-btn');
+                                    var otpInput = jq7('#otp-input');
+                                    var verifyOtpBtn = jq7('#verify-otp-btn');
+
+                                    var email = jq7('#hidden-email').val(); // Get the value from the hidden input
+                                    console.log('Email input field value:', jq7('#hidden-email').val());
+                                    console.log('Email:', email);
+
+                                    if (!email) {
+                                        alert('Email is required!');
+                                        return;
+                                    }
+
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open('POST', '{% url "get_otp" %}', true);
+                                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                    xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+
+                                    xhr.onreadystatechange = function() {
+                                        if (xhr.readyState == 4) {
+                                            if (xhr.status == 200) {
+                                                console.log('Response:', xhr.responseText);
+                                                getOtpBtn.prop('disabled', true);
+                                                otpInput.prop('disabled', false);
+                                                verifyOtpBtn.prop('disabled', false);
+                                            } else {
+                                                console.error('Error:', xhr.responseText);
+                                                alert('An error occurred: ' + xhr.responseText);
+                                            }
+                                        }
+                                    };
+
+                                    xhr.send('email=' + encodeURIComponent(email));
+                                });
+
+                                jq7('#verify-otp-btn').on('click', function() {
+                                    var otpInput = jq7('#otp-input');
+                                    var newPassInput = jq7('#new-password');
+                                    var confirmPassInput = jq7('#confirm-password');
+                                    var updatePassBtn = jq7('#update-password-btn');
+
+                                    var email = jq7('#hidden-email').val();
+                                    var otp = otpInput.val();
+                                    console.log('OTP:', otp);
+
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open('POST', '{% url "verify_otp" %}', true);
+                                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                    xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+
+                                    xhr.onreadystatechange = function() {
+                                        if (xhr.readyState == 4) {
+                                            var response = JSON.parse(xhr.responseText);
+                                            console.log('Response:', response);
+                                            if (xhr.status == 200 && response.status === 'success') {
+                                                newPassInput.prop('disabled', false);
+                                                confirmPassInput.prop('disabled', false);
+                                                updatePassBtn.prop('disabled', false);
+                                            } else {
+                                                alert(response.message);
+                                            }
+                                        }
+                                    };
+
+                                    xhr.send('otp=' + encodeURIComponent(otp) + '&email=' + encodeURIComponent(email));
+                                });
+
+                                jq7('#update-password-btn').on('click', function() {
+                                    var newPassInput = jq7('#new-password');
+                                    var confirmPassInput = jq7('#confirm-password');
+                                    var email = jq7('#hidden-email').val();
+
+                                    if (newPassInput.val() !== confirmPassInput.val()) {
+                                        alert("Passwords do not match!");
+                                        return;
+                                    }
+
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open('POST', '{% url "UpdatePassword" %}', true);
+                                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                    xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+
+                                    xhr.onreadystatechange = function() {
+                                        if (xhr.readyState == 4) {
+                                            var response = JSON.parse(xhr.responseText);
+                                            console.log('Response:', response);
+                                            if (xhr.status == 200 && response.status === 'success') {
+                                                alert("Password updated successfully. Please login again.");
+                                                jq7('#updatePasswordModal').modal('hide');
+                                                window.location.href = '/login/';
+                                            } else {
+                                                alert(response.message);
+                                            }
+                                        }
+                                    };
+
+                                    xhr.send('new_password=' + encodeURIComponent(newPassInput.val()) + '&confirm_password=' + encodeURIComponent(confirmPassInput.val()) + '&email=' + encodeURIComponent(email));
+                                });
+                            });
+                            </script>
+            <!-- Widgets End -->
+
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../static/lib/chart/chart.min.js"></script>
+    <script src="../../static/lib/easing/easing.min.js"></script>
+    <script src="../../static/lib/waypoints/waypoints.min.js"></script>
+    <script src="../../static/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../static/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="../../static/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="../../static/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+
+    <!-- Template Javascript -->
+    <script src="../../static/js/admin/js/main.js"></script>
+    <!-- <script>
+        document.body.style.transform = "scale(1.1)";
+        document.body.style.transformOrigin = "0 0"
+    </script> -->
+</body>
+
+</html>

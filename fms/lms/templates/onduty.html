@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Faculty Management System</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="../static/assets2/img/sreclogo.jpg" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500&family=Jost:wght@500;600;700&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../static/assets2/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../static/assets2/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../static/assets2/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../static/assets2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../static/assets2/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+            
+           
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>SREC</title>
+        <meta
+          content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+          name="viewport"
+        />
+        <link
+          rel="icon"
+          href="../static/assets/img/kaiadmin/favicon.ico"
+          type="image/x-icon"
+        />
+    
+        <!-- Fonts and icons -->
+        <script src="../static/assets/js/plugin/webfont/webfont.min.js"></script>
+        <script>
+          WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+              families: [
+                "Font Awesome 5 Solid",
+                "Font Awesome 5 Regular",
+                "Font Awesome 5 Brands",
+                "simple-line-icons",
+              ],
+              urls: ["../static/assets/css/fonts.min.css"],
+            },
+            active: function () {
+              sessionStorage.fonts = true;
+            },
+          });
+        </script>
+    
+        <!-- CSS Files -->
+        <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="../static/assets/css/plugins.min.css" />
+        <link rel="stylesheet" href="../static/assets/css/kaiadmin.min.css" />
+    
+        <!-- CSS Just for demo purpose, don't include it in your project -->
+        <link rel="stylesheet" href="../static/assets/css/demo.css" />
+    
+    
+       <style>
+          /* General styles for the logo */
+          .logo a {
+              display: none; /* Hide all logos by default */
+          }
+      
+          /* Display the laptop logo for screens wider than 768px */
+          @media (min-width: 769px) {
+                .logo a.laptop-logo {
+                    display: block;
+                    /* Temporary border for debugging */
+                }
+            }
+    
+            /* Display the mobile logo for screens 768px wide or less */
+            @media (max-width: 768px) {
+                .logo a.mobile-logo {
+                    display: block;
+                     /* Temporary border for debugging */
+                }
+            }
+      </style>
+    
+    
+    
+      </head>
+      <body>
+        <div class="wrapper">
+          <!-- Sidebar -->
+          <div class="sidebar" data-background-color="dark" id="sidebar">
+            <div class="sidebar-logo">
+              <!-- Logo Header -->
+              <div class="logo-header" data-background-color="dark">
+                <div class="logo" id="logo">
+                  <!-- This image will be displayed on laptop/desktop screens -->
+               
+                    <!-- This image will be displayed on laptop/desktop screens -->
+                    <a href="{% url 'Home' %}" class="laptop-logo">
+                        <img src="../static/assets/img/kaiadmin/sreclogo.jpg" alt="Navbar Brand" height="50">
+                        <span style="color: white; padding-left: 30px; font-size: larger;">𝙎𝙍𝙀𝘾</span>
+                    </a>
+                    <!-- This image will be displayed on mobile screens -->
+                    <a href="{% url 'Home' %}" class="mobile-logo">
+                        <img src="../static/assets/img/kaiadmin/sreclogo1.jpg" alt="Navbar Brand" height="35">
+                    </a>
+                
+              </div>
+                
+                <div class="nav-toggle">
+                  <button class="btn btn-toggle toggle-sidebar">
+                    <i class="gg-menu-right"></i>
+                  </button>
+                  <button class="btn btn-toggle sidenav-toggler">
+                    <i class="gg-menu-left"></i>
+                  </button>
+                </div>
+                <button class="topbar-toggler more">
+                  <i class="gg-more-vertical-alt"></i>
+                </button>
+              </div>
+              <!-- End Logo Header -->
+            </div>
+            <div class="sidebar-wrapper scrollbar scrollbar-inner">
+              <div class="sidebar-content">
+                <ul class="nav nav-secondary">
+                  <li class="nav-item ">
+                    <a href="{% url 'Home' %}" class="collapsed">
+                      <i class="fas fa-home"></i>
+                      <p>Home</p>
+                    </a>
+                  </li>
+                  <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                      <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">Components</h4>
+                  </li>
+                  <li class="nav-item">
+                    <a  href="{% url 'AccountSettings' %}">
+                      <i class="fas fa-cogs"></i>
+                      <p>Account Settings</p>               
+                    </a>       
+                  </li>
+                  <li class="nav-item">
+                    <a  href="{% url 'Profile' %}">
+                      <i class="fas fa-user"></i>
+                      <p>My Profile</p>               
+                    </a>       
+                  </li>
+    
+                  <style>
+                    /* Modal styles */
+                    .modal_policy {
+                        display: none; /* Hidden by default */
+                        position: fixed; /* Stay in place */
+                        z-index: 1; /* Sit on top */
+                        left: 0;
+                        top: 0;
+                        width: 100%; /* Full width */
+                        height: 100%; /* Full height */
+                        overflow: auto; /* Enable scroll if needed */
+                        background-color: rgb(0,0,0); /* Fallback color */
+                        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                        padding-top: 60px;
+                    }
+            
+                    /* Modal content */
+                    .modal-content {
+                        background-color: #fefefe;
+                        margin: 5% auto; /* 15% from the top and centered */
+                        padding: 20px;
+                        border: 1px solid #888;
+                        width: 80%; /* Could be more or less, depending on screen size */
+                        max-width: 700px;
+                        height: 80%; /* Make the modal cover 80% of the screen height */
+                        overflow-y: auto; /* Scrollbar if needed */
+                    }
+            
+                    /* Close button */
+                    .close {
+                        color: #aaa;
+                        float: right;
+                        font-size: 28px;
+                        font-weight: bold;
+                    }
+            
+                    .close:hover,
+                    .close:focus {
+                        color: black;
+                        text-decoration: none;
+                        cursor: pointer;
+                    }
+            
+                    /* Download button */
+                    .download-btn {
+                        background-color: #4CAF50; /* Green */
+                        color: white;
+                        padding: 10px 20px;
+                        text-align: center;
+                        display: inline-block;
+                        margin-top: 10px;
+                        cursor: pointer;
+                        border: none;
+                        border-radius: 5px;
+                    }
+            
+                    .download-btn:hover {
+                        background-color: #45a049;
+                    }
+            
+                    /* Style for iframe */
+                    iframe {
+                        width: 100%;
+                        height: calc(100% - 50px); /* Adjust to make space for the download button */
+                        border: none;
+                    }
+                </style>
+                  {% load static %}
+                  <li class="nav-item">
+                    <a href="#" id="policyLink">
+                        <i class="fas fa-balance-scale"></i>
+                        <p>Policy</p>               
+                    </a>       
+                </li>
+            
+                <!-- The Modal -->
+                <div id="policyModal" class="modal_policy">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <iframe src="{% static 'doc/Policy_document.pdf' %}" type="application/pdf"></iframe>
+                        <a href="{% static 'doc/Policy_document.pdf' %}" download="Policy_document.pdf">
+                            <button class="download-btn">Download Policy Document</button>
+                        </a>
+                    </div>
+                </div>
+            
+                <!-- Scripts for modal functionality -->
+                <script>
+                    // Get the modal
+                    var modal = document.getElementById("policyModal");
+            
+                    // Get the link that opens the modal
+                    var link = document.getElementById("policyLink");
+            
+                    // Get the <span> element that closes the modal
+                    var span = document.getElementsByClassName("close")[0];
+            
+                    // When the user clicks on the link, open the modal
+                    link.onclick = function(event) {
+                        event.preventDefault(); // Prevent default action of link
+                        modal.style.display = "block";
+                    }
+            
+                    // When the user clicks on <span> (x), close the modal
+                    span.onclick = function() {
+                        modal.style.display = "none";
+                    }
+            
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+                </script>
+                <li class="nav-item">
+                  <a data-bs-toggle="collapse" href="#tables">
+                    <i class="fas fa-table"></i>
+                    <p>Dashboard</p>
+                    <span class="caret"></span>
+                  </a>
+                  <div class="collapse" id="tables">
+                    <ul class="nav nav-collapse">
+                      <li>
+                        <a href="{% url 'CardDashboard' %}">
+                          <span class="sub-item">Dashboard</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{% url 'Dashboard' %}">
+                          <span class="sub-item">History</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                </li>
+                 <li class="nav-item">
+                  <a  href="{% url 'cancel_leave' %}">
+                    <i class="fas fa-times"></i>
+                    <p>Cancellation Request</p>               
+                  </a>       
+                </li>
+                <li class="nav-item">
+                  <a  href="{% url 'CHProof' %}">
+                    <i class="fas fa-file-alt"></i>
+                    <p>CH Proof</p>               
+                  </a>       
+                </li>
+              
+                
+    
+                  
+                  
+                  
+                  
+                  <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#maps">
+                      <i class="fas fa-download"></i>
+                      <p>Download</p>
+                      <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="maps">
+                      <ul class="nav nav-collapse">
+                        <li>
+                          <a href="{% url 'DownloadIndividual' leave_type='All' %}">
+                            <i class="fas fa-download"></i>
+                            <span class="sub-item">All</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{% url 'DownloadIndividual' leave_type='Casual Leave' %}">
+                            <i class="fas fa-download"></i>
+                            <span class="sub-item">Casual Leave</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{% url 'DownloadIndividual' leave_type='LOP Leave' %}">
+                            <i class="fas fa-download"></i>
+                            <span class="sub-item">LLP Leave</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{% url 'DownloadIndividual' leave_type='CH Leave' %}">
+                            <i class="fas fa-download"></i>
+                            <span class="sub-item">Compensated</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{% url 'DownloadIndividual' leave_type='Earn Leave' %}">
+                            <i class="fas fa-download"></i>
+                            <span class="sub-item">Earn Leave</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{% url 'DownloadIndividual' leave_type='Vacation Leave' %}">
+                            <i class="fas fa-download"></i>
+                            <span class="sub-item">Vaccation Leave</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{% url 'DownloadIndividual' leave_type='Onduty' %}">
+                            <i class="fas fa-download"></i>
+                            <span class="sub-item">OnDuty</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{% url 'DownloadIndividual' leave_type='Special Onduty' %}">
+                            <i class="fas fa-download"></i>
+                            <span class="sub-item">Special OnDuty</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{% url 'DownloadIndividual' leave_type='Medical Leave' %}">
+                            <i class="fas fa-download"></i>
+                            <span class="sub-item">Medical Leave</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{% url 'DownloadIndividual' leave_type='Maternity Leave' %}">
+                            <i class="fas fa-download"></i>
+                            <span class="sub-item">Maternity Leave</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{% url 'DownloadIndividual' leave_type='Permission' %}">
+                            <i class="fas fa-download"></i>
+                            <span class="sub-item">Permission</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <a  href="{% url 'Announcement' %}">
+                      <i class="fas fa-bullhorn"></i>
+                      <p>Announcement</p>               
+                    </a>      
+    
+                  </li>
+                 
+                  
+                  <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="logout(event)">
+                      <i class="fas fa-sign-out-alt"></i>
+                      <p>Log out</p>
+                    </a>
+                    <form id="logoutForm" action="{% url 'Logout' %}" method="post" style="display: none;">
+                      {% csrf_token %}
+                    </form>
+                    <script>
+                      function logout(event) {
+                        event.preventDefault(); // Prevent the default action of following the link
+                        document.getElementById('logoutForm').submit(); // Submit the hidden form
+                      }
+                      </script>
+                  </li>
+                  
+                  
+                  
+                  
+                 </ul>
+              </div>
+            </div>
+          </div>
+          <!-- End Sidebar -->
+    
+          <div class="main-panel">
+            <div class="main-header">
+              <div class="main-header-logo">
+                <!-- Logo Header -->
+                <div class="logo-header" data-background-color="dark">
+                  <a href="{%url 'Home' %}" class="logo">
+                    <img
+                      src="../static/assets/img/kaiadmin/sreclogo1.jpg"
+                      alt="navbar brand"
+                      class="navbar-brand"
+                      height="35"
+                    />
+                  </a>
+                  <div class="nav-toggle">
+                    <button class="btn btn-toggle toggle-sidebar">
+                      <i class="gg-menu-right"></i>
+                    </button>
+                    <button class="btn btn-toggle sidenav-toggler">
+                      <i class="gg-menu-left"></i>
+                    </button>
+                  </div>
+                  <button class="topbar-toggler more">
+                    <i class="gg-more-vertical-alt"></i>
+                  </button>
+                </div>
+                <!-- End Logo Header -->
+              </div>
+              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+              <!-- Navbar Header -->
+              <nav
+                class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+              >
+                <div class="container-fluid">
+                  <nav
+                    class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
+                  >
+                  <a href="{% url 'Home' %}" class="logo">
+                    <img
+                      src="../static/assets/img/kaiadmin/logo.png"
+                      alt="navbar brand"
+                      class="navbar-brand"
+                      height="55"
+                    />
+                  </a>
+    
+                  </nav>
+    
+                  <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+            
+                    <li class="nav-item topbar-icon dropdown hidden-caret">
+                      <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="notifDropdown"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <i class="fa fa-bell"></i>
+                        {% if bell_message %}
+                          <span class="notification">1</span>
+                        {% endif %}
+    
+                      </a>
+                      <ul
+                        class="dropdown-menu notif-box animated fadeIn"
+                        aria-labelledby="notifDropdown"
+                      >
+                        <li>
+                          {% if bell_message %}
+                          <div class="dropdown-title">
+                            You have 1 new notification
+                          </div>
+                          {% else %}
+                          <div class="dropdown-title">
+                            No new notification
+                          </div>
+                          {% endif %}
+                        </li>
+                        <li>
+                          <div class="notif-scroll scrollbar-outer">
+                            <div class="notif-center">
+                              <a href="#">
+                                {% if bell_message %}
+                                <div class="notif-icon notif-primary">
+                                  <i class="fas fa-comments"></i>
+                                </div>
+                                <div class="notif-content">
+                                  <span class="block">{{bell_message}}</span>
+                                </div>
+                                  {% else %}
+                                <div class="">
+                                  <span class="block"></span>
+                                </div>
+                                {% endif %}
+                              </a>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="nav-item topbar-icon dropdown hidden-caret">
+                      <a
+                        class="nav-link"
+                        data-bs-toggle="dropdown"
+                        href="#"
+                        aria-expanded="false"
+                      >
+                        <i class="fas fa-layer-group"></i>
+                      </a>
+                      <div class="dropdown-menu quick-actions animated fadeIn">
+                        <div class="quick-actions-header">
+                          <span class="title mb-1">Quick Actions</span>
+                          <span class="subtitle op-7">Shortcuts</span>
+                        </div>
+                        <div class="quick-actions-scroll scrollbar-outer">
+                          <div class="quick-actions-items">
+                            <div class="row m-0">
+                              <a class="col-6 col-md-4 p-0" href="{%url 'Home' %}">
+                                <div class="quick-actions-item">
+                                  <div class="avatar-item bg-danger rounded-circle">
+                                    <i class="fas fa-home"></i>
+                                  </div>
+                                  <span class="text">Apply Leave</span>
+                                </div>
+                              </a>
+                              <a class="col-6 col-md-4 p-0" href="{% url 'Profile' %}">
+                                <div class="quick-actions-item">
+                                  <div
+                                    class="avatar-item bg-warning rounded-circle"
+                                  >
+                                    <i class="fas fa-user"></i>
+                                  </div>
+                                  <span class="text">Profile</span>
+                                </div>
+                              </a>
+                              <a class="col-6 col-md-4 p-0" href="{%url 'CardDashboard' %}">
+                                <div class="quick-actions-item">
+                                  <div class="avatar-item bg-info rounded-circle">
+                                    <i class="fas fa-table"></i>
+                                  </div>
+                                  <span class="text">Dashboard</span>
+                                </div>
+                              </a>
+                              <a class="col-6 col-md-4 p-0" href="{%url 'Dashboard' %}">
+                                <div class="quick-actions-item">
+                                  <div
+                                    class="avatar-item bg-success rounded-circle"
+                                  >
+                                    <i class="fas fa-history"></i>
+                                  </div>
+                                  <span class="text">History</span>
+                                </div>
+                              </a>
+                              <a class="col-6 col-md-4 p-0" href="{%url 'Announcement' %}">
+                                <div class="quick-actions-item">
+                                  <div
+                                    class="avatar-item bg-primary rounded-circle"
+                                  >
+                                    <i class="fas fa-bullhorn"></i>
+                                  </div>
+                                  <span class="text">Announcement</span>
+                                </div>
+                              </a>
+                              <a class="col-6 col-md-4 p-0" href="{%url 'AccountSettings' %}">
+                                <div class="quick-actions-item">
+                                  <div
+                                    class="avatar-item bg-secondary rounded-circle"
+                                  >
+                                    <i class="fas fa-cogs"></i>
+                                  </div>
+                                  <span class="text">Settings</span>
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+    
+                    <li class="nav-item topbar-user dropdown hidden-caret">
+                      <a
+                        class="dropdown-toggle profile-pic"
+                        data-bs-toggle="dropdown"
+                        href="#"
+                        aria-expanded="false"
+                      >
+                        <div class="avatar-sm">
+                          <img
+                            src="../static/assets/img/no.png"
+                            alt="..."
+                            class="avatar-img rounded-circle"
+                          />
+                        </div>
+                        <span class="profile-username">
+                          <span class="op-7">Hi,</span>
+                          <span class="fw-bold">{{username}}</span>
+                        </span>
+                      </a>
+                      <ul class="dropdown-menu dropdown-user animated fadeIn">
+                        <div class="dropdown-user-scroll scrollbar-outer">
+                          <li>
+                            <div class="user-box">
+                              <div class="avatar-lg">
+                                <img
+                                  src="../static/assets/img/no.png"
+                                  alt="image profile"
+                                  class="avatar-img rounded"
+                                />
+                              </div>
+                              <div class="u-text">
+                                <h4>{{username }}</h4>
+                                <p class="text-muted">{{email}}</p>
+                                <a
+                                  href="{% url 'Profile' %}"
+                                  class="btn btn-xs btn-secondary btn-sm"
+                                  >View Profile</a
+                                >
+                              </div>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'Profile' %}">My Profile</a>
+                            <a class="dropdown-item" href="{%url 'CardDashboard' %}">My Balance</a>
+                            <!-- <a class="dropdown-item" href="#">Inbox</a> -->
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{%url 'AccountSettings' %}">Account Setting</a>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item">
+                              <a href="#" class="dropdown-item" onclick="logout(event)"><i class="fas fa-sign-out-alt"></i>Log out</a>
+                          </div>
+                          <form id="logoutForm" action="{% url 'Logout' %}" method="post" style="display: none;">
+                            {% csrf_token %}
+                          </form>
+                          <script>
+                            function logout(event) {
+                              event.preventDefault(); // Prevent the default action of following the link
+                              document.getElementById('logoutForm').submit(); // Submit the hidden form
+                            }
+                            </script>
+                            
+                          </li>
+                        </div>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+              <!-- End Navbar -->
+            </div>
+    
+            <div class="container">
+              <div class="page-inner">
+    
+                <div id="notification-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1051">
+                  {% if notify %}
+                      <div class="alert alert-primary notification-item animate__animated animate__fadeInDown" role="alert" style="max-width: 400px;">
+                          <div class="d-flex justify-content-between align-items-center">
+                              <div>{{ notification_message }}</div>
+                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                      </div>
+                  {% endif %}
+              </div>
+    
+    
+           
+              <div class="container-xxl py-5">
+                <div class="container py-5 px-lg-5">
+           
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+              
+                <script>
+                  document.addEventListener('DOMContentLoaded', function() {
+                      // Function to show SweetAlert2 alert with the title and message
+                      function showAlert(title, message) {
+                          Swal.fire({
+                              icon: 'warning',
+                              title: title,
+                              text: message,
+                              confirmButtonText: 'OK',
+                              confirmButtonColor: '#3085d6',
+                              // timer: 5000, // Optional: Auto close after 5 seconds
+                              timerProgressBar: true
+                          });
+                      }
+          
+                      // Get messages from Django context
+                      {% if messages %}
+                          {% for message in messages %}
+                              try {
+                                  // Parse JSON message and use safe filter to ensure proper escaping
+                                  var alertData = JSON.parse('{{ message|escapejs }}');
+                                  showAlert(alertData.title, alertData.message);
+                              } catch (error) {
+                                  console.error('Error parsing JSON message:', error);
+                              }
+                          {% endfor %}
+                      {% endif %}
+                  });
+              </script>
+
+                    <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="col-12">
+                            <div class="card border-primary">
+                                <div class="card-body">
+                                    <div class="container">
+                                        
+                                        
+                                        <div class="container">
+                                           
+                                    <h2 class="text-center mb-4">On-Duty</h2>
+  
+                                   
+            
+                                    <script>
+                                        function showConfirmation() {
+                                            // Display a confirmation pop-up
+                                            var confirmation = confirm("Are you sure you want to submit this form?");
+                                            
+                                            // If user confirms, return true to submit the form
+                                            // If user cancels, return false to prevent form submission
+                                            return confirmation;
+                                        }
+                                    </script>
+            
+                                    <form method="post" onsubmit="return showConfirmation()"  action="{% url 'OnDuty' %}" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="dateOfLeave">Reason (Not required)</label>
+                                                <input type="text" class="form-control" name="reason" id="dateOfLeave">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="onFromDate">On/From Date</label>
+                                                <input type="date" class="form-control" name="fromDate" id="onFromDate" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="toDate">To Date</label>
+                                                <input type="date" class="form-control" name="toDate" id="toDate" required>
+                                                <div id="totalDaysDisplay"></div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="leaveType">Session</label>
+                                                <select class="form-control" name="session" id="leaveType" required>
+                                                    <option value="fullDay">Full Day</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fileInput">Upload File</label>
+                                            <input type="file" class="form-control-file" id="fileInput" name="file">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                    
+                                    <script>
+                                        
+            
+                            
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                    var fromDateInput = document.getElementById('onFromDate');
+                                    var toDateInput = document.getElementById('toDate');
+                                    var totalDaysDisplay = document.getElementById('totalDaysDisplay');
+                            
+                                    function updateTotalDays() {
+                                        var fromDate = new Date(fromDateInput.value);
+                                        var toDate = new Date(toDateInput.value);
+                            
+                                        var timeDifference = toDate.getTime() - fromDate.getTime();
+                                        var daysDifference = (timeDifference / (1000 * 3600 * 24))+1;
+                            
+                                        if (!isNaN(daysDifference) && daysDifference >= 0) {
+                                            totalDaysDisplay.textContent = 'Total Days: ' + daysDifference;
+                                        } else {
+                                            totalDaysDisplay.textContent = 'Invalid date range';
+                                        }
+                                    }
+                            
+                                    fromDateInput.addEventListener('change', updateTotalDays);
+                                    toDateInput.addEventListener('change', updateTotalDays);
+                                });
+                                    </script>
+                            
+                                    <!-- Success Modal -->
+                                    
+                                  
+                                    
+                                <!-- <div class="mb-4">{{username}} , You have {{ remaining }} more Onduty.</div> -->
+                                
+                                
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            
+            
+            <!-- Back to Top -->
+            </div>
+            
+            <!-- JavaScript Libraries -->
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="../static/assets2/lib/wow/wow.min.js"></script>
+            <script src="../static/assets2/lib/easing/easing.min.js"></script>
+            <script src="../static/assets2/lib/waypoints/waypoints.min.js"></script>
+            <script src="../static/assets2/lib/counterup/counterup.min.js"></script>
+            <script src="../static/assets2/lib/owlcarousel/owl.carousel.min.js"></script>
+            <script src="../static/assets2/lib/isotope/isotope.pkgd.min.js"></script>
+            <script src="../static/assets2/lib/lightbox/js/lightbox.min.js"></script>
+            
+            <!-- Template Javascript -->
+            <script src="../static/assets2/js/main.js"></script>>
+                
+    
+    
+              </div>  
+          </div>
+        </div>
+    
+        <script src="../static/assets/js/core/jquery-3.7.1.min.js"></script>
+        <script src="../static/assets/js/core/popper.min.js"></script>
+        <script src="../static/assets/js/core/bootstrap.min.js"></script>
+        <script src="../static/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+        <script src="../static/assets/js/plugin/chart.js/chart.min.js"></script>
+        <script src="../static/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+        <script src="../static/assets/js/plugin/chart-circle/circles.min.js"></script>
+        <script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+        <script src="../static/assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+        <script src="../static/assets/js/plugin/jsvectormap/world.js"></script>
+        <script src="../static/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+        <script src="../static/assets/js/kaiadmin.min.js"></script>
+        <script src="../static/assets/js/setting-demo.js"></script>
+        <script src="../static/assets/js/demo.js"></script>
+        <script>
+          $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#177dff",
+            fillColor: "rgba(23, 125, 255, 0.14)",
+          });
+    
+          $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#f3545d",
+            fillColor: "rgba(243, 84, 93, .14)",
+          });
+    
+          $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#ffa534",
+            fillColor: "rgba(255, 165, 52, .14)",
+          });
+        </script>
+      </body>
+    </html>
+    
+</body>
+
+</html>
