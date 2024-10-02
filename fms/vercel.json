@@ -1,16 +1,22 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "manage.py",
-            "use": "@vercel/python",
-            "config": { "maxLambdaSize": "15mb", "runtime": "python3.10" }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "manage.py"
-        }
-    ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "fms/wsgi.py",
+      "use": "@vercel/python",
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.10" }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "fms/wsgi.py"
+    }
+  ],
+  "build": {
+    "env": {
+      "PIP_NO_BUILD_ISOLATION": "1",
+      "PYTHONUNBUFFERED": "1"
+    }
+  }
 }
