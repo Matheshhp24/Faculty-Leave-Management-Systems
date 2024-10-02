@@ -7,7 +7,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "destination": "fms/wsgi.py"
+            "dest": "fms/wsgi.py"
         }
     ]
 }
