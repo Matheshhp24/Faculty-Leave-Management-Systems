@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-e1x_^6_v%*1pc2+2zq14(&k)xmd6-#bet-7a_jfn-7as4hbbg_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app','127.0.0.1']
 
 
 # Application definition
@@ -175,19 +175,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'leave_documents')
 #django_heroku.settings(locals())
 
 
-STORAGES = {
-
-    # Media file (image) management  
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
-    },
-   
-}
 
 AWS_ACCESS_KEY_ID = 'AKIAVVZPCXTDTVR4U46P'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'flms-documents'
 AWS_S3_REGION_NAME = 'us-west-2'
-
-
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
