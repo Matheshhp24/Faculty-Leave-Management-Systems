@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'lms',
     'crispy_forms',
     'crispy_bootstrap4',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [
@@ -92,9 +93,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'KapLYDwqWbrfjFCVQwsTxoHAqJsPcsLk',
-        'HOST': 'postgres.railway.internal',
-        'PORT': '5432',
+        'PASSWORD': 'SHKRJzqrWIvwicDOySYqqnnBOcvuWGSJ',
+        'HOST': 'junction.proxy.rlwy.net',
+        'PORT': '13775',
     }
 }
 
