@@ -1,4 +1,3 @@
-psycopg2-binary==2.9.9   # Switched to psycopg2-binary
 asgiref==3.8.1
 crispy-bootstrap4==2024.1
 dj-database-url==2.2.0
