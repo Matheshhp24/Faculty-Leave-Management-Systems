@@ -1,3 +1,4 @@
+psycopg2-binary==2.9.9
 asgiref==3.8.1
 crispy-bootstrap4==2024.1
 dj-database-url==2.2.0
@@ -8,7 +9,6 @@ gunicorn==22.0.0
 numpy==1.26.4
 packaging==24.1
 pandas==2.2.2
-psycopg2-binary==2.9.9
 python-dateutil==2.9.0.post0
 pytz==2024.1
 six==1.16.0
