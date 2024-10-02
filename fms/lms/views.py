@@ -4883,7 +4883,7 @@ def ch_proof_function(request):
             print(document)
         ch_proof_instance = CHProof(
             username = request.user.username,
-            date_Applied = datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            date_Applied = timezone.now().strftime("%Y-%m-%d %H:%M:%S"),
             On_date = fromDate,
             in_Time = inTime,
             Out_Time = outTime,
