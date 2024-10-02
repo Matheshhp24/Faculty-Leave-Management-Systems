@@ -1,23 +1,13 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "manage.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.10" }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "manage.py"
-    }
-  ],
-  "build": {
-    "env": {
-      "PIP_NO_BUILD_ISOLATION": "1",
-      "PYTHONUNBUFFERED": "1"
-    }
-  },
-  "postinstall": "pip install psycopg2-binary"
+    "builds": [{
+        "src": "fms/wsgi.py",
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
+    }],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "fms/wsgi.py"
+        }
+    ]
 }
