@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-e1x_^6_v%*1pc2+2zq14(&k)xmd6-#bet-7a_jfn-7as4hbbg_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['srec-flms.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app']
 
 
 # Application definition
@@ -78,11 +78,23 @@ WSGI_APPLICATION = 'fms.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
+'''
+this is command out by me on 2/10/24
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+    }
+}
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'KapLYDwqWbrfjFCVQwsTxoHAqJsPcsLk',
+        'HOST': 'postgres.railway.internal',
+        'PORT': '5432',
     }
 }
 
