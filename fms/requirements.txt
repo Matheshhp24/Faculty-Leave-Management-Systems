@@ -1,5 +1,4 @@
 asgiref==3.8.1
-psycopg2-binary==2.9.6  # or the latest version available
 crispy-bootstrap4==2024.1
 dj-database-url==2.2.0
 Django==5.0.6
@@ -17,3 +16,4 @@ typing_extensions==4.12.1
 tzdata==2024.1
 whitenoise==6.7.0
 XlsxWriter==3.2.0
+psycopg2-binary==2.9.6  # or the latest version available
