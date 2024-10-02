@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lms',
+    'storages',
     'crispy_forms',
     'crispy_bootstrap4',
     'django.contrib.postgres',
@@ -171,3 +172,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'leave_documents')
 
 
 #django_heroku.settings(locals())
+
+AWS_ACCESS_KEY_ID = 'AKIAVVZPCXTDTVR4U46P'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'flms-documents'
+AWS_S3_REGION_NAME = 'us-west-2'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
