@@ -4,9 +4,7 @@
       "src": "fms/wsgi.py",
       "use": "@vercel/python",
       "config": {
-        "buildCommand": "./build.sh",
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.9"
+        "buildCommand": "./build.sh"
       }
     }
   ],
@@ -15,5 +13,10 @@
       "src": "/(.*)",
       "dest": "fms/wsgi.py"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "VERCEL_BUILD_CACHE": "false"
+    }
+  }
 }
