@@ -30,6 +30,11 @@ DEBUG = True
 ALLOWED_HOSTS = ['.vercel.app','127.0.0.1']
 
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://13.61.21.85',  # Replace with your server's IP address
+    #'http://your-domain.com',  # Add your domain if you have one
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -91,17 +96,28 @@ DATABASES = {
     }
 }
 '''
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'PASSWORD': 'SHKRJzqrWIvwicDOySYqqnnBOcvuWGSJ',
+#         'HOST': 'junction.proxy.rlwy.net',
+#         'PORT': '13775',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'SHKRJzqrWIvwicDOySYqqnnBOcvuWGSJ',
-        'HOST': 'junction.proxy.rlwy.net',
-        'PORT': '13775',
+        'NAME': 'srec_flms',
+        'USER': 'mathesh',
+        'PASSWORD': 'mathee123***',
+        'HOST': 'database-1.cfks8042wg9q.eu-north-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
-
 
 # DATABASES = {
 #     'default': {
