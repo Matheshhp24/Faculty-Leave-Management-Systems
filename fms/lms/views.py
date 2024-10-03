@@ -2203,6 +2203,7 @@ def admin_page(request , username=None):
                 # Delete leave records
                 for model in model_dict.values():
                     model.objects.filter(username__in=staff_usernames).delete()
+                CHProof.objects.all().delete()
                     
 
                 return response
