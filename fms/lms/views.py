@@ -118,6 +118,8 @@ def get_user_common_context(request):
 @login_required
 def home(request):
     username = request.user.username
+    if request.user.check_password('srec@123'):
+        return redirect("AccountSettings")
 
 
 
@@ -1274,12 +1276,23 @@ def admin_login(request):
         # print(staff_details)
         if user is not None and user.is_superuser and user.is_staff and user.is_active:
             login(request, user)
+            print('1')
+            if password=="srec@123":
+                print("Same" ,password)
+                return redirect('AdminAccount')
+            
             return redirect('AdminPage')
         elif user is not None and user.is_active and user.is_staff and not user.is_superuser:
             login(request,user)
+            print("HOD ACC")
+            if password=="srec@123":
+                return redirect('HODAdminAccount')
             return redirect("HODPage")
         elif user is not None and  user.is_active and not user.is_staff and staff_details and not user.is_superuser:
             login(request, user)
+            print(2)
+            if password=="srec@123":
+                return redirect('AdminAccount')
             return redirect('AdminPage')
         else:
             context={
@@ -2210,8 +2223,10 @@ def admin_page(request , username=None):
 
 
         elif request.resolver_match.url_name == "AdminAccount":
+            is_default_password = request.user.check_password("srec@123")
             specific_context = {
-                'email':request.user.email
+                'email':request.user.email,
+                'is_default_password':is_default_password
             }
             context = merge_contexts(common_context,specific_context)
             return render(request,'custom_admin/account_settings.html',context)
@@ -2895,8 +2910,10 @@ def hod_page(request,username=None):
 
 
         elif request.resolver_match.url_name == "HODAdminAccount":
+            is_default_password = request.user.check_password('srec@123')
             specific_context = {
-                'email':request.user.email
+                'email':request.user.email,
+                'is_default_password':is_default_password
             }
             context = merge_contexts(hod_common_context,specific_context)
             return render(request,'custom_admin/account_settings.html',context)
@@ -4277,6 +4294,11 @@ def download_individual(request, leave_type):
 
 def account_settings(request):
 
+
+    # Check if the user's password is the default one
+    is_default_password = request.user.check_password('srec@123')
+    print("default",is_default_password)
+
     staff_notification = StaffDetails.objects.get(username_copy = request.user.username)
     if staff_notification.notification_display:
         answer = True
@@ -4287,13 +4309,14 @@ def account_settings(request):
         answer = False
         notification_message = None
 
-
     context = {
         'username': request.user.first_name,
         'email': request.user.email,
         'notify':answer,
         'notification_message':notification_message,
         'bell_message' : StaffDetails.objects.get(username_copy = request.user.username).notification_message,
+        'is_default_password': is_default_password,
+
     }
     return render(request,'account_settings.html',context)
 

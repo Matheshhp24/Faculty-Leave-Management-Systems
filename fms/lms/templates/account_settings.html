@@ -728,10 +728,91 @@
           <!-- End Navbar -->
         </div>
         
+            <!-- Bootstrap Modal -->
+   
+            <style>
+              .icon-big {
+                  font-size: 24px; /* Adjust the size as needed */
+              }
+              .custom-swal .swal-text {
+    font-family: 'Arial', sans-serif,fantasy;  /* Change to your desired font */
+    font-size: 18px;                    /* Change font size */
+    color: #000000;  
+    text-align: center;
+                      /* Change text color */
+    /* Add other styles as needed */
+}
+              .number {
+                  font-size: 24px; /* Adjust the size as needed */
+                  color: #ffffff; /* Adjust the color */
+                  font-weight: bold; /* Bold text for emphasis */
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  width: 60px; /* Adjust to fit the layout */
+                  height: 60px; /* Adjust to fit the layout */
+                  border-radius: 50%;
+                  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for a bubble effect */
+              }
+      
+              .icon-primary {
+                  background-color: #007bff; /* Primary color for the icon background */
+              }
+      
+              .bubble-shadow-small {
+                  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+              }
+      
+              .col-icon {
+                  margin-right: 1rem; /* Adjust margin as needed */
+              }
+      
+              .col-stats {
+                  display: flex;
+                  flex-direction: column;
+              }
+      
+              .card-title {
+                  font-size: 1.25rem; /* Adjust font size as needed */
+                  margin: 0;
+              }
+      
+              .card-category {
+                  font-size: 1rem; /* Adjust font size as needed */
+                  color: #6c757d; /* Secondary color */
+              }
+          </style>
+
+          <script>
+            // JavaScript to show the SweetAlert popup if a success message exists
+            document.addEventListener("DOMContentLoaded", function() {
+                {% if is_default_password %}
+                    
+                swal({
+                    title: "Warning!",
+                    text: "Your password is default and widely known. Please change it immediately for your account's security.",
+                    icon: "warning",
+                    button: {
+                        text: "OK",
+                        className: "btn btn-primary",
+                    },
+                    className: "custom-swal", // Add a custom class
+                }).then(() => {
+                    // Show the Bootstrap modal for updating password
+                    $('#updatePasswordModal').modal('show');
+                });
+
+
+
+
+          {% endif %}
+          });
+          </script>
+
+        
 
         <div class="container">
-          <div class="page-inner">
-            
+          <div class="page-inner">        
             <div
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
               <div class="row justify-content   "  >
@@ -959,7 +1040,7 @@
                                   if (xhr.status == 200 && response.status === 'success') {
                                       alert("Password updated successfully. Please login again.");
                                       jq7('#updatePasswordModal').modal('hide');
-                                      window.location.href = '/login/';
+                                      window.location.href = '/';
                                   } else {
                                       alert(response.message);
                                   }
