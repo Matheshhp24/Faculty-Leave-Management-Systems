@@ -4208,24 +4208,32 @@ def announcement_view(request):
     }
     return render(request,'announcement.html',context)
 
+def parse_date(date_value):
+    """Convert date string to datetime object if it's a string."""
+    if isinstance(date_value, str):
+        try:
+            return pd.to_datetime(date_value)  # Convert string to datetime
+        except ValueError:
+            return None  # Return None if conversion fails
+    return date_value
 
-@login_required
 def download_individual(request, leave_type):
     if leave_type == 'All':
         leaves = []
-        for model in [casual_leave, LOP_leave, CH_leave, medicalLeave, earnLeave, vaccationLeave, specialOnduty, onDuty, Permission, maternityLeave]:
+        for model in [
+            casual_leave, LOP_leave, CH_leave, medicalLeave,
+            earnLeave, vaccationLeave, specialOnduty, onDuty,
+            Permission, maternityLeave
+        ]:
             model_leaves = model.objects.filter(username=request.user.username)
             
-            # Check if the model is Permission and handle differently
             for leave in model_leaves:
                 if model.__name__ == 'Permission':
-                    # For Permission leave type, use On_date
                     leave.from_date = leave.On_date  # Assign On_Date to from_date for consistency
                     leave.to_date = leave.On_date  # Permissions typically apply to a single day
                 else:
-                    # Handle other leave types normally
-                    leave.from_date = getattr(leave, 'from_Date', '')  # Safely assign from_Date, default to empty string
-                    leave.to_date = getattr(leave, 'to_Date', '')  # Safely assign to_Date, default to empty string
+                    leave.from_date = getattr(leave, 'from_Date', '')  # Safely assign from_Date
+                    leave.to_date = getattr(leave, 'to_Date', '')  # Safely assign to_Date
                 
                 # Append the leave object with its new attributes to the list
                 leaves.append(leave)
@@ -4253,11 +4261,16 @@ def download_individual(request, leave_type):
         staff_name = f"{user.first_name} {user.last_name}"
         
         # Handle date_applied separately if it's a common field
-        date_applied = make_naive(leave.date_Applied) if hasattr(leave.date_Applied, 'tzinfo') else leave.date_Applied
-
+        date_applied = parse_date(leave.date_Applied)
+        
         # Use conditional checks for from_Date and to_Date
-        from_date = make_naive(leave.from_Date) if hasattr(leave, 'from_Date') and hasattr(leave.from_Date, 'tzinfo') else getattr(leave, 'from_Date', None)
-        to_date = make_naive(leave.to_Date) if hasattr(leave, 'to_Date') and hasattr(leave.to_Date, 'tzinfo') else getattr(leave, 'to_Date', None)
+        from_date = parse_date(getattr(leave, 'from_Date', None))
+        to_date = parse_date(getattr(leave, 'to_Date', None))
+
+        # Format dates to DD/MM/YYYY
+        date_applied_str = date_applied.strftime('%d/%m/%Y %H:%M:%S') if date_applied else ''
+        from_date_str = from_date.strftime('%d/%m/%Y') if from_date else ''
+        to_date_str = to_date.strftime('%d/%m/%Y') if to_date else ''
 
         # Check if attributes exist before accessing them
         session = getattr(leave, 'session', None)
@@ -4266,10 +4279,15 @@ def download_individual(request, leave_type):
         status = getattr(leave, 'status', None)
         reason = getattr(leave, 'reason', None)
 
+        # Correct leave type display
+        leave_type_display = leave.leave_type if leave.leave_type != 'LOP Leave' else 'LLP Leave'
+        print(leave_type_display)
+
         data.append([
-            leave.username, staff_name, leave.leave_type, date_applied, from_date,
-            to_date, session, remaining, total_leave, status, reason
+            leave.username, staff_name, leave_type_display, date_applied_str, from_date_str,
+            to_date_str, session, remaining, total_leave, status, reason
         ])
+    
     df = pd.DataFrame(data, columns=['Username', 'Staff Name', 'Leave Type', 'Date Applied', 'From Date', 'To Date', 'Session', 'Remaining', 'Applied Leave', 'Status', 'Reason'])
 
     # Create an in-memory Excel file
@@ -4288,6 +4306,8 @@ def download_individual(request, leave_type):
     # Send the response with the Excel file
     output.seek(0)
     response = HttpResponse(output.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    if leave_type == "LOP Leave":
+        leave_type ="LLP Leave"
     response['Content-Disposition'] = f'attachment; filename={leave_type}_leaves.xlsx'
     return response
 
