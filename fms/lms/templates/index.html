@@ -990,32 +990,33 @@
             
             <!-- On Duty (OD) -->
             <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                    {% if onduty_leave_status %}
+            <div class="card card-stats card-round">
+                    {% if mal_leave_status %}
                         <div class="card-body disabled-card">
                     {% else %}
-                        <a href="{% url 'OnDuty' %}">
+                        <a href="{% url 'MaternityLeave' %}">
                         <div class="card-body">
                     {% endif %}
                             <div class="row align-items-center">
                                 <div class="col-icon">
-                                    <div class="icon-big text-center icon-danger bubble-shadow-small">
-                                        <span class="number">{{total_days.2}}</span>
+                                    <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                                        <span class="number">{{total_days.6}}</span>
                                     </div>
                                 </div>
                                 <div class="col col-stats ms-3 ms-sm-0">
                                     <div class="numbers">
-                                        <h4 class="card-title" style="font-size: 17px;">On Duty (OD)</h4>
-                                        <p class="card-category">Last Applied: {{ last_leave.onDuty }}</p>
+                                        <h4 class="card-title" style="font-size: 13px;">Maternity Leave (MAL)</h4>
+                                        <p class="card-category">Last Applied: {{ last_leave.maternityLeave }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    {% if not onduty_leave_status %}
+                    {% if not mal_leave_status %}
                         </a>
                     {% endif %}
                 </div>
             </div>
+                
             
             <!-- Compensation Leave (CH) -->
             <div class="col-sm-6 col-md-3">
@@ -1135,32 +1136,33 @@
             
             <!-- Maternity Leave (MAL) -->
             <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                    {% if mal_leave_status %}
+            <div class="card card-stats card-round">
+                    {% if onduty_leave_status %}
                         <div class="card-body disabled-card">
                     {% else %}
-                        <a href="{% url 'MaternityLeave' %}">
+                        <a href="{% url 'OnDuty' %}">
                         <div class="card-body">
                     {% endif %}
                             <div class="row align-items-center">
                                 <div class="col-icon">
-                                    <div class="icon-big text-center icon-secondary bubble-shadow-small">
-                                        <span class="number">{{total_days.6}}</span>
+                                    <div class="icon-big text-center icon-danger bubble-shadow-small">
+                                        <span class="number">{{total_days.2}}</span>
                                     </div>
                                 </div>
                                 <div class="col col-stats ms-3 ms-sm-0">
                                     <div class="numbers">
-                                        <h4 class="card-title" style="font-size: 13px;">Maternity Leave (MAL)</h4>
-                                        <p class="card-category">Last Applied: {{ last_leave.maternityLeave }}</p>
+                                        <h4 class="card-title" style="font-size: 16px;">On Duty (OD)</h4>
+                                        <p class="card-category">Last Applied: {{ last_leave.onDuty }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    {% if not mal_leave_status %}
+                    {% if not onduty_leave_status %}
                         </a>
                     {% endif %}
                 </div>
             </div>
+                
             
             <!-- Permission -->
             <div class="col-sm-6 col-md-3">
