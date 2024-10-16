@@ -35,6 +35,7 @@ from django.contrib.auth.views import LoginView
 from .forms import LoginForm
 from itertools import chain
 from django.db.models import Q
+from urllib.parse import quote
 
 
 
@@ -102,6 +103,15 @@ def get_user_common_context(request):
     else:
         answer = False
         notification_message = None
+    feedback_staffname = request.user.first_name + " " + request.user.last_name
+    pre_filled_url = (
+        "https://docs.google.com/forms/d/e/1FAIpQLSe584zLdwG2mseMFQByO54Eu2PakllhW_M7bOZrAxctdEV7tA/viewform"
+        f"?usp=pp_url"
+        f"&entry.1992171459={quote(feedback_staffname)}"
+        f"&entry.1136181252={quote(request.user.username)}"
+        f"&entry.1209612741={quote(request.user.email)}"
+        f"&entry.949894776={quote(StaffDetails.objects.get(username_copy = request.user.username).department)}"
+    )
 
     user_common_context = {
         'notify':answer,
@@ -109,6 +119,8 @@ def get_user_common_context(request):
         'bell_message' : StaffDetails.objects.get(username_copy = request.user.username).notification_message,
         'username': request.user.first_name,
         'email': request.user.email,
+        'feedback_url':pre_filled_url
+        
     }
 
 
@@ -4043,14 +4055,23 @@ def dashboard(request):
         answer = False
         notification_message = None
 
-
+    feedback_staffname = request.user.first_name + " " + request.user.last_name
+    pre_filled_url = (
+        "https://docs.google.com/forms/d/e/1FAIpQLSe584zLdwG2mseMFQByO54Eu2PakllhW_M7bOZrAxctdEV7tA/viewform"
+        f"?usp=pp_url"
+        f"&entry.1992171459={quote(feedback_staffname)}"
+        f"&entry.1136181252={quote(request.user.username)}"
+        f"&entry.1209612741={quote(request.user.email)}"
+        f"&entry.949894776={quote(StaffDetails.objects.get(username_copy = request.user.username).department)}"
+    )
     context = {
         'username': request.user.first_name,
         'email': request.user.email,
         'notify':answer,
         'notification_message':notification_message,
         'data_dics':json.dumps(data_list_of_dicts),
-        'bell_message' : StaffDetails.objects.get(username_copy = request.user.username).notification_message
+        'bell_message' : StaffDetails.objects.get(username_copy = request.user.username).notification_message,
+        'feedback_url':pre_filled_url
     }
 
 
@@ -4164,7 +4185,15 @@ def card_dashboard(request):
     else:
         answer = False
         notification_message = None
-
+    feedback_staffname = request.user.first_name + " " + request.user.last_name
+    pre_filled_url = (
+        "https://docs.google.com/forms/d/e/1FAIpQLSe584zLdwG2mseMFQByO54Eu2PakllhW_M7bOZrAxctdEV7tA/viewform"
+        f"?usp=pp_url"
+        f"&entry.1992171459={quote(feedback_staffname)}"
+        f"&entry.1136181252={quote(request.user.username)}"
+        f"&entry.1209612741={quote(request.user.email)}"
+        f"&entry.949894776={quote(StaffDetails.objects.get(username_copy = request.user.username).department)}"
+    )
 
     context = {
         'username': request.user.first_name,
@@ -4176,6 +4205,7 @@ def card_dashboard(request):
         'remaining':remaining_list,
         'percentage':percentage_taken,
         'total_days' :total_days,
+        'feedback_url':pre_filled_url
     }
 
 
@@ -4197,7 +4227,15 @@ def announcement_view(request):
         answer = False
         notification_message = None
 
-
+    feedback_staffname = request.user.first_name + " " + request.user.last_name
+    pre_filled_url = (
+        "https://docs.google.com/forms/d/e/1FAIpQLSe584zLdwG2mseMFQByO54Eu2PakllhW_M7bOZrAxctdEV7tA/viewform"
+        f"?usp=pp_url"
+        f"&entry.1992171459={quote(feedback_staffname)}"
+        f"&entry.1136181252={quote(request.user.username)}"
+        f"&entry.1209612741={quote(request.user.email)}"
+        f"&entry.949894776={quote(StaffDetails.objects.get(username_copy = request.user.username).department)}"
+    )
     context = {
         'username': request.user.first_name,
         'email': request.user.email,
@@ -4205,6 +4243,7 @@ def announcement_view(request):
         'notification_message':notification_message,
         'bell_message' : StaffDetails.objects.get(username_copy = request.user.username).notification_message,
         'announcements':new_announcement,
+        'feedback_url':pre_filled_url
     }
     return render(request,'announcement.html',context)
 
@@ -4328,6 +4367,15 @@ def account_settings(request):
     else:
         answer = False
         notification_message = None
+    feedback_staffname = request.user.first_name + " " + request.user.last_name
+    pre_filled_url = (
+        "https://docs.google.com/forms/d/e/1FAIpQLSe584zLdwG2mseMFQByO54Eu2PakllhW_M7bOZrAxctdEV7tA/viewform"
+        f"?usp=pp_url"
+        f"&entry.1992171459={quote(feedback_staffname)}"
+        f"&entry.1136181252={quote(request.user.username)}"
+        f"&entry.1209612741={quote(request.user.email)}"
+        f"&entry.949894776={quote(StaffDetails.objects.get(username_copy = request.user.username).department)}"
+    )
 
     context = {
         'username': request.user.first_name,
@@ -4336,6 +4384,7 @@ def account_settings(request):
         'notification_message':notification_message,
         'bell_message' : StaffDetails.objects.get(username_copy = request.user.username).notification_message,
         'is_default_password': is_default_password,
+        'feedback_url':pre_filled_url
 
     }
     return render(request,'account_settings.html',context)
