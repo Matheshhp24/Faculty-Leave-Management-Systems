@@ -32,6 +32,8 @@
         },
       });
     </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css" />
@@ -91,7 +93,7 @@
   
   </head>
   <body>
-    <div class="wrapper">
+    <div class="wrapper ">
       <!-- Sidebar -->
       <div class="sidebar" data-background-color="dark" id="sidebar">
         <div class="sidebar-logo">
@@ -393,13 +395,17 @@
                   <p>Announcement</p>               
                 </a>     
               </li>    
-              <li class="nav-item">
-                <a href="{{ feedback_url }}" target="_blank"> <!-- Update href to use feedback_url -->
-                    <i class="fas fa-comments"></i>
-                    <p>Feedback</p>               
-                </a>     
-            </li>
-              
+      
+                <li class="nav-item">
+                    <a href="{{ feedback_url }}" target="_blank">
+                        <i class="fas fa-comments"></i>
+                        <p>Feedback</p>               
+                    </a>
+      
+                </li>
+            <!-- </div> -->
+             
+    
               <li class="nav-item">
                 <a href="#" class="nav-link" onclick="logout(event)">
                   <i class="fas fa-sign-out-alt"></i>
@@ -869,7 +875,10 @@
           {% endfor %}
       {% endif %}
   });
+  
 </script>
+
+
             <div
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
               <div>
@@ -1253,6 +1262,18 @@
         </div>  
       </div>
     </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <script src="../static/assets/js/core/jquery-3.7.1.min.js"></script>
     <script src="../static/assets/js/core/popper.min.js"></script>
@@ -1265,6 +1286,7 @@
     <script src="../static/assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
     <script src="../static/assets/js/plugin/jsvectormap/world.js"></script>
     <script src="../static/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+
     <script src="../static/assets/js/kaiadmin.min.js"></script>
     <script src="../static/assets/js/setting-demo.js"></script>
     <script src="../static/assets/js/demo.js"></script>
@@ -1296,5 +1318,38 @@
         fillColor: "rgba(255, 165, 52, .14)",
       });
     </script>
+    <script>
+      var highlight_feedback = {{ highlight_feedback|lower }}; // Assign the Django variable to JavaScript
+      var feedbackUrl = "{{ feedback_url|safe }}";  
+      // Check the value and display alert if true
+      if (highlight_feedback) {
+          Swal.fire({
+              title: "We'd love to hear your feedback!",
+              icon: "info",
+              html: `
+                  <p>Your feedback is valuable to us. Please let us know how we can improve.</p>
+              `,
+              showCloseButton: true,
+              showCancelButton: true,
+              focusConfirm: false,
+              confirmButtonText: `
+                  <i class="fa fa-thumbs-up"></i> Submit Feedback
+              `,
+              confirmButtonAriaLabel: "Submit Feedback",
+              cancelButtonText: `
+                  <i class="fa fa-thumbs-down"></i> Maybe Later
+              `,
+              cancelButtonAriaLabel: "Maybe Later"
+          }).then((result) => {
+    if (result.isConfirmed) {
+        // Open the feedback URL in a new tab if the confirm button is clicked
+        window.open(feedbackUrl, '_blank'); // Open in a new tab
+    }
+});
+      } else {
+          console.log('Highlight feedback is false.');
+      }
+  </script>
+  
   </body>
 </html>

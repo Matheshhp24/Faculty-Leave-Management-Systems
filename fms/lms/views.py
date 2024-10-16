@@ -206,7 +206,12 @@ def home(request):
     llp_leave_status = LOP_leave.objects.filter(username=username, status__in=['Reviewing', 'Approved(1)']).exists()
     mal_leave_status = maternityLeave.objects.filter(username=username, status__in=['Reviewing', 'Approved(1)']).exists()
     permission_leave_status = Permission.objects.filter(username=username, status__in=['Reviewing', 'Approved(1)']).exists()
- 
+
+
+    
+    highlight = StaffDetails.objects.get(username_copy = request.user.username).notification_display
+
+
     specific_context = {
         'last_leave': last_leave,
         'total_days': total_list,
@@ -219,9 +224,10 @@ def home(request):
         'sod_leave_status':sod_leave_status,
         'llp_leave_status':llp_leave_status,
         'mal_leave_status':mal_leave_status,
-        'permission_leave_status':permission_leave_status
-
+        'permission_leave_status':permission_leave_status,
+        'highlight_feedback' : highlight,
     }
+    print(highlight)
     user_common_context = get_user_common_context(request)
     context = merge_contexts(user_common_context,specific_context)
     return render(request, 'index.html', context)

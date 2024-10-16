@@ -12,7 +12,8 @@
       href="../static/assets/img/kaiadmin/sreclogo.jpg"
       type="image/x-icon"
     />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Fonts and icons -->
     <script src="../static/assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
@@ -1121,6 +1122,22 @@
         lineColor: "#ffa534",
         fillColor: "rgba(255, 165, 52, .14)",
       });
+    </script>
+    <script>
+      // JavaScript to show the SweetAlert popup if a success message exists
+      document.addEventListener("DOMContentLoaded", function() {
+          {% if messages %}
+              {% for message in messages %}
+                  swal({
+                      title: "Success!",
+                      text: "{{ message }}",
+                      icon: "success",
+                      button: "Okay"
+                  });
+              {% endfor %}
+          {% endif %}
+      });
+      
     </script>
   </body>
 </html>
