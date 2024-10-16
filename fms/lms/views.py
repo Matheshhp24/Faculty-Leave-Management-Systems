@@ -1669,6 +1669,7 @@ def admin_page(request , username=None):
                         user.is_staff = True
                     if is_superuser:
                         user.is_superuser = True
+                        user.is_staff = True
                     if is_principal:
                         principal_flag = True
 
