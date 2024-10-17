@@ -3849,7 +3849,7 @@ def requests_handling(request):
 
 
             staff_notify = StaffDetails.objects.get(username_copy = data.get('rowData[username]'))
-            notification_message = f"Your {data.get('rowData[leave_type]')} request was {data.get('action')} Vice Principal"
+            notification_message = f"Your {data.get('rowData[leave_type]')} request was {data.get('action')} by Vice Principal"
             staff_notify.notification_message = notification_message
             staff_notify.notification_display = True
             staff_notify.save()
