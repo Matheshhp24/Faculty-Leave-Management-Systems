@@ -65,7 +65,7 @@ def send_email(subject, body, to_email, is_html=False):
     """
     # Create the MIME object
     message = MIMEMultipart()
-    message['From'] = "srecfms@gmail.com"
+    message['From'] = "srecflms@gmail.com"
     message['To'] = to_email
     message['Subject'] = subject
 
@@ -84,10 +84,10 @@ def send_email(subject, body, to_email, is_html=False):
             server.starttls()
 
             # Log in to the SMTP server
-            server.login('srecfms@gmail.com', 'lusz qtlw zwbw ctyw')
+            server.login('srecflms@gmail.com', 'nbot lqvl ybfi euik')
 
             # Send the email
-            server.sendmail('srecfms@gmail.com', to_email, message.as_string())
+            server.sendmail('srecflms@gmail.com', to_email, message.as_string())
 
             print(f"Email sent successfully to {to_email}")
         except Exception as e:
