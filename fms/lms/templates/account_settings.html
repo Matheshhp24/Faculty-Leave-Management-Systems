@@ -877,9 +877,51 @@
                     </div>
                   </div>
                 </div>
-                
+
 
                 <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="updatePasswordModalLabel">Update Password</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                              <form id="update-password-form" method="post">
+                                  {% csrf_token %}
+                                  <div class="form-group">
+                                      <label for="current-password" class="col-form-label">Current Password:</label>
+                                      <input type="password" class="form-control" name="current_password" id="current-password" required>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="new-password" class="col-form-label">New Password:</label>
+                                      <input type="password" class="form-control" id="new-password" required>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="confirm-password" class="col-form-label">Confirm New Password:</label>
+                                      <input type="password" class="form-control" id="confirm-password" required>
+                                  </div>
+                                  <input type="hidden" name="email" value="{{ email }}" id="hidden-email">
+                              </form>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary" id="update-password-btn">Update Password</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+
+
+              
+
+<!--               BELOW CODE FOR OTP VERIFICATION SYSTEM -->
+                
+
+<!--                 <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -922,7 +964,7 @@
                  
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <a href="mailto:srecfms@gmail.com?subject=Support%20Assistance&body=Describe%20your%20issue%20here">
                   <div class="support-icon" id="supportIcon">
                       <i class="fas fa-headset"></i>
