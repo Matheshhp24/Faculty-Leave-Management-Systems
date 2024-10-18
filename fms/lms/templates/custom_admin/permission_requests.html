@@ -447,7 +447,7 @@
                             console.log(documentUrl)
                             let documentCell;
 
-                            if (documentUrl && documentUrl !== "/media/") {
+                            if (documentUrl && documentUrl !== "https://flms-documents.s3.amazonaws.com/") {
                                 // URL exists and is not just a placeholder
                                 documentCell = $('<td>').html(`<a href="${documentUrl}" target="_blank">View</a>`);
                             } else {
@@ -588,7 +588,7 @@
                         let documentUrl = admin_list[i]['document_url'];
                         let documentCell;
 
-                        if (documentUrl && documentUrl !== "/media/") {
+                        if (documentUrl && documentUrl !== "https://flms-documents.s3.amazonaws.com/") {
                             // URL exists and is not just a placeholder
                             documentCell = $('<td>').html(`<a href="${documentUrl}" target="_blank">View</a>`);
                         } else {

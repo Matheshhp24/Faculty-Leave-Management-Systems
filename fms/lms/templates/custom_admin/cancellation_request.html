@@ -466,7 +466,7 @@
                         let cancel_doc = admin_list[i]['cancel_document_url'];
                         let cancel_doc_cell;
 
-                        if (cancel_doc && cancel_doc !== "/media/") {
+                        if (cancel_doc && cancel_doc !== "https://flms-documents.s3.amazonaws.com/") {
                     // URL exists and is not just a placeholder
                         cancel_doc_cell = $('<td>').html(`<a href="${cancel_doc}" target="_blank">View</a>`);
                         } else {
@@ -481,7 +481,7 @@
                         let documentUrl = admin_list[i]['document_url'];
                         let documentCell;
 
-                        if (documentUrl && documentUrl !== "/media/") {
+                        if (documentUrl && documentUrl !== "https://flms-documents.s3.amazonaws.com/") {
                     // URL exists and is not just a placeholder
                         documentCell = $('<td>').css('color', 'red').html(`<a href="${documentUrl}" target="_blank">View</a>`);
                         } else {

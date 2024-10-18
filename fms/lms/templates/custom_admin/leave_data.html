@@ -337,7 +337,7 @@
                         <td>{{ item.total_leave }}</td>
                         <td>{{ item.status }}</td>
                         <td>
-                            {% if item.document_url and item.document_url != "/media/" %}
+                            {% if item.document_url and item.document_url != "https://flms-documents.s3.amazonaws.com/" %}
                                 <a href="{{ item.document_url }}" target="_blank">View Document</a>
                             {% else %}
                                 No Document

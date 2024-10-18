@@ -443,14 +443,14 @@
 
                                  // Conditional cell for document URL
                             let documentUrl = admin_list[i]['document_url'];3
-                            console.log(documentUrl)
+                            // console.log(documentUrl)
                             let documentCell;
 
-                            if (documentUrl && documentUrl !== "/media/") {
-                                // URL exists and is not just a placeholder
-                                documentCell = $('<td>').html(`<a href="${documentUrl}" target="_blank">View</a>`);
+                            if (documentUrl && documentUrl !== "https://flms-documents.s3.amazonaws.com/") {
+                            // Check if the URL is valid and contains a document path
+                            documentCell = $('<td>').html(`<a href="${documentUrl}" target="_blank">View</a>`);
                             } else {
-                                // No URL or placeholder
+                                // No valid document URL or just a placeholder
                                 documentCell = $('<td>').html('<span>No document</span>');
                             }
 
@@ -587,11 +587,11 @@
                         let documentUrl = admin_list[i]['document_url'];
                         let documentCell;
 
-                        if (documentUrl && documentUrl !== "/media/") {
-                            // URL exists and is not just a placeholder
+                        if (documentUrl &&  documentUrl !== "https://flms-documents.s3.amazonaws.com/") {
+                            // Check if the URL is valid and contains a document path
                             documentCell = $('<td>').html(`<a href="${documentUrl}" target="_blank">View</a>`);
                         } else {
-                            // No URL or placeholder
+                            // No valid document URL or just a placeholder
                             documentCell = $('<td>').html('<span>No document</span>');
                         }
 
