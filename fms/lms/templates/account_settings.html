@@ -955,76 +955,76 @@
                       console.log("jQuery 3.7.1 is working!");
                       jq7.fn.modal = jq7.fn.modal || $.fn.modal;  // Use modal from bootstrap
                   
-                      jq7('#otp-form').on('submit', function(event) {
-                          event.preventDefault();
+                      // jq7('#otp-form').on('submit', function(event) {
+                      //     event.preventDefault();
                   
-                          var form = jq7(this);
-                          var getOtpBtn = jq7('#get-otp-btn');
-                          var otpInput = jq7('#otp-input');
-                          var verifyOtpBtn = jq7('#verify-otp-btn');
+                      //     var form = jq7(this);
+                      //     var getOtpBtn = jq7('#get-otp-btn');
+                      //     var otpInput = jq7('#otp-input');
+                      //     var verifyOtpBtn = jq7('#verify-otp-btn');
                   
-                          var email = jq7('#hidden-email').val(); // Get the value from the hidden input
-                          console.log('Email input field value:', jq7('#hidden-email').val());
-                          console.log('Email:', email);
+                      //     var email = jq7('#hidden-email').val(); // Get the value from the hidden input
+                      //     console.log('Email input field value:', jq7('#hidden-email').val());
+                      //     console.log('Email:', email);
                   
-                          if (!email) {
-                              alert('Email is required!');
-                              return;
-                          }
+                      //     if (!email) {
+                      //         alert('Email is required!');
+                      //         return;
+                      //     }
                   
-                          var xhr = new XMLHttpRequest();
-                          xhr.open('POST', '{% url "get_otp" %}', true);
-                          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                          xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+                      //     var xhr = new XMLHttpRequest();
+                      //     xhr.open('POST', '{% url "get_otp" %}', true);
+                      //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                      //     xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
                   
-                          xhr.onreadystatechange = function() {
-                              if (xhr.readyState == 4) {
-                                  if (xhr.status == 200) {
-                                      console.log('Response:', xhr.responseText);
-                                      getOtpBtn.prop('disabled', true);
-                                      otpInput.prop('disabled', false);
-                                      verifyOtpBtn.prop('disabled', false);
-                                  } else {
-                                      console.error('Error:', xhr.responseText);
-                                      alert("Can't change Password right now! Try again Later!");
-                                  }
-                              }
+                      //     xhr.onreadystatechange = function() {
+                      //         if (xhr.readyState == 4) {
+                      //             if (xhr.status == 200) {
+                      //                 console.log('Response:', xhr.responseText);
+                      //                 getOtpBtn.prop('disabled', true);
+                      //                 otpInput.prop('disabled', false);
+                      //                 verifyOtpBtn.prop('disabled', false);
+                      //             } else {
+                      //                 console.error('Error:', xhr.responseText);
+                      //                 alert("Can't change Password right now! Try again Later!");
+                      //             }
+                      //         }
+                      //     };
+                  
+                      //     xhr.send('email=' + encodeURIComponent(email));
+                      // });
+                  
+                      // jq7('#verify-otp-btn').on('click', function() {
+                      //     var otpInput = jq7('#otp-input');
+                      //     var newPassInput = jq7('#new-password');
+                      //     var confirmPassInput = jq7('#confirm-password');
+                      //     var updatePassBtn = jq7('#update-password-btn');
+                  
+                      //     var email = jq7('#hidden-email').val();
+                      //     var otp = otpInput.val();
+                          // console.log('OTP:', otp);
+                  
+                          // var xhr = new XMLHttpRequest();
+                          // xhr.open('POST', '{% url "verify_otp" %}', true);
+                          // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                          // xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+                  
+                          // xhr.onreadystatechange = function() {
+                          //     if (xhr.readyState == 4) {
+                          //         var response = JSON.parse(xhr.responseText);
+                          //         console.log('Response:', response);
+                          //         if (xhr.status == 200 && response.status === 'success') {
+                          //             newPassInput.prop('disabled', false);
+                          //             confirmPassInput.prop('disabled', false);
+                          //             updatePassBtn.prop('disabled', false);
+                          //         } else {
+                          //             alert(response.message);
+                          //         }
+                          //     }
                           };
                   
-                          xhr.send('email=' + encodeURIComponent(email));
-                      });
-                  
-                      jq7('#verify-otp-btn').on('click', function() {
-                          var otpInput = jq7('#otp-input');
-                          var newPassInput = jq7('#new-password');
-                          var confirmPassInput = jq7('#confirm-password');
-                          var updatePassBtn = jq7('#update-password-btn');
-                  
-                          var email = jq7('#hidden-email').val();
-                          var otp = otpInput.val();
-                          console.log('OTP:', otp);
-                  
-                          var xhr = new XMLHttpRequest();
-                          xhr.open('POST', '{% url "verify_otp" %}', true);
-                          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                          xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
-                  
-                          xhr.onreadystatechange = function() {
-                              if (xhr.readyState == 4) {
-                                  var response = JSON.parse(xhr.responseText);
-                                  console.log('Response:', response);
-                                  if (xhr.status == 200 && response.status === 'success') {
-                                      newPassInput.prop('disabled', false);
-                                      confirmPassInput.prop('disabled', false);
-                                      updatePassBtn.prop('disabled', false);
-                                  } else {
-                                      alert(response.message);
-                                  }
-                              }
-                          };
-                  
-                          xhr.send('otp=' + encodeURIComponent(otp) + '&email=' + encodeURIComponent(email));
-                      });
+                      //     xhr.send('otp=' + encodeURIComponent(otp) + '&email=' + encodeURIComponent(email));
+                      // });
                   
                       jq7('#update-password-btn').on('click', function() {
                           var newPassInput = jq7('#new-password');
