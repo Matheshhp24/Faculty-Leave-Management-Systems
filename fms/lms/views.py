@@ -130,8 +130,8 @@ def get_user_common_context(request):
 @login_required
 def home(request):
     username = request.user.username
-    if request.user.check_password('srec@123'):
-        return redirect("AccountSettings")
+    # if request.user.check_password('srec@123'):
+    #     return redirect("AccountSettings")
 
 
 
@@ -2242,10 +2242,10 @@ def admin_page(request , username=None):
 
 
         elif request.resolver_match.url_name == "AdminAccount":
-            is_default_password = request.user.check_password("srec@123")
+            # is_default_password = request.user.check_password("srec@123")
             specific_context = {
                 'email':request.user.email,
-                'is_default_password':is_default_password
+                # 'is_default_password':is_default_password
             }
             context = merge_contexts(common_context,specific_context)
             return render(request,'custom_admin/account_settings.html',context)
@@ -2929,10 +2929,10 @@ def hod_page(request,username=None):
 
 
         elif request.resolver_match.url_name == "HODAdminAccount":
-            is_default_password = request.user.check_password('srec@123')
+            # is_default_password = request.user.check_password('srec@123')
             specific_context = {
                 'email':request.user.email,
-                'is_default_password':is_default_password
+                # 'is_default_password':is_default_password
             }
             context = merge_contexts(hod_common_context,specific_context)
             return render(request,'custom_admin/account_settings.html',context)
@@ -4362,8 +4362,8 @@ def account_settings(request):
 
 
     # Check if the user's password is the default one
-    is_default_password = request.user.check_password('srec@123')
-    print("default",is_default_password)
+    # is_default_password = request.user.check_password('srec@123')
+    # print("default",is_default_password)
 
     staff_notification = StaffDetails.objects.get(username_copy = request.user.username)
     if staff_notification.notification_display:
