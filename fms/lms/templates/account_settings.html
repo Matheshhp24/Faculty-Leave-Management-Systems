@@ -897,11 +897,11 @@
                                   </div>
                                   <div class="form-group">
                                       <label for="new-password" class="col-form-label">New Password:</label>
-                                      <input type="password" class="form-control" id="new-password" required>
+                                      <input type="password" class="form-control" name="new_password" id="new-password" required>
                                   </div>
                                   <div class="form-group">
                                       <label for="confirm-password" class="col-form-label">Confirm New Password:</label>
-                                      <input type="password" class="form-control" id="confirm-password" required>
+                                      <input type="password" class="form-control" name="confirm_password" id="confirm-password" required>
                                   </div>
                                   <input type="hidden" name="email" value="{{ email }}" id="hidden-email">
                               </form>
@@ -988,53 +988,36 @@
 
 
 <script>
-    var $ = jQuery.noConflict();
-    $(document).ready(function() {
-        console.log("jQuery is working!");
+  $('#update-password-btn').on('click', function() {
+    var currentPassInput = $('#current-password').val();  
+    var newPassInput = $('#new-password').val();  
+    var confirmPassInput = $('#confirm-password').val();
+    var email = $('#hidden-email').val();
 
-        $('#update-password-btn').on('click', function() {
-            var currentPassInput = $('#current-password');  // Assume you have a field for current password
-            var newPassInput = $('#new-password');
-            var confirmPassInput = $('#confirm-password');
-            var email = $('#hidden-email').val();
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/update_password/', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
 
-            // Check if new password and confirmation match
-            if (newPassInput.val() !== confirmPassInput.val()) {
-                alert("Passwords do not match!");
-                return;
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            var response = JSON.parse(xhr.responseText);
+            console.log('Response:', response);
+            if (xhr.status == 200 && response.status === 'success') {
+                alert("Password changed successfully.");
+                window.location.href = '/';
+            } else {
+                alert(response.message);
             }
+        }
+    };
 
-            // Check if current password and new password are the same
-            if (currentPassInput.val() === newPassInput.val()) {
-                alert("Current password and new password cannot be the same!");
-                return;
-            }
+    xhr.send('current_password=' + encodeURIComponent(currentPassInput) + 
+             '&new_password=' + encodeURIComponent(newPassInput) + 
+             '&confirm_password=' + encodeURIComponent(confirmPassInput) + 
+             '&email=' + encodeURIComponent(email));
+});
 
-            // Proceed to update password
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '{% url "UpdatePassword" %}', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    var response = JSON.parse(xhr.responseText);
-                    console.log('Response:', response);
-                    if (xhr.status == 200 && response.status === 'success') {
-                        alert("Password changed successfully. Please login again.");
-                        $('#updatePasswordModal').modal('hide');
-                        window.location.href = '/';  // Redirect to home page
-                    } else {
-                        alert(response.message);
-                    }
-                }
-            };
-
-            xhr.send('current_password=' + encodeURIComponent(currentPassInput.val()) + 
-                     '&new_password=' + encodeURIComponent(newPassInput.val()) + 
-                     '&email=' + encodeURIComponent(email));
-        });
-    });
 </script>
 
 

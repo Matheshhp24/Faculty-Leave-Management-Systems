@@ -4460,21 +4460,28 @@ def update_password(request):
         new_password = request.POST.get("new_password")
         confirm_password = request.POST.get("confirm_password")
         email = request.POST.get("email")
+        current_password = request.POST.get("current_password")
+        print('Passwords',new_password,confirm_password)
         user = User.objects.get(email=email)
+        print(f"Email: {email}, Current Password: {confirm_password}")
         print(user.username)  # Retrieve the User object
+        if user.check_password(current_password):
+        
 
-        if new_password == confirm_password:
-            pass_staff = StaffDetails.objects.get(username_copy = user.username)
-            pass_staff.password = new_password
-            pass_staff.save()
-            # Set the new password for the current user
-            user.set_password(new_password)
-            user.save()
-            logout(request)
+            if new_password == confirm_password:
+                pass_staff = StaffDetails.objects.get(username_copy = user.username)
+                pass_staff.password = new_password
+                pass_staff.save()
+                # Set the new password for the current user
+                user.set_password(new_password)
+                user.save()
+                logout(request)
 
-            return JsonResponse({'status': 'success', 'message': 'Password updated successfully'})
+                return JsonResponse({'status': 'success', 'message': 'Password updated successfully'})
+            else:
+                return JsonResponse({'status': 'error', 'message': 'Passwords do not match'}, status=400)
         else:
-            return JsonResponse({'status': 'error', 'message': 'Passwords do not match'}, status=400)
+            return JsonResponse({'status': 'error', 'message': 'Wrong Current Password'}, status=400)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
