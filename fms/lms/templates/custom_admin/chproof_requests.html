@@ -292,13 +292,10 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Department</th>
                                     <th scope="col">Type</th>
-                                    <th scope="col">Reason</th>
-                                    <th scope="col">Applied</th>
-                                    <th scope="col">On/From</th>
-                                    <th scope="col">To&nbsp;Date</th>
-                                    <th scope="col">Session</th>
-                                    <th scope="col">Available</th>
-                                    <th scope="col">Total</th>
+                                    <th scope="col">Applied Date</th>
+                                    <th scope="col">On Date</th>
+                                    <th scope="col">In Time</th>
+                                    <th scope="col">Out Time</th>
                                     <th scope="col">Document</th>
                                 </tr>
                             </thead>
@@ -357,14 +354,10 @@
                                     <th scope="col">Id</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Department</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Reason</th>
-                                    <th scope="col">Applied</th>
-                                    <th scope="col">On/From</th>
-                                    <th scope="col">To&nbsp;Date</th>
-                                    <th scope="col">Session</th>
-                                    <th scope="col">Available</th>
-                                    <th scope="col">Total</th>
+                                    <th scope="col">Applied Date</th>
+                                    <th scope="col">On Date</th>
+                                    <th scope="col">In Time</th>
+                                    <th scope="col">Out Time</th>
                                     <th scope="col">Document</th>
                                 </tr>
                             </thead>
@@ -575,14 +568,10 @@
                         row.append($('<td>').text(admin_list[i]['username']));
                         row.append($('<td>').text(admin_list[i]['staff_name']));
                         row.append($('<td>').text(admin_list[i]['department']));
-                        row.append($('<td>').text(admin_list[i]['leave_type']));
-                        row.append($('<td>').text(admin_list[i]['reason']));
                         row.append($('<td>').text(admin_list[i]['date_Applied']));
                         row.append($('<td>').text(admin_list[i]['from_Date']));
-                        row.append($('<td>').text(admin_list[i]['to_Date']));
-                        row.append($('<td>').text(admin_list[i]['session']));
-                        row.append($('<td>').text(admin_list[i]['remaining']));
-                        row.append($('<td>').text(admin_list[i]['total_leave']));
+                        row.append($('<td>').text(admin_list[i]['in_time']));
+                        row.append($('<td>').text(admin_list[i]['out_time']));
                          // Conditional cell for document URL
                         let documentUrl = admin_list[i]['document_url'];
                         let documentCell;
@@ -613,7 +602,7 @@
             $('#approved-list').on('click', function() {
                 $('#approved-table-container').toggle();
                 if ($('#approved-table-container').is(':visible')) {
-                    createFilteredTable('Approved(1)', 'approved-table-container');
+                    createFilteredTable('Approved', 'approved-table-container');
                 } else {
                     $('#approved-table').DataTable().destroy();
                 }
@@ -622,7 +611,7 @@
             $('#declined-list').on('click', function() {
                 $('#declined-table-container').toggle();
                 if ($('#declined-table-container').is(':visible')) {
-                    createFilteredTable('Declined(1)', 'declined-table-container');
+                    createFilteredTable('Declined', 'declined-table-container');
                 } else {
                     $('#declined-table').DataTable().destroy();
                 }

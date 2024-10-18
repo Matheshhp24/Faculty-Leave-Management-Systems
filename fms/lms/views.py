@@ -2378,7 +2378,31 @@ def admin_page(request , username=None):
                     print(settings.MEDIA_URL + str(item.document))
                     
                     leave_data.append(formatted_data)
-            
+            for item in Permission.objects.all():
+                try:
+                    staff_details = StaffDetails.objects.get(username_copy=item.username)
+                    user_name = StaffDetails.objects.get(username_copy=item.username)
+                except StaffDetails.DoesNotExist:
+                    continue  # Skip if no matching staff details
+
+                formatted_data = {
+                    "reason" : item.reason,
+                    "unique_id": item.unique_id,
+                    "username": item.username,
+                    "department" : StaffDetails.objects.get(username_copy = item.username).department,
+                    "staff_name": user_name.first_name + ' ' + user_name.last_name,
+                    "leave_type": item.leave_type,
+                    "date_Applied": timezone.localtime(item.date_Applied).strftime("%d-%m-%y %I:%M %p"),
+                    "from_Date": '-',
+                    "to_Date": '-',
+                    "session": item.session.upper(),
+                    "remaining": item.remaining,
+                    "total_leave": '-',
+                    "status" : item.status,
+                    "document_url": settings.MEDIA_URL + str(item.document)
+                }
+                leave_data.append(formatted_data)
+                
             specific_context={
                         'leave_data': leave_data
                     }
@@ -3329,7 +3353,7 @@ Your Permision request applied on {data.get('rowData[date_Applied]')} was declin
         elif data.get('partial')  == 'no':
             print(data)
             leave_type = data.get('rowData[leave_type]')
-
+            owner = "Vice Principal"
             unique_id = int(data.get('rowData[unique_id]'))
             username = data.get('rowData[username]')
             print(username)
@@ -3763,6 +3787,7 @@ Your Permision request applied on {data.get('rowData[date_Applied]')} was declin
                     # data_list_of_dicts =[]
 
             elif leave_type == "CHProof":
+                owner = 'Admin HR'
                 if data.get('action') == "Approved":
                     result = CHProof.objects.filter(unique_id = unique_id)
                     ch_remaining = Leave_Availability.objects.get(username = username)
@@ -3836,6 +3861,7 @@ Your Permision request applied on {data.get('rowData[date_Applied]')} was declin
                     result.update(status = "Approved")
                     send_email(subject, body, to_email,is_html=True)
                 elif data.get('action')=="Declined":
+                    result = CHProof.objects.filter(unique_id = unique_id)
                     result.update(status = "Declined")
                     subject = "Leave Update"
 
@@ -3844,7 +3870,7 @@ Your Permision request applied on {data.get('rowData[date_Applied]')} was declin
 
 
             staff_notify = StaffDetails.objects.get(username_copy = data.get('rowData[username]'))
-            notification_message = f"Your {data.get('rowData[leave_type]')} request was {data.get('action')} by Vice Principal"
+            notification_message = f"Your {data.get('rowData[leave_type]')} request was {data.get('action')} by {owner}"
             staff_notify.notification_message = notification_message
             staff_notify.notification_display = True
             staff_notify.save()

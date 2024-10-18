@@ -46,6 +46,7 @@
     <link rel="stylesheet" href="../static/assets/css/demo.css" />
     
     <style>
+
       /* General styles for the logo */
       .logo a {
           display: none; /* Hide all logos by default */
@@ -819,6 +820,7 @@
 
         
 
+
         <div class="container">
           <div class="page-inner">        
             <div
@@ -877,7 +879,10 @@
                     </div>
                   </div>
                 </div>
-
+<!-- Loading spinner (initially hidden) -->
+<div id="loading-spinner" style="display: none;">
+  <img src="../static/img/Loader1.gif" alt="Loading...">
+</div>
 
                 <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -913,7 +918,31 @@
                       </div>
                   </div>
               </div>
+<style>
+  #loading-spinner {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
 
+.spinner {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+</style>
 
 
               
@@ -994,6 +1023,9 @@
     var confirmPassInput = $('#confirm-password').val();
     var email = $('#hidden-email').val();
 
+    $('#loading-spinner').show();
+    $('#update-password-btn').attr("disabled", true);
+
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/update_password/', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -1001,13 +1033,29 @@
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
+          // Hide the loading spinner and re-enable the button
+          $('#loading-spinner').hide();
+            $('#update-password-btn').attr("disabled", false);
             var response = JSON.parse(xhr.responseText);
-            console.log('Response:', response);
             if (xhr.status == 200 && response.status === 'success') {
-                alert("Password changed successfully.");
-                window.location.href = '/';
+              Swal.fire({
+                    title: 'Success!',
+                    text: 'Password changed successfully! Login Again',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/';  // Redirect on success
+                    }
+                });
+                
             } else {
-                alert(response.message);
+              Swal.fire({
+                    title: 'Error',
+                    text: response.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             }
         }
     };
