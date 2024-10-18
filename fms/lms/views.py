@@ -4390,7 +4390,7 @@ def account_settings(request):
         'notify':answer,
         'notification_message':notification_message,
         'bell_message' : StaffDetails.objects.get(username_copy = request.user.username).notification_message,
-        'is_default_password': is_default_password,
+        # 'is_default_password': is_default_password,
         'feedback_url':pre_filled_url
 
     }
