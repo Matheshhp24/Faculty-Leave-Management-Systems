@@ -3209,29 +3209,6 @@ def requests_handling(request):
                     reducing_remaining.save()
                     result.update(status=data.get('action'))
                     body = f"""
-
-                        Hello {data.get('rowData[username]')},
-
-                        We would like to inform you that your {data.get('rowData[leave_type]')} request, applied on {data.get('rowData[date_Applied]')}, has been {data.get('action')}.
-
-                            Request Details:
-                                - Leave Type: {data.get('rowData[leave_type]')}
-                                - Applied Date: {data.get('rowData[date_Applied]')}
-                                - Reason: {data.get('rowData[reason]')}
-                                - Session: {data.get('rowData[session]')}
-                                - Remaining Leave: {data.get('rowData[remaining]')}
-
-                                Status: {data.get('action')}
-
-                            If you have any questions or concerns, please feel free to contact us.
-
-                        With regards,
-                            Administrative Office,
-                            Sri Ramakrishna Engineering College,
-                            Vattamalaipalayam,
-                            Coimbatore - 641022.
-                        """
-                    body = f"""
 <!DOCTYPE html>
 <html>
 <head>
@@ -3308,10 +3285,26 @@ def requests_handling(request):
 
                     
                     send_email(subject, body, to_email,is_html=True)
+                    staff_notify = StaffDetails.objects.get(username_copy = data.get('rowData[username]'))
+                    notification_message = f"Your {data.get('rowData[leave_type]')} request was Approved by HOD"
+                    staff_notify.notification_message = notification_message
+                    staff_notify.notification_display = True
+                    staff_notify.save()
+                    
 
                 elif str(action)== 'Declined':
                     result.update(status='Declined')
-                    send_email(subject, body, to_email,is_html=True)
+                    staff_notify = StaffDetails.objects.get(username_copy = data.get('rowData[username]'))
+                    notification_message = f"Your {data.get('rowData[leave_type]')} request was Declined by HOD"
+                    staff_notify.notification_message = notification_message
+                    staff_notify.notification_display = True
+
+                    staff_notify.save()
+                    body = f"""
+Your Permision request applied on {data.get('rowData[date_Applied]')} was declined by HOD.
+    Reason : {data.get('decreason')}
+"""
+                    print(body)
                     
             
             if action =='Declined(1)':
@@ -3826,12 +3819,14 @@ def requests_handling(request):
 <body>
     <div class="container">
         <div class="icon">🎉</div>
-        <h2>Congratulations!</h2>
         <p>1 more Compensated Holiday has been added to your account!</p>
         <p>Enjoy your time off and make the most of it.</p>
         <div class="footer">
             <p>With regards,</p>
-            <p></p>
+            <p>Administrative Office,<br>
+            Sri Ramakrishna Engineering College,<br>
+            Vattamalaipalayam,<br>
+            Coimbatore - 641022.</p>
         </div>
     </div>
 </body>
