@@ -1002,26 +1002,26 @@
                   
                       //     var email = jq7('#hidden-email').val();
                       //     var otp = otpInput.val();
-                          // console.log('OTP:', otp);
+                      //     console.log('OTP:', otp);
                   
-                          // var xhr = new XMLHttpRequest();
-                          // xhr.open('POST', '{% url "verify_otp" %}', true);
-                          // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                          // xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+                      //     var xhr = new XMLHttpRequest();
+                      //     xhr.open('POST', '{% url "verify_otp" %}', true);
+                      //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                      //     xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
                   
-                          // xhr.onreadystatechange = function() {
-                          //     if (xhr.readyState == 4) {
-                          //         var response = JSON.parse(xhr.responseText);
-                          //         console.log('Response:', response);
-                          //         if (xhr.status == 200 && response.status === 'success') {
-                          //             newPassInput.prop('disabled', false);
-                          //             confirmPassInput.prop('disabled', false);
-                          //             updatePassBtn.prop('disabled', false);
-                          //         } else {
-                          //             alert(response.message);
-                          //         }
-                          //     }
-                          };
+                      //     xhr.onreadystatechange = function() {
+                      //         if (xhr.readyState == 4) {
+                      //             var response = JSON.parse(xhr.responseText);
+                      //             console.log('Response:', response);
+                      //             if (xhr.status == 200 && response.status === 'success') {
+                      //                 newPassInput.prop('disabled', false);
+                      //                 confirmPassInput.prop('disabled', false);
+                      //                 updatePassBtn.prop('disabled', false);
+                      //             } else {
+                      //                 alert(response.message);
+                      //             }
+                      //         }
+                      //     };
                   
                       //     xhr.send('otp=' + encodeURIComponent(otp) + '&email=' + encodeURIComponent(email));
                       // });
@@ -1030,6 +1030,8 @@
                           var newPassInput = jq7('#new-password');
                           var confirmPassInput = jq7('#confirm-password');
                           var email = jq7('#hidden-email').val();
+                          console.log(confirmPassInput);
+                          console.log(newPassInput);
                   
                           if (newPassInput.val() !== confirmPassInput.val()) {
                               alert("Passwords do not match!");
