@@ -4400,55 +4400,57 @@ def account_settings(request):
 @csrf_exempt
 # @login_required
 def get_otp(request):
-    if request.method == "POST":
-        print("POST request received")
-        print("Request body:", request.POST)
-        email = request.POST.get("email")
-        print(f"Email: {email}")
+    print("Get Otp")
+    # if request.method == "POST":
+        # print("POST request received")
+        # print("Request body:", request.POST)
+        # email = request.POST.get("email")
+        # print(f"Email: {email}")
 
-        if not email:
-            return JsonResponse({'status': 'error', 'message': 'Email is required'}, status=400)
+        # if not email:
+        #     return JsonResponse({'status': 'error', 'message': 'Email is required'}, status=400)
 
-        try:
-            user = User.objects.get(email=email)
-            print("User found")
-        except User.DoesNotExist:
-            messages.error(request, 'User does not exist. Please log in or sign up.')
-            return JsonResponse({'status': 'error', 'message': 'User does not exist'}, status=400)
+        # try:
+        #     user = User.objects.get(email=email)
+        #     print("User found")
+        # except User.DoesNotExist:
+        #     messages.error(request, 'User does not exist. Please log in or sign up.')
+        #     return JsonResponse({'status': 'error', 'message': 'User does not exist'}, status=400)
 
-        user_name = user.username
+        # user_name = user.username
 
-        otp = random.randint(100000, 999999)
-        subject = "OTP"
-        body = f"Your otp to update password is {otp}"
-        send_email(subject, body, email)
-        otp_save = StaffDetails.objects.get(username_copy=user_name)
-        otp_save.otp = otp
-        otp_save.save()
+        # otp = random.randint(100000, 999999)
+        # subject = "OTP"
+        # body = f"Your otp to update password is {otp}"
+        # send_email(subject, body, email)
+        # otp_save = StaffDetails.objects.get(username_copy=user_name)
+        # otp_save.otp = otp
+        # otp_save.save()
 
-        return JsonResponse({'status': 'success', 'message': 'OTP sent successfully'})
+    #     return JsonResponse({'status': 'success', 'message': 'OTP sent successfully'})
 
-    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+    # return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
 
 
 @csrf_exempt
 def verify_otp(request):
-    if request.method == "POST":
-        otp_input = request.POST.get("otp")
-        email = request.POST.get("email")
-        print(request)
-        print(email)
-        user = User.objects.get(email=email)
-        user_name = user.username
-        user_details = StaffDetails.objects.get(username_copy=user_name)
+    print("Verify OTP")
+    # if request.method == "POST":
+        # otp_input = request.POST.get("otp")
+        # email = request.POST.get("email")
+        # print(request)
+        # print(email)
+        # user = User.objects.get(email=email)
+        # user_name = user.username
+        # user_details = StaffDetails.objects.get(username_copy=user_name)
 
-        if str(user_details.otp) == otp_input:
-            return JsonResponse({'status': 'success', 'message': 'OTP verified successfully'})
-        else:
-            return JsonResponse({'status': 'error', 'message': 'Invalid OTP'})
+        # if str(user_details.otp) == otp_input:
+        #     return JsonResponse({'status': 'success', 'message': 'OTP verified successfully'})
+        # else:
+        #     return JsonResponse({'status': 'error', 'message': 'Invalid OTP'})
 
-    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+    # return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
 
 @csrf_exempt
