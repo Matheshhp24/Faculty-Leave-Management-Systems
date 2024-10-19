@@ -1016,57 +1016,57 @@
                 <script src="../static/assets/js/core/bootstrap.min.js"></script>
 
 
-<script>
-  $('#update-password-btn').on('click', function() {
-    var currentPassInput = $('#current-password').val();  
-    var newPassInput = $('#new-password').val();  
-    var confirmPassInput = $('#confirm-password').val();
-    var email = $('#hidden-email').val();
+              <script>
+                $('#update-password-btn').on('click', function() {
+                  var currentPassInput = $('#current-password').val();  
+                  var newPassInput = $('#new-password').val();  
+                  var confirmPassInput = $('#confirm-password').val();
+                  var email = $('#hidden-email').val();
 
-    $('#loading-spinner').show();
-    $('#update-password-btn').attr("disabled", true);
+                  $('#loading-spinner').show();
+                  $('#update-password-btn').attr("disabled", true);
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/update_password/', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+                  var xhr = new XMLHttpRequest();
+                  xhr.open('POST', '/update_password/', true);
+                  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                  xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
 
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-          // Hide the loading spinner and re-enable the button
-          $('#loading-spinner').hide();
-            $('#update-password-btn').attr("disabled", false);
-            var response = JSON.parse(xhr.responseText);
-            if (xhr.status == 200 && response.status === 'success') {
-              Swal.fire({
-                    title: 'Success!',
-                    text: 'Password changed successfully! Login Again',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '/';  // Redirect on success
-                    }
-                });
-                
-            } else {
-              Swal.fire({
-                    title: 'Error',
-                    text: response.message,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-        }
-    };
+                  xhr.onreadystatechange = function() {
+                      if (xhr.readyState == 4) {
+                        // Hide the loading spinner and re-enable the button
+                        $('#loading-spinner').hide();
+                          $('#update-password-btn').attr("disabled", false);
+                          var response = JSON.parse(xhr.responseText);
+                          if (xhr.status == 200 && response.status === 'success') {
+                            Swal.fire({
+                                  title: 'Success!',
+                                  text: 'Password changed successfully! Login Again',
+                                  icon: 'success',
+                                  confirmButtonText: 'OK'
+                              }).then((result) => {
+                                  if (result.isConfirmed) {
+                                      window.location.href = '/';  // Redirect on success
+                                  }
+                              });
+                              
+                          } else {
+                            Swal.fire({
+                                  title: 'Error',
+                                  text: response.message,
+                                  icon: 'error',
+                                  confirmButtonText: 'OK'
+                              });
+                          }
+                      }
+                  };
 
-    xhr.send('current_password=' + encodeURIComponent(currentPassInput) + 
-             '&new_password=' + encodeURIComponent(newPassInput) + 
-             '&confirm_password=' + encodeURIComponent(confirmPassInput) + 
-             '&email=' + encodeURIComponent(email));
-});
+                  xhr.send('current_password=' + encodeURIComponent(currentPassInput) + 
+                          '&new_password=' + encodeURIComponent(newPassInput) + 
+                          '&confirm_password=' + encodeURIComponent(confirmPassInput) + 
+                          '&email=' + encodeURIComponent(email));
+              });
 
-</script>
+              </script>
 
 
     
