@@ -5000,6 +5000,11 @@ def permission_view_function(request):
 
 
 def ch_proof_function(request):
+    local_timezone = pytz.timezone('Asia/Kolkata')
+
+# Get the current time in the India time zone
+    date_Applied_chproof = datetime.now(local_timezone).strftime("%Y-%m-%d %H:%M:%S")
+
     if request.method =="POST":
         fromDate = request.POST.get("fromDate")
         inTime = request.POST.get("inTime")
@@ -5011,9 +5016,10 @@ def ch_proof_function(request):
         else:
             document = None
             print(document)
+        
         ch_proof_instance = CHProof(
             username = request.user.username,
-            date_Applied = timezone.now().strftime("%Y-%m-%d %H:%M:%S"),
+            date_Applied = date_Applied_chproof,
             On_date = fromDate,
             in_Time = inTime,
             Out_Time = outTime,
