@@ -50,7 +50,7 @@ class StaffDetails(models.Model):
     is_principal = models.BooleanField(default = False)
 
     def __str__(self):
-        return f"{self.user} ----- {self.first_name} {self.last_name}"
+        return f"{self.user} ----- {self.first_name} {self.last_name} {self.password} {self.department} {self.notification_message}"
     def save(self, *args, **kwargs):
         self.username_copy = self.user.username
         if self.department:
@@ -66,6 +66,8 @@ class default_table (models.Model):
     vaccationLeave_default = models.IntegerField(default=15)
     specialOnduty_default = models.IntegerField(default=0)
     onDuty_default = models.IntegerField(default=14)
+    def __str__(self):
+        return f"{self.casual_leave_default} {self.CH_leave_default} {self.CH_leave_default}"
 
 class casual_leave(models.Model):
     username = models.CharField( max_length=50)
@@ -83,7 +85,7 @@ class casual_leave(models.Model):
     document = models.FileField(upload_to='leave_documents/')
 
     def __str__(self):
-        return f"{self.username}"
+        return f"{self.username}---{self.date_Applied}"
 
 
 class LOP_leave(models.Model):
@@ -99,6 +101,8 @@ class LOP_leave(models.Model):
     unique_id = models.AutoField(primary_key=True, editable=False)
     reason = models.CharField(max_length = 200 , default = "-")
     document = models.FileField(upload_to='leave_documents/')
+    def __str__(self):
+        return f"{self.username}---{self.date_Applied}"
 
 
 class CH_leave(models.Model):
@@ -114,6 +118,8 @@ class CH_leave(models.Model):
     unique_id = models.AutoField(primary_key=True, editable=False)
     reason = models.CharField(max_length = 200 , default = "-")
     document = models.FileField(upload_to='leave_documents/')
+    def __str__(self):
+        return f"{self.username}---{self.date_Applied}"
 
 class medicalLeave(models.Model):
     username = models.CharField( max_length=50)
@@ -128,6 +134,8 @@ class medicalLeave(models.Model):
     unique_id = models.AutoField(primary_key=True, editable=False)
     reason = models.CharField(max_length = 200 , default = "-")
     document = models.FileField(upload_to='leave_documents/')
+    def __str__(self):
+        return f"{self.username}---{self.date_Applied}"
 
 
 class earnLeave(models.Model):
@@ -143,6 +151,8 @@ class earnLeave(models.Model):
     unique_id = models.AutoField(primary_key=True, editable=False)
     reason = models.CharField(max_length = 200 , default = "-")
     document = models.FileField(upload_to='leave_documents/')
+    def __str__(self):
+        return f"{self.username}---{self.date_Applied}"
 
 class vaccationLeave(models.Model):
     username = models.CharField( max_length=50)
@@ -157,6 +167,8 @@ class vaccationLeave(models.Model):
     unique_id = models.AutoField(primary_key=True, editable=False)
     reason = models.CharField(max_length = 200 , default = "-")
     document = models.FileField(upload_to='leave_documents/')
+    def __str__(self):
+        return f"{self.username}---{self.date_Applied}"
 
 class specialOnduty(models.Model):
     username = models.CharField( max_length=50)
@@ -171,6 +183,8 @@ class specialOnduty(models.Model):
     unique_id = models.AutoField(primary_key=True, editable=False)
     reason = models.CharField(max_length = 200 , default = "-")
     document = models.FileField(upload_to='leave_documents/')
+    def __str__(self):
+        return f"{self.username}---{self.date_Applied}"
 
 class onDuty(models.Model):
     username = models.CharField( max_length=50)
@@ -185,6 +199,8 @@ class onDuty(models.Model):
     unique_id = models.AutoField(primary_key=True, editable=False)
     reason = models.CharField(max_length = 200 , default = "-")
     document = models.FileField(upload_to='leave_documents/')
+    def __str__(self):
+        return f"{self.username}---{self.date_Applied}"
 
 class maternityLeave(models.Model):
     username = models.CharField( max_length=50)
@@ -199,6 +215,8 @@ class maternityLeave(models.Model):
     unique_id = models.AutoField(primary_key=True, editable=False)
     reason = models.CharField(max_length = 200 , default = "-")
     document = models.FileField(upload_to='leave_documents/')
+    def __str__(self):
+        return f"{self.username}---{self.date_Applied}"
 
 class Permission(models.Model):
     username = models.CharField( max_length=50)
@@ -211,6 +229,8 @@ class Permission(models.Model):
     unique_id = models.AutoField(primary_key=True, editable=False)
     reason = models.CharField(max_length = 200 , default = "-")
     document = models.FileField(upload_to='leave_documents/')
+    def __str__(self):
+        return f"{self.username}---{self.date_Applied}"
 
 
 
@@ -242,6 +262,8 @@ class Announcement(models.Model):
     username = models.CharField( max_length=50 )
     announcement = models.CharField(max_length=500)
     timestamp = models.DateTimeField( max_length=50)
+    def __str__(self):
+        return f"{self.username}"
 
 class CHProof(models.Model):
     username = models.CharField( max_length=50)
@@ -253,12 +275,16 @@ class CHProof(models.Model):
     status = models.CharField(max_length=50 ,default = 'Reviewing')
     unique_id = models.AutoField(primary_key=True, editable=False)
     document = models.FileField(upload_to='leave_documents/')
+    def __str__(self):
+        return f"{self.username} {self.date_Applied} {self.status}"
 
 class CancelLeave(models.Model):
     leave_type = models.CharField(max_length=100)  # Type of leave being cancelled
     unique_id = models.CharField(max_length=100)  # Unique ID of the leave request
     reason = models.CharField(max_length=500)      # Reason for cancellation
     document = models.FileField(upload_to='cancellation_documents/', blank=True, null=True)  # Uploaded document
+    def __str__(self):
+        return f"{self.leave_type} {self.reason}"
 
     def __str__(self):
         return f"Cancellation Request for Leave ID: {self.unique_id}"
