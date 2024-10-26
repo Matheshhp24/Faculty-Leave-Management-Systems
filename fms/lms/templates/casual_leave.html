@@ -380,6 +380,12 @@
                   </a>      
   
                 </li>
+                <li class="nav-item ">
+                  <a  href="{% url 'StaffAlternation' %}">
+                    <i class="fas fa-exchange-alt"></i> 
+                    <p>Staff Alternation</p>               
+                  </a>     
+                </li>
                 <li class="nav-item">
                   <a href="{{ feedback_url }}" target="_blank"> <!-- Update href to use feedback_url -->
                       <i class="fas fa-comments"></i>
@@ -934,16 +940,17 @@
                                         document.addEventListener("DOMContentLoaded", function() {
                                             // Get today's date
                                             var today = new Date();
+                                            today.setDate(today.getDate() - 2);
                                             var dd = String(today.getDate()).padStart(2, '0');
                                             var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
                                             var yyyy = today.getFullYear();
 
-                                            today = yyyy + '-' + mm + '-' + dd;
+                                            var minDate = yyyy + '-' + mm + '-' + dd;
 
                                             // Set the minimum date for the "On/From Date" input field
                                             var fromDateInput = document.getElementById("onFromDate");
                                             if (fromDateInput) {
-                                                fromDateInput.setAttribute("min", today);
+                                                fromDateInput.setAttribute("min", minDate);
                                             } else {
                                                 console.error("Element with ID 'onFromDate' not found.");
                                             }
@@ -951,7 +958,7 @@
                                             // Set the minimum date for the "To Date" input field
                                             var toDateInput = document.getElementById("toDate");
                                             if (toDateInput) {
-                                                toDateInput.setAttribute("min", today);
+                                                toDateInput.setAttribute("min", minDate);
                                             } else {
                                                 console.error("Element with ID 'toDate' not found.");
                                             }

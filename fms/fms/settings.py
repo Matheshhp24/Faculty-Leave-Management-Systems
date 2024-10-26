@@ -47,7 +47,7 @@ LOGGING = {
 SECRET_KEY = 'django-insecure-e1x_^6_v%*1pc2+2zq14(&k)xmd6-#bet-7a_jfn-7as4hbbg_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 #ALLOWED_HOSTS = ['.vercel.app','127.0.0.1']
 ALLOWED_HOSTS = ['13.49.59.197','ec2-13-49-59-197.eu-north-1.compute.amazonaws.com','srecflms.in','www.srecflms.in', 'localhost', '127.0.0.1','ec2-13-60-255-158.eu-north-1.compute.amazonaws.com']

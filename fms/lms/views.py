@@ -36,6 +36,8 @@ from .forms import LoginForm
 from itertools import chain
 from django.db.models import Q
 from urllib.parse import quote
+from django.db.models import Value
+from django.db.models.functions import Concat
 
 
 
@@ -5031,6 +5033,160 @@ def ch_proof_function(request):
     else:
         context = get_user_common_context(request)
         return render(request,'chproof.html',context)
+
+@login_required
+def staff_alternation(request):
+
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)  # Parse the JSON data
+            print(f"Received data: {data}")  # Debug: print the received data
+            
+            selections = data.get('selections', {})
+            print(f"Selections: {selections}")  # Debug: print the selections
+            
+            # Process the received selections by day and time
+            # Dictionary to group alterations by staff
+            staff_alterations = {}
+
+            # Group selections by staff
+            for day, times in selections.items():
+                for time, staff in times.items():
+                    if staff not in staff_alterations:
+                        staff_alterations[staff] = []  # Initialize list for the staff
+                    # Append each alteration (day and time) for the staff
+                    staff_alterations[staff].append((day, time))
+
+            # Now send a single email per staff with all their schedule alterations
+            for staff, alterations in staff_alterations.items():
+                # Get the staff member's email
+                staff_user = User.objects.get(username=staff)
+                staff_email = staff_user.email
+
+                # Create the email body
+                subject = "Staff Schedule Alteration Notice"
+                
+                # Start composing the message body
+                message = f"""
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body {{
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f4f4;
+                            color: #333;
+                            margin: 0;
+                            padding: 0;
+                        }}
+                        .email-container {{
+                            max-width: 600px;
+                            margin: 0 auto;
+                            background-color: #fff;
+                            padding: 20px;
+                            border-radius: 8px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        }}
+                        h2 {{
+                            color: #2c3e50;
+                            text-align: center;
+                        }}
+                        p {{
+                            line-height: 1.6;
+                            font-size: 16px;
+                        }}
+                        .schedule-info {{
+                            background-color: #ecf0f1;
+                            padding: 15px;
+                            border-left: 5px solid #3498db;
+                            border-radius: 5px;
+                            margin: 20px 0;
+                        }}
+                        .footer {{
+                            text-align: center;
+                            color: #777;
+                            margin-top: 20px;
+                            font-size: 14px;
+                        }}
+                        strong {{
+                            color: #2980b9;
+                        }}
+                        .button {{
+                            background-color: #3498db;
+                            color: #fff;
+                            padding: 10px 15px;
+                            text-align: center;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            display: inline-block;
+                            margin-top: 20px;
+                        }}
+                        .button:hover {{
+                            background-color: #2980b9;
+                        }}
+                    </style>
+                </head>
+                <body>
+                    <div class="email-container">
+                        <h2>Schedule Alteration Notice</h2>
+                        <p>Dear <strong>{staff_user.first_name} {staff_user.last_name}</strong>,</p>
+                        <p>This is to notify you that your schedule has been altered by <strong>{request.user.first_name} {request.user.last_name}</strong>. Please find the updated details below:</p>
+                        
+                        <div class="schedule-info">
+                            <ul>
+                """
+
+                # Loop through all the alterations for the staff and list them in the email
+                for day, time in alterations:
+                    message += f"<strong>Day:</strong> {day}, <strong>Time:</strong> {time}<br>"
+                
+                # Close the HTML structure
+                message += """
+                            </ul>
+                        </div>
+                        
+                        <p>Thank you for your cooperation.</p>
+                        
+                        <p style="text-align: center;">
+                            <a href="https://www.srecflms.in" class="button">SREC FLMS</a>
+                        </p>
+                    </div>
+                </body>
+                </html>
+                """
+
+                # Send the email
+                send_email(subject, message, staff_email, is_html=True)
+
+                # Print for debugging
+                print(f"Email sent to {staff_user.email} for alterations: {alterations}")
+
+            # Return a success response with a redirect URL
+            return JsonResponse({"status": "success", "redirect_url": "/staff-alternation/"})
+        
+        except json.JSONDecodeError as e:
+            return JsonResponse({"status": "error", "message": "Invalid JSON data."})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})    
+        
+    else:
+        user_dept = StaffDetails.objects.get(username_copy=request.user.username).department
+
+        # Get staff details and concatenate first and last name
+        staff_details = StaffDetails.objects.filter(department=user_dept)
+        staff_names = staff_details.annotate(full_name=Concat('first_name', Value(' '), 'last_name'))
+
+        # Create a dictionary of full names as `username_copy: full_name`
+        staff_options = {staff.username_copy: staff.full_name for staff in staff_names}
+        user_context = get_user_common_context(request)
+        
+        specify_context = {
+            'staff_options': staff_options,  # Pass the staff options to the template
+        }
+        context = merge_contexts(specify_context,user_context)
+        return render(request, 'alternate_staff.html', context)
+
+
 
 
 

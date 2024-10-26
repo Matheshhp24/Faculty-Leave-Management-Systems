@@ -73,6 +73,7 @@ urlpatterns = [
     path('admin_cancellation_requests/', admin_page, name='AdminCancellation'),
     path('permission_requests/', hod_page, name='PermissionRequests'),
     path('ch-proof-requests/', admin_page, name='CHProofRequests'),
+    path('staff-alternation/', staff_alternation, name='StaffAlternation'),
 
 
 ]
