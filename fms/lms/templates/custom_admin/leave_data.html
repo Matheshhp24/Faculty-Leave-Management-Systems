@@ -359,14 +359,56 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.responsive.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
 <script>
     $(document).ready(function() {
+        // Custom sorting function for dates with time in DD-MM-YYYY HH:MM AM/PM format
+        $.fn.dataTable.ext.type.order['datetime-dd-mm-yyyy-pre'] = function(d) {
+            if (!d || d === '-') {
+                return 0; // Handle empty or invalid dates
+            }
+
+            var parts = d.split(/[-\s:]/); // Split by hyphen, space, or colon
+            var day = parseInt(parts[0], 10);
+            var month = parseInt(parts[1], 10) - 1; // JavaScript months are zero-based
+            var year = parseInt(parts[2], 10);
+            var hours = parseInt(parts[3], 10);
+            var minutes = parseInt(parts[4], 10);
+            var meridian = parts[5].toUpperCase(); // AM or PM
+
+            // Convert 2-digit year to 4-digit year
+            if (year < 100) {
+                year += 2000; // Assuming all dates are in the 2000s
+            }
+
+            // Convert 12-hour format to 24-hour format
+            if (meridian === 'PM' && hours !== 12) {
+                hours += 12;
+            }
+            if (meridian === 'AM' && hours === 12) {
+                hours = 0;
+            }
+
+            // Create a timestamp combining date and time
+            return new Date(year, month, day, hours, minutes).getTime();
+        };
+
+        // Initialize DataTable with the updated custom sorting
         $('#leaveTable').DataTable({
-            responsive: true // Enable responsive features
+            responsive: true, // Keep responsive features
+            columnDefs: [
+                {
+                    type: 'datetime-dd-mm-yyyy', // Custom type for sorting
+                    targets: [4] // Index for "Date Applied" column
+                },
+                {
+                    type: 'date-dd-mm-yyyy', // Custom type for sorting
+                    targets: [5, 6] // Indices for "From Date" and "To Date" columns
+                }
+            ]
         });
     });
 </script>
-
 
 
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
