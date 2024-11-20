@@ -3880,6 +3880,7 @@ Your Permision request applied on {data.get('rowData[date_Applied]')} was declin
 
 @login_required
 def add_announcement(request, username, timestamp):
+    print(request.user)
     principal_username = StaffDetails.objects.get(username_copy = request.user.username).is_principal
     if request.user.is_superuser or principal_username or request.user.is_staff:
         if request.method == "POST":
@@ -3887,6 +3888,7 @@ def add_announcement(request, username, timestamp):
             username = f'{request.user.first_name} {request.user.last_name}'
             timestamp = datetime.now()
             print('ANnouncement')
+            
             announcement_instance = Announcement(
                 username = username,
                 announcement = announcement,
@@ -3894,7 +3896,7 @@ def add_announcement(request, username, timestamp):
             )
             print(announcement_instance)
             announcement_instance.save()
-            if request.user.is_staff:
+            if request.user.is_staff and not request.user.is_superuser:
                 return redirect('HODPage')
             return redirect('AdminPage')
         elif request.resolver_match.url_name == 'DeleteAnnouncement':
@@ -3902,7 +3904,7 @@ def add_announcement(request, username, timestamp):
             print(announcement)
             announcement.delete()
             print("deleted")
-            if request.user.is_staff:
+            if request.user.is_staff and not request.user.is_superuser:
                 return redirect('HODPage')
             return redirect('AdminPage')
 
