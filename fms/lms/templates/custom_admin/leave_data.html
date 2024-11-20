@@ -366,36 +366,7 @@
         });
     });
 </script>
-<script>
-    $(document).ready(function() {
-        // Add a custom sorting function for dates in DD-MM-YYYY or DD-MM-YY format
-        $.fn.dataTable.ext.type.order['date-dd-mm-yyyy-pre'] = function(d) {
-            if (!d || d === '-') {
-                return 0; // Handle empty or invalid dates
-            }
-            var parts = d.split(/[-\s:]/); // Split by hyphen, space, or colon
-            var day = parseInt(parts[0], 10);
-            var month = parseInt(parts[1], 10) - 1; // JavaScript months are zero-based
-            var year = parseInt(parts[2], 10);
-            
-            if (year < 100) {
-                year += 2000; // Convert 2-digit year to 4-digit (e.g., 24 becomes 2024)
-            }
-            return new Date(year, month, day).getTime();
-        };
 
-        // Initialize the DataTable
-        $('#leaveTable').DataTable({
-            responsive: true, // Keep responsive features
-            columnDefs: [
-                {
-                    type: 'date-dd-mm-yyyy', 
-                    targets: [4, 5, 6] // Indices for "Date Applied", "From Date", and "To Date"
-                }
-            ]
-        });
-    });
-</script>
 
 
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
