@@ -304,7 +304,7 @@
         <table id="leaveTable" class="display table table-bordered responsive nowrap">
             <thead>
                 <tr>
-                    <th>Reason</th>
+                    
                     <!-- <th>Unique ID</th> -->
                     <th>Username</th>
                     <th>Department</th>
@@ -317,13 +317,13 @@
                     <th>Remaining</th>
                     <th>Total Leave</th>
                     <th>Status</th>
+                    <th>Reason</th>
                     <th>Document URL</th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in leave_data %}
                     <tr>
-                        <td>{{ item.reason }}</td>
                         <!-- <td>{{ item.unique_id }}</td> -->
                         <td>{{ item.username }}</td>
                         <td>{{ item.department }}</td>
@@ -336,6 +336,7 @@
                         <td>{{ item.remaining }}</td>
                         <td>{{ item.total_leave }}</td>
                         <td>{{ item.status }}</td>
+                        <td>{{ item.reason }}</td>
                         <td>
                             {% if item.document_url and item.document_url != "https://flms-documents.s3.amazonaws.com/" %}
                                 <a href="{{ item.document_url }}" target="_blank">View Document</a>
