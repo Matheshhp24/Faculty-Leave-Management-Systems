@@ -810,6 +810,8 @@
                                                 <label for="leaveType">Session</label>
                                                 <select class="form-control" name="session" id="leaveType" required>
                                                     <option value="fullDay">Full Day</option>
+                                                    <option value="An">AN</option>
+                                                    <option value="Fn">FN</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -825,27 +827,58 @@
             
                             
                                         document.addEventListener("DOMContentLoaded", function() {
-                                    var fromDateInput = document.getElementById('onFromDate');
-                                    var toDateInput = document.getElementById('toDate');
-                                    var totalDaysDisplay = document.getElementById('totalDaysDisplay');
-                            
-                                    function updateTotalDays() {
-                                        var fromDate = new Date(fromDateInput.value);
-                                        var toDate = new Date(toDateInput.value);
-                            
-                                        var timeDifference = toDate.getTime() - fromDate.getTime();
-                                        var daysDifference = (timeDifference / (1000 * 3600 * 24))+1;
-                            
-                                        if (!isNaN(daysDifference) && daysDifference >= 0) {
-                                            totalDaysDisplay.textContent = 'Total Days: ' + daysDifference;
-                                        } else {
-                                            totalDaysDisplay.textContent = 'Invalid date range';
-                                        }
-                                    }
-                            
-                                    fromDateInput.addEventListener('change', updateTotalDays);
-                                    toDateInput.addEventListener('change', updateTotalDays);
-                                });
+                                            var fromDateInput = document.getElementById('onFromDate');
+                                            var toDateInput = document.getElementById('toDate');
+                                            var sessionSelect = document.getElementById('leaveType');
+                                            var totalDaysDisplay = document.getElementById('totalDaysDisplay');
+
+                                            function updateTotalDays() {
+                                                var fromDate = new Date(fromDateInput.value);
+                                                var toDate = new Date(toDateInput.value);
+                                                var session = sessionSelect.value;
+                                                var daysDifference;
+
+                                                if (session === 'fullDay') {
+                                                    daysDifference = calculateFullDayDifference(fromDate, toDate);
+                                                } else if (session === 'An' || session === 'Fn') {
+                                                    daysDifference = calculateHalfDayDifference(fromDate, toDate);
+                                                } else {
+                                                    totalDaysDisplay.textContent = 'Invalid session';
+                                                    return;
+                                                }
+
+                                                if (!isNaN(daysDifference) && daysDifference >= 0) {
+                                                    totalDaysDisplay.textContent = 'Total Days: ' + daysDifference;
+                                                } else {
+                                                    totalDaysDisplay.textContent = 'Invalid date range';
+                                                }
+                                            }
+
+                                            function calculateFullDayDifference(fromDate, toDate) {
+                                                var timeDifference = toDate.getTime() - fromDate.getTime();
+                                                return (timeDifference / (1000 * 3600 * 24)) + 1;
+                                            }
+
+                                            function calculateHalfDayDifference(fromDate, toDate) {
+                                                var timeDifference = toDate.getTime() - fromDate.getTime();
+                                                var daysDifference = timeDifference / (1000 * 3600 * 24);
+
+                                                if (daysDifference >= 0 && daysDifference < 1) {
+                                                    return 0.5; // Less than 1 day counts as half-day
+                                                } else if (daysDifference >= 1) {
+                                                    return 0.5 * (daysDifference + 1); // More than 1 day counts as a whole day
+                                                } else {
+                                                    return 0; // Invalid date range
+                                                }
+                                            }
+
+                                            fromDateInput.addEventListener('change', updateTotalDays);
+                                            toDateInput.addEventListener('change', updateTotalDays);
+                                            sessionSelect.addEventListener('change', updateTotalDays);
+
+                                            // Initially calculate total days when the page loads
+                                            updateTotalDays();
+                                        });
                                     </script>
                             
                                     <!-- Success Modal -->
