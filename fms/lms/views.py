@@ -1998,15 +1998,18 @@ def admin_page(request , username=None):
         elif request.resolver_match.url_name == "Download":
             if request.method == 'POST':
                 form = LeaveDownloadForm(request.POST)
+                print("From first if statement")
                 if form.is_valid():
                     leave_type = form.cleaned_data['leave_type']
-
+                    print("HI from form is valid")
                     # Query data based on leave type
                     if leave_type == 'All':
                         leaves = []
-                        for model in [casual_leave, LOP_leave, CH_leave, medicalLeave, earnLeave, vaccationLeave, specialOnduty, onDuty, Permission]:
+                        for model in [casual_leave, LOP_leave, CH_leave, medicalLeave, earnLeave, vaccationLeave, specialOnduty, onDuty ]:
                             leaves.extend(model.objects.filter(username=username))
+                        print(leaves)
                     else:
+                        print("from else statement")
                         model_dict = {
                             'Casual Leave': casual_leave,
                             'LOP Leave': LOP_leave,
@@ -2016,6 +2019,7 @@ def admin_page(request , username=None):
                             'Vacation Leave': vaccationLeave,
                             'Onduty': onDuty,
                             'Special Onduty': specialOnduty,
+
                         }
                         leaves = model_dict[leave_type].objects.filter(username=username)
 
@@ -2066,7 +2070,7 @@ def admin_page(request , username=None):
                     # Query data based on leave type
                     if leave_type == 'All':
                         leaves = []
-                        for model in [casual_leave, LOP_leave, CH_leave, medicalLeave, earnLeave, vaccationLeave, specialOnduty, onDuty]:
+                        for model in [casual_leave, LOP_leave, CH_leave, medicalLeave, earnLeave, vaccationLeave, specialOnduty, onDuty , Permission]:
                             leaves.extend(model.objects.all())
                     else:
                         model_dict = {
@@ -2088,11 +2092,18 @@ def admin_page(request , username=None):
                         staffname = f"{user_staff.first_name} {user_staff.last_name}"
                         date_applied_local = timezone.localtime(leave.date_Applied).strftime("%d/%m/%y %I:%M %p")
 
-                        data.append([
-                            leave.username,staffname, leave.leave_type, date_applied_local, leave.from_Date,
-                            leave.to_Date, leave.session, leave.remaining, leave.total_leave,
-                            leave.status, leave.reason
-                        ])
+                        if isinstance(leave, Permission):
+                            data.append([
+                                leave.username, staffname, leave.leave_type, date_applied_local, leave.On_date, 
+                                leave.On_date, leave.session, leave.remaining, "-", 
+                                leave.status, leave.reason
+                            ])
+                        else:
+                            data.append([
+                                leave.username, staffname, leave.leave_type, date_applied_local, leave.from_Date,
+                                leave.to_Date, leave.session, leave.remaining, leave.total_leave,
+                                leave.status, leave.reason
+                            ])
                     df = pd.DataFrame(data, columns=['Username','Staff Name' ,'Leave Type', 'Date Applied', 'From Date', 'To Date', 'Session', 'Remaining', 'Applied Leave', 'Status', 'Reason'])
 
                     # Create an in-memory Excel file
