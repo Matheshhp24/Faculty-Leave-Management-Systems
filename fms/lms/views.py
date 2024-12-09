@@ -2004,7 +2004,7 @@ def admin_page(request , username=None):
                     # Query data based on leave type
                     if leave_type == 'All':
                         leaves = []
-                        for model in [casual_leave, LOP_leave, CH_leave, medicalLeave, earnLeave, vaccationLeave, specialOnduty, onDuty]:
+                        for model in [casual_leave, LOP_leave, CH_leave, medicalLeave, earnLeave, vaccationLeave, specialOnduty, onDuty, Permission]:
                             leaves.extend(model.objects.filter(username=username))
                     else:
                         model_dict = {
