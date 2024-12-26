@@ -133,27 +133,27 @@ DATABASES = {
 # }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'srec_flms',
-        'USER': 'mathesh',
-        'PASSWORD': 'mathee123***',
-        'HOST': 'database-1.cfks8042wg9q.eu-north-1.rds.amazonaws.com',
-        'PORT': '5432',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'leave_management_system',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'srec_flms',
+#         'USER': 'mathesh',
+#         'PASSWORD': 'mathee123***',
+#         'HOST': 'database-1.cfks8042wg9q.eu-north-1.rds.amazonaws.com',
+#         'PORT': '5432',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'flms_db',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
